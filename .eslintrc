@@ -1,0 +1,70 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+      "react"
+  ],
+  "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+      "indent": [
+          "error",
+          4,
+          {"SwitchCase": 1}
+      ],
+      "quotes": [
+          "error",
+          "single"
+      ],
+      "linebreak-style": [
+          "error",
+          "unix"
+      ],
+      // 操作符前后空格
+      "space-infix-ops": ["error", {"int32Hint": false}],
+      // 关键字前后空格
+      "keyword-spacing": ["error", {"before": true, "after": true}],
+      // 箭头函数空格
+      "arrow-spacing": ["error", {"before": true, "after": true}],
+      // 逗号空格
+      "comma-spacing": ["error", {"before": false, "after": true}],
+      // 一些array方法必须有return
+      "array-callback-return": "error",
+      "no-alert": "error",
+      // 浮点数dot前后带0
+      "no-floating-decimal": "error",
+      // switch-case是否要有default
+      "default-case": "off",
+      // 非行首的代码块之前的空格
+      "space-before-blocks": ["error", "always"],
+      // 对象字面量的键和值之间使用空格
+      "key-spacing": ["error", {"afterColon": true}],
+      "no-trailing-spaces": "error",
+      "react/jsx-uses-react": "error",
+      "no-console": "off",
+      "react/jsx-uses-vars": "error",
+      // _开头的变量可以留着
+      "no-unused-vars": ["error", {"argsIgnorePattern": "^_"}]
+  },
+  "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true,
+      "experimentalDecorators": true
+  },
+  "globals": {
+      "ELECTRON": true,
+      "HIPPO_DEV": true,
+      "EMBED": true,
+      "CORDOVA": true,
+      "sa": true,
+      "hippo": true,
+      "jscolor": true,
+      "TextEncoding": true,
+      "__webpack_public_path__": true,
+      "__non_webpack_require__": true
+  }
+}
