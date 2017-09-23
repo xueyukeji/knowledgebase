@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './style/app.scss';
 import {Provider} from 'mobx-react';
 import store from './store';
 import Test from './components/test'
+import Test2 from './components/test2'
+import Nav from './components/nav'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 class App extends Component {
     render() {
         return (
             <Provider {...store}>
-                <div className="App">
-                    <div className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
+                <Router>
+                    <div>
+                        <Nav />
+                        <Route exact path="/test1" component={Test}/>
+                        <Route path="/test2" component={Test2}/>
                     </div>
-                    <Test />
-                </div>
+                </Router>
             </Provider>
         );
     }
