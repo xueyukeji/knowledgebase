@@ -7,7 +7,7 @@ export default class Nav extends Component {
             <div className="nav">
                 <div className="logo"></div>
                 <div className="nav-item nav-base">
-                    <NavLink to="/home" activeClassName="active">知识库1</NavLink>
+                    <NavLink to="/knowledge" activeClassName="active">知识库1</NavLink>
                 </div>
                 <div className="nav-item nav-base">
                     <NavLink to="/t1" activeClassName="active">知识库2</NavLink>

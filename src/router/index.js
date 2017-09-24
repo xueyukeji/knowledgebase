@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Home from '../components/home'
+import Knowledge from '../components/knowledge'
 import Nav from '../components/nav'
 import Top from '../components/top'
 import Manage from '../components/manage'
@@ -16,7 +16,7 @@ export default class AppRouter extends Component {
                     <Nav />
                     <Top />
                     <div className="wrap-right">
-                        <Route path="/home" component={Home} />
+                        <Route path="/Knowledge" component={Knowledge} />
                         <Route exact path="/my-check" component={MyCheck} />
                         <Route path="/my-check/detail" component={MyCheckDetail}/>
                         <Route path="/professor" component={Professor}/>
