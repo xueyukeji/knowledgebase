@@ -3,14 +3,20 @@
 @import "./app";
 @import "./top";
 @import "./nav";
+@import "./my-check";
+@import "./home.scss";
 @import "./manage";
-
-#root, .wrap {
-    position: relative;
-    height: 100%;
+#root,
+.wrap {
+	position: relative;
+	height: 100%;
 }
 
 .wrap {
-    padding-left: 150px;
-    padding-top: 70px;
+	padding-left: 150px;
+	padding-top: 70px;
+}
+
+.wrap-right {
+	padding: 15px;
 }

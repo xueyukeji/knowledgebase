@@ -1,0 +1,92 @@
+.my-check {
+    padding: 24px;
+    .check-top {
+        position: relative;
+        margin-bottom: 10px;
+        min-height: 32px;
+    }
+    .total-num {
+        line-height: 32px;
+    }
+    .check-filter {
+        position: absolute;
+        top: 0;
+        right: 0;
+        > span {
+            display: inline-block;
+            vertical-align: top;
+            width: 100px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid $primary;
+            margin-left: -1px;
+            cursor: pointer;
+            &.active {
+                background: $primary;
+                color: #fff;
+            }
+        }
+    }
+}
+
+.check-list {
+
+}
+
+.check-list-item {
+    background: #f6f6f6;
+    padding: 14px;
+    position: relative;
+    .col {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .file-icon {
+        margin-right: 12px;
+        > span {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+        }
+    }
+    .opt {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        line-height: 22px;
+        transform: translateY(-50%);
+        > span {
+            padding: 0 22px;
+            cursor: pointer;
+            border-left: 1px solid $border;
+        }
+        .cur-state {
+            display: inline-block;
+            width: 58px;
+            line-height: 22px;
+            padding: 0;
+            text-align: center;
+            color: #fff;
+            margin: 0 8px;
+            &.state-pass {
+                background: $primary;
+            }
+            &.state-reject {
+                background: #f7ba2a;
+            }
+            &.state-ready {
+                background: #4db7f4;
+            }
+        }
+        .pass {
+            color: $primary;
+        }
+        .reject {
+            color: $red;
+        }
+        .detail {
+            color: $blue;
+        }
+    }
+}

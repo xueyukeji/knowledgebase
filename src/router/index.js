@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Test from '../components/test'
-import Test2 from '../components/test2'
+import Home from '../components/home'
 import Nav from '../components/nav'
 import Top from '../components/top'
 import Manage from '../components/manage'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import MyCheck from '../components/my-check'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 export default class AppRouter extends Component {
     render() {
@@ -13,9 +13,11 @@ export default class AppRouter extends Component {
                 <div className="wrap">
                     <Nav />
                     <Top />
-                    <Route exact path="/test1" component={Test}/>
-                    <Route path="/test2" component={Test2}/>
-                    <Route path="/manage" component={Manage}/>
+                    <div className="wrap-right">
+                        <Route path="/home" component={Home} />
+                        <Route path="/my-check" component={MyCheck} />
+                        <Route path="/manage" component={Manage}/>
+                    </div>
                 </div>
             </Router>
         )
