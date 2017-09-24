@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {Transfer, Layout} from 'element-react'
+import React, { Component } from 'react'
+import { Transfer, Layout } from 'element-react'
 
 export default class Manage extends Component {
     constructor(props) {
@@ -23,14 +23,65 @@ export default class Manage extends Component {
         });
         return data;
     }
+    get libs() {
+        return [{
+            name: '知识库1',
+            id: 1
+        }, {
+            name: '知识库2',
+            id: 2
+        }]
+    }
     filterMethod(query, item) {
         return item.pinyin.indexOf(query) > -1;
     }
     handleChange(value) {
         this.setState({ value })
     }
+    onAddLib() {
+        this.libs.unshift({
+            name: '',
+            isEdit: true
+        })
+    }
+    onDelLib(id) {
+        console.log(id)
+    }
+    onEditClick(lib, index) {
+        console.log(lib, index)
+        // lib.isEdit = true
+        // this.libs[index] = Object.assign({}, lib)
+        // console.log(this.libs)
+        // this.setState({libs: this.libs});
+    }
+    onEditLib(lib) {
+        console.log(lib)
+    }
+    onCancelEdit(lib) {
+        console.log(lib)
+    }
     render() {
         const { value } = this.state;
+
+        const listItems = this.libs.map((lib, index) => {
+            return lib.isEdit ?
+                <li key={lib.id}>
+                    <input type="text" value={lib.name} />
+                    <div className="btn-wrap">
+                        <a href="javascript:;" className="btn-edit" onClick={this.onEditLib}>确定</a>
+                        <a href="javascript:;" className="btn-del" onClick={() => this.onCancelEdit(lib)}>取消</a>
+                    </div>
+                </li>
+                :
+                <li key={lib.id}>
+                    <span>{lib.name}</span>
+                    <div className="btn-wrap">
+                        <a href="javascript:;" className="btn-edit" onClick={() => this.onEditClick(lib, index)}>编辑</a>
+                        <a href="javascript:;" className="btn-del" onClick={() => this.onDelLib(lib.id)}>删除</a>
+                    </div>
+                </li>
+        });
+
         return (
             <Layout.Row className="mod-manage" gutter="10">
                 <Layout.Col span="12">
@@ -54,6 +105,10 @@ export default class Manage extends Component {
                         <div className="manage-title">
                             知识库管理
                         </div>
+                        <ul className="lib-list">
+                            <li onClick={this.onAddLib}>添加知识库</li>
+                            {listItems}
+                        </ul>
                     </div>
                 </Layout.Col>
             </Layout.Row>
