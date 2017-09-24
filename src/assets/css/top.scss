@@ -1,0 +1,62 @@
+.top {
+    height: 70px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid #e0e0e0;
+    padding-left: 150px;
+    &__item {
+        display: inline-block;
+        vertical-align: bottom;
+        margin-top: 20px;
+        line-height: 50px;
+        white-space: nowrap;
+        margin-left: 20px;
+        a {
+            display: inline-block;
+            min-width: 90px;
+            padding: 0 10px 0 35px;
+            position: relative;
+            vertical-align: top;
+            color: #404040;
+            &:before {
+                position: absolute;
+                content: '';
+                width: 32px;
+                height: 32px;
+                top: 50%;
+                left: 10px;
+                transform: translate(-50%, -50%);
+                background-size: 100%;
+            }
+        }
+        &.cloud {
+            a {
+                &:before {
+                    background-image: url(../images/cloud.png);
+                }
+            }
+        }
+        &.base {
+            a {
+                &:before {
+                    background-image: url(../images/base.png);
+                }
+            }
+        }
+        &.active {
+            a {
+                &:after {
+                    position: absolute;
+                    content: '';
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 8px;
+                    background: $primary;
+                }
+            }
+        }
+    }
+}

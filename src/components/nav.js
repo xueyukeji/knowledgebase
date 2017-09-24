@@ -1,12 +1,30 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 export default class Nav extends Component {
     render() {
         return (
-            <div>
-                <Link to="/test1">test1</Link>
-                <Link to="/test2">test2</Link>
+            <div className="nav">
+                <div className="logo"></div>
+                <div className="nav-item nav-base">
+                    <NavLink to="/t1" activeClassName="active">知识库1</NavLink>
+                </div>
+                <div className="nav-item nav-base">
+                    <NavLink to="/t1" activeClassName="active">知识库2</NavLink>
+                </div>
+                <div className="nav-item__sep"></div>
+                <div className="nav-item nav-my">
+                    <NavLink to="/test1" activeClassName="active">我的贡献</NavLink>
+                </div>
+                <div className="nav-item nav-check">
+                    <NavLink to="/test2" activeClassName="active">我的审批</NavLink>
+                </div>
+                <div className="nav-item nav-professor">
+                    <NavLink to="/test3" activeClassName="active">知识专家</NavLink>
+                </div>
+                <div className="nav-item nav-manage">
+                    <NavLink to="/test4" activeClassName="active">知识管理</NavLink>
+                </div>
             </div>
         )
     }
