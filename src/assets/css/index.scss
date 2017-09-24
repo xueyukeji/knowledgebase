@@ -8,28 +8,28 @@
 @import "./manage";
 @import "./professor";
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .wrap {
-	padding-left: 150px;
-	padding-top: 70px;
+    padding-left: 150px;
+    padding-top: 70px;
 }
 
 .wrap-right {
-	padding: 15px;
+    padding: 15px;
 }
 
 .tr {
-	text-align: right;
+    text-align: right;
 } // reset element css
 .el-button--primary {
-	background-color: $primary;
-	border-color: $primary;
+    background-color: $primary;
+    border-color: $primary;
 }
 
 .el-button--primary:focus,
 .el-button--primary:hover {
-	background-color: $primary;
-	border-color: $primary;
+    background-color: $primary;
+    border-color: $primary;
 }
