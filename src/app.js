@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './style/app.scss';
+import './assets/css/app.scss';
 import {Provider} from 'mobx-react';
 import store from './store';
 import AppRouter from './router'
