@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './style/app.scss';
 import {Provider} from 'mobx-react';
 import store from './store';
 import AppRouter from './router'
+import 'element-theme-default/lib/index.css'
+import './style/app.scss';
 
 class App extends Component {
     render() {

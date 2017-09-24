@@ -2119,6 +2119,10 @@ element-react@^1.2.1:
     react-transition-group "^1.2.0"
     throttle-debounce "^1.0.1"
 
+element-theme-default@^1.4.4:
+  version "1.4.4"
+  resolved "http://registry.npm.taobao.org/element-theme-default/download/element-theme-default-1.4.4.tgz#afdd85acb5db1c5533f676a3071445f7f7234449"
+
 elliptic@^6.0.0:
   version "6.4.0"
   resolved "http://registry.npm.taobao.org/elliptic/download/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"
