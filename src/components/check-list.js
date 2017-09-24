@@ -6,6 +6,8 @@ export default class CheckList extends Component {
         return (
             <div className="check-list">
                 <CheckListItem />
+                <CheckListItem />
+                <CheckListItem />
             </div>
         )
     }

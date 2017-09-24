@@ -1,5 +1,4 @@
 .my-check {
-    padding: 24px;
     .check-top {
         position: relative;
         margin-bottom: 10px;
@@ -27,6 +26,10 @@
             }
         }
     }
+    .pagination {
+        text-align: center;
+        margin: 10px 0;
+    }
 }
 
 .check-list {
@@ -37,6 +40,7 @@
     background: #f6f6f6;
     padding: 14px;
     position: relative;
+    margin-bottom: 8px;
     .col {
         display: inline-block;
         vertical-align: top;
@@ -48,6 +52,15 @@
             width: 40px;
             height: 40px;
             overflow: hidden;
+        }
+    }
+    .info {
+        &-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        &-date {
+            color: $text-title-weak;
         }
     }
     .opt {
@@ -69,6 +82,8 @@
             text-align: center;
             color: #fff;
             margin: 0 8px;
+            border: none;
+            cursor: default;
             &.state-pass {
                 background: $primary;
             }

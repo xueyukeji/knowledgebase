@@ -6,17 +6,49 @@
 @import "./my-check";
 @import "./home.scss";
 @import "./manage";
+* {
+    box-sizing: border-box;
+}
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font: 12px/1.5 Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    color: $text-normal;
+}
+
+a {
+    text-decoration: none;
+}
+
 #root,
 .wrap {
-	position: relative;
-	height: 100%;
+    position: relative;
+    height: 100%;
 }
 
 .wrap {
-	padding-left: 150px;
-	padding-top: 70px;
+    padding-left: 150px;
+    padding-top: 70px;
 }
 
 .wrap-right {
-	padding: 15px;
+    padding: 15px;
 }
