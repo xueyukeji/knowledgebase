@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 export default class CheckListItem extends Component {
     render() {
@@ -21,7 +22,7 @@ export default class CheckListItem extends Component {
                     <span className="cur-state state-ready">待审核</span>
                     <span className="pass">通过</span>
                     <span className="reject">驳回</span>
-                    <span className="detail">详情</span>
+                    <Link className="detail" to="/my-check/detail">详情</Link>
                 </div>
             </div>
         )

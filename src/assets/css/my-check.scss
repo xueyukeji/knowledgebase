@@ -1,5 +1,4 @@
 .my-check {
-    padding: 24px;
     .check-top {
         position: relative;
         margin-bottom: 10px;
@@ -27,6 +26,10 @@
             }
         }
     }
+    .pagination {
+        text-align: center;
+        margin: 10px 0;
+    }
 }
 
 .check-list {
@@ -37,6 +40,7 @@
     background: #f6f6f6;
     padding: 14px;
     position: relative;
+    margin-bottom: 8px;
     .col {
         display: inline-block;
         vertical-align: top;
@@ -50,13 +54,23 @@
             overflow: hidden;
         }
     }
+    .info {
+        &-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        &-date {
+            color: $text-title-weak;
+        }
+    }
     .opt {
         position: absolute;
         right: 0;
         top: 50%;
         line-height: 22px;
         transform: translateY(-50%);
-        > span {
+        > span,
+        > a {
             padding: 0 22px;
             cursor: pointer;
             border-left: 1px solid $border;
@@ -69,6 +83,8 @@
             text-align: center;
             color: #fff;
             margin: 0 8px;
+            border: none;
+            cursor: default;
             &.state-pass {
                 background: $primary;
             }
@@ -88,5 +104,82 @@
         .detail {
             color: $blue;
         }
+    }
+}
+
+.check-step {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.step-item {
+    display: inline-block;
+    vertical-align: top;
+    width: 33.33%;
+    position: relative;
+    &:after {
+        position: absolute;
+        content: '';
+        top: 50%;
+        right: -20%;
+        transform: translateY(-50%);
+        height: 2px;
+        background: #4db7f4;
+        width: 40%;
+    }
+    &:last-child {
+        &:after {
+            display: none;
+        }
+    }
+    .step-num {
+        display: inline-block;
+        vertical-align: top;
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        color: #4db7f4;
+        border: 1px solid #4db7f4;
+        border-radius: 50%;
+    }
+    .step-title {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 34px;
+        margin-left: 10px;
+        color: $text-title-weak;
+    }
+    &.cur {
+        .step-num {
+            background: #4db7f4;
+            color: #fff;
+        }
+    }
+}
+
+.knowledge-info {
+    line-height: 28px;
+    padding: 0 10px;
+    background: #cbeafc;
+    margin-bottom: 10px;
+    .info-author {
+        color: $text-title-weak;
+        margin-left: 20px;
+    }
+}
+
+.check-table {
+    table {
+        width: 100%;
+    }
+    th, td {
+        padding: 10px 20px;
+        border: 1px solid $border;
+    }
+    .align-right {
+        text-align: right;
+    }
+    .tag {
+        margin-right: 5px;
     }
 }
