@@ -1,7 +1,24 @@
 import React, { Component } from 'react'
 import { Transfer, Layout } from 'element-react'
+import {inject, observer} from 'mobx-react'
 
+@inject(stores => {
+    let {libs, getLibs, setLib} = stores.manage
+    return {
+        setLib,
+        getLibs,
+        libs
+    }
+})
+@observer
 export default class Manage extends Component {
+    componentWillMount() {
+    }
+    componentDidMount() {
+        this.props.getLibs()
+        console.log(this.props.libs)
+        // debugger
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -23,15 +40,15 @@ export default class Manage extends Component {
         });
         return data;
     }
-    get libs() {
-        return [{
-            name: '知识库1',
-            id: 1
-        }, {
-            name: '知识库2',
-            id: 2
-        }]
-    }
+    // get libs() {
+    //     return [{
+    //         name: '知识库1',
+    //         id: 1
+    //     }, {
+    //         name: '知识库2',
+    //         id: 2
+    //     }]
+    // }
     filterMethod(query, item) {
         return item.pinyin.indexOf(query) > -1;
     }
@@ -45,10 +62,11 @@ export default class Manage extends Component {
         })
     }
     onDelLib(id) {
-        console.log(id)
+        console.log(id, this.props.libs)
     }
     onEditClick(lib, index) {
-        console.log(lib, index)
+        const cloneLib = Object.assign({}, lib)
+        this.props.setLib(cloneLib, index)
         // lib.isEdit = true
         // this.libs[index] = Object.assign({}, lib)
         // console.log(this.libs)
@@ -63,7 +81,7 @@ export default class Manage extends Component {
     render() {
         const { value } = this.state;
 
-        const listItems = this.libs.map((lib, index) => {
+        const listItems = this.props.libs.map((lib, index) => {
             return lib.isEdit ?
                 <li key={lib.id}>
                     <input type="text" value={lib.name} />
