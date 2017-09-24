@@ -3,18 +3,28 @@
 @import "./top";
 @import "./nav";
 @import "./my-check";
-
+@import "./home.scss";
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-body, p, h1, h2, h3, h4, h5, h6, ul, li {
-    margin: 0;
-    padding: 0;
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li {
+	margin: 0;
+	padding: 0;
 }
 
-html, body {
-    height: 100%;
+html,
+body {
+	height: 100%;
 }
 
 body {
@@ -23,15 +33,20 @@ body {
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
-#root, .wrap {
-    position: relative;
-    height: 100%;
+#root,
+.wrap {
+	position: relative;
+	height: 100%;
 }
 
 .wrap {
-    padding-left: 150px;
-    padding-top: 70px;
+	padding-left: 150px;
+	padding-top: 70px;
+}
+
+.wrap-right {
+	padding: 15px;
 }
