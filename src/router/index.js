@@ -16,8 +16,8 @@ export default class AppRouter extends Component {
                     <Top />
                     <div className="wrap-right">
                         <Route path="/home" component={Home} />
-                        <Route path="/my-check" component={MyCheck} />
-                        <Route path="/check-detail" component={MyCheckDetail}/>
+                        <Route exact path="/my-check" component={MyCheck} />
+                        <Route path="/my-check/detail" component={MyCheckDetail}/>
                         <Route path="/manage" component={Manage}/>
                     </div>
                 </div>

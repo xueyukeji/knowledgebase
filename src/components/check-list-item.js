@@ -22,7 +22,7 @@ export default class CheckListItem extends Component {
                     <span className="cur-state state-ready">待审核</span>
                     <span className="pass">通过</span>
                     <span className="reject">驳回</span>
-                    <Link className="detail" to="/check-detail">详情</Link>
+                    <Link className="detail" to="/my-check/detail">详情</Link>
                 </div>
             </div>
         )
