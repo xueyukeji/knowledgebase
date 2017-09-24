@@ -23,7 +23,7 @@ export default class Nav extends Component {
                     <NavLink to="/test3" activeClassName="active">知识专家</NavLink>
                 </div>
                 <div className="nav-item nav-manage">
-                    <NavLink to="/test4" activeClassName="active">知识管理</NavLink>
+                    <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
                 </div>
             </div>
         )
