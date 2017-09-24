@@ -7,7 +7,7 @@ export default class Nav extends Component {
             <div className="nav">
                 <div className="logo"></div>
                 <div className="nav-item nav-base">
-                    <NavLink to="/home" activeClassName="active">知识库1</NavLink>
+                    <NavLink to="/knowledge" activeClassName="active">知识库1</NavLink>
                 </div>
                 <div className="nav-item nav-base">
                     <NavLink to="/t1" activeClassName="active">知识库2</NavLink>
@@ -20,7 +20,7 @@ export default class Nav extends Component {
                     <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>
                 </div>
                 <div className="nav-item nav-professor">
-                    <NavLink to="/test3" activeClassName="active">知识专家</NavLink>
+                    <NavLink to="/professor" activeClassName="active">知识专家</NavLink>
                 </div>
                 <div className="nav-item nav-manage">
                     <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
