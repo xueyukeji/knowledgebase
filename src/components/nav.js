@@ -14,7 +14,7 @@ export default class Nav extends Component {
                 </div>
                 <div className="nav-item__sep"></div>
                 <div className="nav-item nav-my">
-                    <NavLink to="/test1" activeClassName="active">我的贡献</NavLink>
+                    <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>
                 <div className="nav-item nav-check">
                     <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>

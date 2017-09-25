@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Layout, Button } from 'element-react'
 import { NavLink } from 'react-router-dom'
-import SearchItem from './search-item.js'
-import LeaderBoard from './leader-board.js'
 import ListItem from './list-item.js'
 
 @inject(stores => {
@@ -20,13 +18,11 @@ export default class Knowledge extends Component {
             <div className="mod-homepage">
                 <Layout.Row gutter="20">
                     <Layout.Col span="12">
-                        <SearchItem />
                         <div className="tr">
                             <NavLink to="/add-knowledge"><Button type="primary">新增知识条目</Button></NavLink>
                         </div>
                     </Layout.Col>
                     <Layout.Col span="12">
-                        <LeaderBoard />
                         <Button type="primary">增加标签</Button>
                     </Layout.Col>
                 </Layout.Row>
