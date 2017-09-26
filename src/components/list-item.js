@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
-import { Tag, Layout } from 'element-react'
+import { Tag, Layout, Rate, Pagination } from 'element-react'
 export default class ListItem extends Component {
     render() {
         return (
-            <div>
+            <div className="mod-listitem">
                 <div className="list-item">
                     <div className="title">
-                        <h5>雪山大傻逼</h5>
-                        <span className="time">2017-01-01 10:30:10</span>
+                        <h5>雪山大傻逼 <Rate allowHalf={true} onChange={(val) => console.log(val)} /></h5>
                     </div>
-                    <div className="tags">
-                        <Tag type="success">标签四</Tag>
-                        <Tag type="success">标签四</Tag>
-                        <Tag type="success">标签四</Tag>
+                    <div className="tag-items">
+                        <div className="tags">
+                            <Tag type="success">标签四</Tag>
+                            <Tag type="success">标签四</Tag>
+                            <Tag type="success">标签四</Tag>
+                        </div>
+                        <p className="p-tips">2017-01-01 10:30:10</p>
                     </div>
                     <div className="content">傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼</div>
                     <div className="info">
@@ -28,12 +30,14 @@ export default class ListItem extends Component {
                 <div className="list-item">
                     <div className="title">
                         <h5>雪山大傻逼</h5>
-                        <span className="time">2017-01-01 10:30:10</span>
                     </div>
-                    <div className="tags">
-                        <Tag type="success">标签四</Tag>
-                        <Tag type="success">标签四</Tag>
-                        <Tag type="success">标签四</Tag>
+                    <div className="tag-items">
+                        <div className="tags">
+                            <Tag type="success">标签四</Tag>
+                            <Tag type="success">标签四</Tag>
+                            <Tag type="success">标签四</Tag>
+                        </div>
+                        <p className="p-tips">2017-01-01 10:30:10</p>
                     </div>
                     <div className="content">傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼傻逼</div>
                     <div className="info">
@@ -46,6 +50,10 @@ export default class ListItem extends Component {
                         </Layout.Row>
                     </div>
                 </div>
+                <Pagination
+                    className="pagination"
+                    layout="prev, pager, next"
+                    total={100} />
             </div>
         )
     }
