@@ -9,7 +9,6 @@
 @import "./manage";
 @import "./professor";
 @import "./list-item";
-
 * {
 	box-sizing: border-box;
 }
@@ -27,19 +26,64 @@
 	text-align: right;
 }
 
-// reset element css
-.el-button--primary {
-	background-color: $primary;
-	border-color: $primary;
-}
-
-.el-button--primary:focus,
-.el-button--primary:hover {
-	background-color: $primary;
-	border-color: $primary;
-}
-
 .p-tips {
 	font-size: 12px;
-    color: $text-title-weak;
+	color: $text-title-weak;
+}
+// reset element css
+.mod-homepage {
+    .el-button--primary {
+        background-color: $primary;
+        border-color: $primary;
+    }
+    .el-button--primary:focus,
+    .el-button--primary:hover {
+        background-color: $primary;
+        border-color: $primary;
+    }
+}
+.el-dialog {
+	.el-dialog__header {
+		padding: 20px;
+		background: $primary;
+		span.el-dialog__title {
+			color: white;
+		}
+		.el-icon-close {
+			color: white;
+		}
+	}
+	.el-dialog__body {
+		.el-table--border td,
+		.el-table--border th {
+			border-right: none;
+			height: 35px;
+		}
+		.el-table td,
+		.el-table th.is-leaf {
+			border-bottom: none;
+		}
+	}
+	.el-dialog__footer {
+		.el-button--info {
+			background-color: $primary;
+			border-color: $primary;
+		}
+		.el-button--info:focus,
+		.el-button--info:hover {
+			background-color: $primary;
+			border-color: $primary;
+		}
+	}
+}
+
+.el-pagination {
+	.el-pager li.active {
+		border-color: $primary;
+		background-color: $primary;
+	}
+	button:hover,
+	.el-pager li:hover {
+		color: $primary;
+	}
 }

@@ -2,7 +2,11 @@
 	.el-button--primary {
 		margin-top: 10px;
 		width: 120px;
-	}
+    }
+    .el-button--primary {
+        background-color: $primary;
+        border-color: $primary;
+    }
 	.el-tabs,
 	.search-item {
 		position: relative;
