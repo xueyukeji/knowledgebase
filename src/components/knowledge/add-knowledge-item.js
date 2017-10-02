@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Form, Input, Select, Button, Dialog, Breadcrumb, Table } from 'element-react'
-
+import { Form, Input, Select, Button } from 'element-react'
+import SelectFile from './components/select-file.js'
 @inject(stores => {
     let { username, setUserName } = stores.test
     return {
@@ -84,9 +84,19 @@ export default class Knowledge extends Component {
         this.state.form[key] = value;
         this.forceUpdate();
     }
+    showSelectFileDialog = () => {
+        this.setState({
+            dialogVisible: true
+        })
+    }
+    hideSelectFileDialog = () => {
+        this.setState({
+            dialogVisible: false
+        })
+    }
     render() {
         return (
-            <div className="mod-addknowledge">
+            <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
                     <Form.Item label="标题：">
                         <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}></Input>
@@ -110,42 +120,14 @@ export default class Knowledge extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item label="附件：">
-                        <Button size="small" type="primary" onClick={() => this.setState({ dialogVisible: true })}>选择文件</Button> <span className="select-flie-tips">从个人空间选择与知识相关的文件</span>
+                        <Button size="small" type="primary" onClick={this.showSelectFileDialog}>选择文件</Button> <span className="select-flie-tips">从个人空间选择与知识相关的文件</span>
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" nativeType="submit">确定</Button>
                         <Button>取消</Button>
                     </Form.Item>
                 </Form>
-                {/* <selectfile */}
-                <Dialog
-                    title="选择云盘文件"
-                    size="small"
-                    visible={this.state.dialogVisible}
-                    onCancel={() => this.setState({ dialogVisible: false })}
-                    lockScroll={false}>
-                    <Dialog.Body>
-                        <Breadcrumb separator="/">
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>活动管理</Breadcrumb.Item>
-                            <Breadcrumb.Item>活动列表</Breadcrumb.Item>
-                            <Breadcrumb.Item>活动详情</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <Table
-                            style={{ width: '100%' }}
-                            columns={this.state.columns}
-                            data={this.state.data}
-                            border={true}
-                            height={250}
-                            onSelectChange={(dataItem, checked) => { console.log(dataItem, checked) }}
-                            onSelectAll={(dataList, checked) => { console.log(dataList, checked); }}
-                        />
-                    </Dialog.Body>
-                    <Dialog.Footer className="dialog-footer">
-                        <Button onClick={() => this.setState({ dialogVisible: false })}>取消</Button>
-                        <Button type="info" onClick={() => this.setState({ dialogVisible: false })}>确定</Button>
-                    </Dialog.Footer>
-                </Dialog>
+                <SelectFile dialogVisible={this.state.dialogVisible}  closeSelecFileDialog={this.hideSelectFileDialog} />
             </div>
         )
     }

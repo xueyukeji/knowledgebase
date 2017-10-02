@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Layout, Button } from 'element-react'
 import { NavLink } from 'react-router-dom'
-import ListItem from './list-item.js'
+import ListItem from '../components/knowledge/components/list-item.js'
 
 @inject(stores => {
     let { username, setUserName } = stores.test

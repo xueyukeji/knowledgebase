@@ -56,10 +56,10 @@ export default class Manage extends Component {
         this.setState({ value })
     }
     onAddLib() {
-        this.libs.unshift({
-            name: '',
-            isEdit: true
-        })
+        // this.libs.unshift({
+        //     name: '',
+        //     isEdit: true
+        // })
     }
     onDelLib(id) {
         console.log(id, this.props.libs)

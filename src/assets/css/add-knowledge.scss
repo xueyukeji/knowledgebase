@@ -1,15 +1,29 @@
 .mod-addknowledge {
-	width: 70%;
-	.el-select {
-		width: 100% !important;
+	.name,
+	.status {
+		label {
+			width: 17%;
+			text-align: right;
+			display: inline-block;
+		}
 	}
-	.select-flie-tips {
-		font-size: 12px;
-		color: $text-title-weak;
+	.name {
+		.el-input {
+			display: inline-block;
+			width: 80%;
+		}
 	}
-	.el-dialog {
-		.el-breadcrumb {
-			margin-bottom: 15px;
+	.status {
+		div.status-content {
+			display: inline-block;
+			border: 1px solid $border;
+			padding: 7px 10px;
+			width: 80%;
+			margin-top: 10px;
+			border-radius: 5px;
+			div:first-child {
+				margin-bottom: 10px;
+			}
 		}
 	}
 }

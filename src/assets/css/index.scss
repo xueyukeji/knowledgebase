@@ -5,12 +5,14 @@
 @import "./nav";
 @import "./my-check";
 @import "./knowledge";
-@import "./add-knowledge";
+@import "./add-knowledge-item";
 @import "./manage";
+@import "./add-knowledge";
 @import "./professor";
 @import "./list-item";
 @import "./tag-list";
 @import "./add-tag";
+
 
 * {
 	box-sizing: border-box;
@@ -28,7 +30,9 @@
 .tr {
 	text-align: right;
 }
-
+.tc {
+	text-align: center;
+}
 .p-tips {
 	font-size: 12px;
 	color: $text-title-weak;
