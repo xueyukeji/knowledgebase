@@ -1,0 +1,44 @@
+.mod-taglist {
+
+	.el-popover {
+		.el-popover[x-placement^=bottom] {
+			margin-top: 5px;
+		}
+	}
+	.el-tag {
+		position: relative;
+		margin-right: 15px;
+		width: 100px;
+		height: 30px;
+		text-align: center;
+		line-height: 30px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		margin-top: 10px;
+		cursor: pointer;
+	}
+	.scenod-level {
+		li {
+			width: 92px;
+			height: 30px;
+			line-height: 30px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			cursor: pointer;
+			display: inline-block;
+		}
+		li:hover {
+			color: $primary
+		}
+	}
+	.triangle-down {
+		width: 0;
+		height: 0px;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid white;
+		position: absolute;
+		top: 12px;
+		right: 7px;
+	}
+}

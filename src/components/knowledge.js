@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Layout, Button } from 'element-react'
+import { Button } from 'element-react'
 import { NavLink } from 'react-router-dom'
 import SearchItem from './search-item.js'
-import LeaderBoard from './leader-board.js'
+import TagList from './tag-list.js'
 import ListItem from './list-item.js'
 import AddTag from './add-tag.js'
 
@@ -23,28 +23,31 @@ export default class Knowledge extends Component {
             dialogVisible: false,
         }
     }
-    showAddDialog() {
-        this.state.dialogVisible = true
-        console.log('dianwo a ', this.state)
+    showAddTagDialog = () => {
+        this.setState({
+            dialogVisible: true
+        })
+    }
+    hideAddTagDialog = () => {
+        this.setState({
+            dialogVisible: false
+        })
+    }
+    createTag = () => {
+        console.log('create tag....')
     }
     render() {
         return (
             <div className="mod-homepage">
-                <Layout.Row gutter="20">
-                    <Layout.Col span="12">
-                        <SearchItem />
-                        <div className="tr">
-                            <NavLink to="/add-knowledge"><Button type="primary">新增知识条目</Button></NavLink>
-                        </div>
-                    </Layout.Col>
-                    <Layout.Col span="12">
-                        <LeaderBoard />
-                        <Button type="primary" onClick={this.showAddDialog.bind(this)} >增加标签</Button>
-                    </Layout.Col>
-                </Layout.Row>
+                <SearchItem />
+                <TagList />
+                <div>
+                    <NavLink to="/add-knowledge"><Button type="primary">新增知识条目</Button></NavLink>
+                    <Button type="primary" onClick={this.showAddTagDialog} >增加标签</Button>
+                </div>
                 <h4>知识条目</h4>
                 <ListItem />
-                <AddTag visible={this.state.dialogVisible} />
+                <AddTag visible={this.state.dialogVisible} handleCancel={this.hideAddTagDialog} createTag={this.createTag} />
             </div>
         )
     }

@@ -2,85 +2,40 @@
 	.el-button--primary {
 		margin-top: 10px;
 		width: 120px;
-    }
-    .el-button--primary {
-        background-color: $primary;
-        border-color: $primary;
-    }
-	.el-tabs,
+	}
+	.el-button--primary {
+		background-color: $primary;
+		border-color: $primary;
+	}
 	.search-item {
 		position: relative;
-		height: 120px;
 		padding: 0 10px;
-		border: 1px solid $border;
 	}
 	.search-item {
-		background: rgb(224, 224, 224);
-		.el-input__inner {
-			border: 1px solid $text-active;
-			width: 80%;
-		}
-		.el-button {
-			background: rgb(218, 247, 232);
-			border: none;
-			padding: 10px 15px;
-			position: absolute;
-			right: 10px;
-			top: 40px;
-		}
-		.s-tag {
-			span {
-				cursor: pointer;
-				display: inline-block;
-				padding: 7px 20px;
-				margin: 0 15px 10px 0;
-			}
-		}
-		.s-active {
-			background: rgb(218, 247, 232);
-		}
-		.el-input{
-            margin-bottom:10px;
-        }
-	}
-	.el-tabs {
-		.el-tabs__item {
-			height: 35px;
-			line-height: 35px
-		}
-		.exprt-list {
-			float: left;
-			img {
-				display: inline-block;
-				width: 45px;
-				height: 45px;
-				border: 1px solid $blue;
-				margin-right: 5px;
-			}
-			i.icon {
-				display: inline-block;
-				width: 30px;
+		.el-col-3 {
+			padding-left: 0 !important;
+			.el-select {
+				width: 100px;
 				height: 30px;
 			}
-			.guanjun {
-				background-image: url(../../assets/images/guanjun.png);
-			}
-			.yajun {
-				background-image: url(../../assets/images/yajun.png);
-			}
-			.jijun {
-				background-image: url(../../assets/images/jijun.png);
-			}
-			.user-info {
-				display: inline-block;
-				.title {
-					font-weight: bold;
-					font-size: 16px;
-				}
-				.intr {
-					color: $text-title-weak;
-				}
-			}
+		}
+		.el-col-19 {
+            width: 810px;
+			margin-left: -24px;
+		}
+		.el-input__inner {
+			border: 1px solid $text-active;
+			border-radius: 0;
+		}
+		.el-button {
+			background: #daf7e8;
+			border: none;
+			border-radius: 0;
+            height: 35px;
+            width: 100px;
+		}
+		.el-input {
+			margin-bottom: 10px;
 		}
 	}
 	h4 {
@@ -89,34 +44,5 @@
 		font-size: 18px;
 		padding: 6px 10px;
 		background: rgb(218, 247, 232);
-	}
-
-	.el-dialog {
-		.el-dialog__body {
-			padding: 30px 0;
-		}
-		.input-tag {
-			padding: 0 20px;
-			border-bottom: 1px solid $border;
-			.el-input {
-				margin: 10px 0 15px 0;
-			}
-		}
-		.has-tags {
-			padding: 0 20px;
-			h6 {
-				margin-top: 15px;
-			}
-			.el-button {
-				float: right;
-				padding: 0;
-			}
-			.tag-list {
-				margin-top: 20px;
-				.el-tag {
-					margin: 10px 10px 0 0;
-				}
-			}
-		}
 	}
 }

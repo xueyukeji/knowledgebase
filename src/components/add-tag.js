@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Button, Dialog, Input, Tag } from 'element-react'
-
+import { Button, Dialog, Tabs, MessageBox } from 'element-react'
+import AddTagItem from './add-tag-item.js'
 @inject(stores => {
     let { username, setUserName } = stores.test
     return {
@@ -14,69 +14,96 @@ export default class AddTag extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dialogVisible: false,
-            tags: [
-                { key: 1, name: '标签一', type: 'gray' },
-                { key: 2, name: '标签二', type: 'gray' },
-                { key: 5, name: '标签三', type: 'gray' },
-                { key: 3, name: '标签四', type: 'gray' },
-                { key: 4, name: '标签五', type: 'gray' },
-                { key: 6, name: '标签六', type: 'gray' },
-                { key: 7, name: '标签一', type: 'gray' },
-                { key: 8, name: '标签二', type: 'gray' },
-                { key: 9, name: '标签三', type: 'gray' },
-                { key: 10, name: '标签四', type: 'gray' },
-                { key: 11, name: '标签五', type: 'gray' },
-                { key: 12, name: '标签六', type: 'gray' }
-            ]
+            tabs: [{
+                title: '标签一',
+                name: 'Tab 1',
+                tags: [
+                    { key: 1, name: '标签一', type: 'gray' },
+                    { key: 2, name: '标签二', type: 'gray' },
+                    { key: 5, name: '标签三', type: 'gray' },
+                    { key: 3, name: '标签四', type: 'gray' },
+                    { key: 4, name: '标签五', type: 'gray' },
+                    { key: 6, name: '标签六', type: 'gray' },
+                    { key: 7, name: '标签一', type: 'gray' },
+                    { key: 8, name: '标签二', type: 'gray' },
+                    { key: 9, name: '标签三', type: 'gray' },
+                    { key: 10, name: '标签四', type: 'gray' },
+                    { key: 11, name: '标签五', type: 'gray' },
+                    { key: 12, name: '标签六', type: 'gray' }
+                ]
+            }, {
+                title: '标签二',
+                name: 'Tab 2',
+                tags: []
+            }],
+            tabIndex: 1
+
         }
-        console.log(props)
-        // debugger
     }
-    handleClose(tag) {
-        const { tags } = this.state
-        tags.splice(tags.map(el => el.key).indexOf(tag.key), 1)
-        this.setState({ tag })
+    editTab(action, tab) {
+        if (action === 'add') {
+            this.showInputFirstLevelTagName()
+        }
+
+        if (action === 'remove') {
+            const { tabs } = this.state;
+            console.log(action, tab);
+            tabs.splice(tab.key.replace(/^\.\$/, ''), 1);
+            this.setState({
+                tabs,
+            });
+        }
+    }
+
+    showInputFirstLevelTagName() {
+        MessageBox.prompt('请输入您要创建的一级标签名称', '', {
+            inputPattern: /^.{0,8}$/,
+            inputErrorMessage: '标签长度在不能超过8个字符'
+        }).then(({ value }) => {
+            const { tabs, tabIndex } = this.state;
+            const index = tabIndex + 1;
+            tabs.push({
+                title: value,
+                name: value,
+                tags: [],
+            });
+            this.setState({
+                tabs,
+                tabIndex: index,
+            });
+        }).catch(() => {
+            // Message({
+            //     type: 'info',
+            //     message: '取消输入'
+            // });
+        });
     }
     render() {
+        console.log(this.props)
         return (
-            <div className="mod-addtag">
-                <Dialog
-                    title="新增标签"
-                    size="small"
-                    visible={this.props.dialogVisible}
-                    onCancel={() => this.setState({ dialogVisible: false })}
-                    lockScroll={false}>
-                    <Dialog.Body>
-                        <div className="input-tag">
-                            <p className="p-tips">知识库标签便于管理知识库和快速检索文件</p>
-                            <Input placeholder="请输入内容" />
-                        </div>
-                        <div className="has-tags">
-                            <h6>已有标签 </h6>
-                            {/* <Button type="text">编辑</Button></h6> */}
-                            <div className="tag-list">
-                                {
-                                    this.state.tags.map(tag => {
-                                        return (
-                                            <Tag
-                                                key={tag.key}
-                                                closable={true}
-                                                type={tag.type}
-                                                closeTransition={false}
-                                                onClose={this.handleClose.bind(this, tag)}>{tag.name}</Tag>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </Dialog.Body>
-                    <Dialog.Footer className="dialog-footer">
-                        <Button onClick={() => this.setState({ dialogVisible: false })}>取消</Button>
-                        <Button type="info" onClick={() => this.setState({ dialogVisible: false })}>创建</Button>
-                    </Dialog.Footer>
-                </Dialog>
-            </div>
+            <Dialog
+                className="mod-addtag"
+                title="新增标签"
+                size="small"
+                visible={this.props.visible}
+                onCancel={this.props.handleCancel}
+                lockScroll={false}>
+                <Dialog.Body>
+                    <Tabs type="card" value="Tab 1" editable onTabEdit={(action, tab) => this.editTab(action, tab)}>
+                        {
+                            this.state.tabs.map((item, index) => {
+                                return <Tabs.Pane key={index} closable label={item.title} name={item.name}>
+                                    <AddTagItem tags={item.tags} />
+                                </Tabs.Pane>
+                            })
+                        }
+                    </Tabs>
+                </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                    <Button onClick={this.props.handleCancel}>取消</Button>
+                    <Button type="info" onClick={this.props.createTag}>创建</Button>
+                </Dialog.Footer>
+            </Dialog>
         )
     }
 }
