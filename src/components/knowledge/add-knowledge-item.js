@@ -2,14 +2,10 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Form, Input, Select, Button } from 'element-react'
 import SelectFile from './components/select-file.js'
-@inject(stores => {
-    let { username, setUserName } = stores.test
-    return {
-        username,
-        setUserName
-    }
-})
 
+@inject(stores => {
+    stores
+})
 @observer
 export default class Knowledge extends Component {
     constructor(props) {

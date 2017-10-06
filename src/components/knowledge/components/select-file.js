@@ -3,11 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Button, Dialog, Breadcrumb, Table } from 'element-react'
 
 @inject(stores => {
-    let { username, setUserName } = stores.test
-    return {
-        username,
-        setUserName
-    }
+    stores
 })
 
 @observer
