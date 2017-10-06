@@ -6,9 +6,10 @@ class Store {
     @observable isShowEditKnowledgeDialog = false;
 
     @action showEditKnowledgeDialog = (params) => {
-        console.log('stores-->', params)
         if (params) {
             this.curKnowledge = { name: params.name, id: params.id }
+        } else {
+            this.curKnowledge = { name: '', id: '' }
         }
         this.isShowEditKnowledgeDialog = true
     }

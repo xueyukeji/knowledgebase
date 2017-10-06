@@ -26,8 +26,7 @@ export default class Manage extends Component {
         MessageBox.confirm('此操作将永久删除该知识库, 是否继续?', '提示', {
             type: 'warning'
         }).then(() => {
-            this.props.removeKnowledge(id).then((d) => {
-                console.log('remove:', d)
+            this.props.removeKnowledge(id).then(() => {
                 Message({
                     type: 'success',
                     message: '删除成功!'

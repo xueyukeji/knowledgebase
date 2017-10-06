@@ -24,14 +24,20 @@ import { Button, Dialog, Input, Message } from 'element-react'
 export default class AddTag extends Component {
     constructor(props) {
         super(props)
-        console.log('--------->', this.props)
         this.state = {
-            name: this.props.curKnowledge ? this.props.curKnowledge.name : '',
+            title: '新增知识库',
+            name: '',
             status: 1,
             audit: 1
         }
     }
     componentDidMount() {
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            title: nextProps.curKnowledge.id ? '修改知识库' : '新增知识库',
+            name: nextProps.curKnowledge.name
+        })
     }
     onChangeStatus = (value) => {
         this.setState({
@@ -49,18 +55,28 @@ export default class AddTag extends Component {
         });
     }
     create() {
-        this.props.creatKnowledge({ name: this.state.name }).then((d) => {
-            console.log('ddddd', d)
-            Message.success('新增知识库成功！')
-            this.props.hideEditKnowledgeDialog()
-            this.props.getKnowledgeList()
-        })
+        console.log(this.props.curKnowledge)
+        if (this.props.curKnowledge.id) {
+            this.props.modifyKnowledge({ name: this.state.name, id: this.props.curKnowledge.id }).then(() => {
+                this.getData()
+            })
+        } else {
+            this.props.creatKnowledge({ name: this.state.name }).then(() => {
+                this.getData()
+            })
+        }
+    }
+    getData = () => {
+        const msg = this.props.curKnowledge.id ? '修改' : '新增'
+        Message.success(msg + '知识库成功！')
+        this.props.hideEditKnowledgeDialog()
+        this.props.getKnowledgeList()
     }
     render() {
         return (
             <Dialog
                 className="mod-addknowledge"
-                title="新增知识库"
+                title={this.state.title}
                 size="small"
                 visible={this.props.isShowEditKnowledgeDialog}
                 onCancel={() => {
