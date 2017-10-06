@@ -3,11 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Button, Dialog, Tabs, MessageBox } from 'element-react'
 import AddTagItem from './add-tag-item.js'
 @inject(stores => {
-    let { username, setUserName } = stores.test
-    return {
-        username,
-        setUserName
-    }
+    stores
 })
 @observer
 export default class AddTag extends Component {

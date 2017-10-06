@@ -3,11 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Tag, Popover } from 'element-react'
 
 @inject(stores => {
-    let { username, setUserName } = stores.test
-    return {
-        username,
-        setUserName
-    }
+    stores
 })
 @observer
 export default class AddTag extends Component {
