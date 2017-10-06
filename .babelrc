@@ -4,6 +4,7 @@
         "transform-decorators-legacy",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "add-module-exports"
+        "add-module-exports",
+        "mobx-deep-action"
     ]
 }

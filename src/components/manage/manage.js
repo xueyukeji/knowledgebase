@@ -3,6 +3,7 @@ import { Layout, Button } from 'element-react'
 import { inject, observer } from 'mobx-react'
 import AddKnowLedge from './components/add-knowledge.js'
 import KnowledgeList from './components/knowledge-list.js'
+
 @inject(stores => {
     console.log(stores)
 })
@@ -14,16 +15,23 @@ export default class Manage extends Component {
             showAddKnowledgeDialog: false
         }
     }
+
+    componentDidMount() {
+
+    }
+
     show = () => {
         this.setState({
             showAddKnowledgeDialog: true
         })
     }
+
     hide = () => {
         this.setState({
             showAddKnowledgeDialog: false
         })
     }
+
     render() {
         return (
             <Layout.Row className="mod-manage" gutter="10">

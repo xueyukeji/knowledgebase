@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Button, Dialog, Input, Radio, Message } from 'element-react'
-@inject(stores => {
-    let { username, setUserName } = stores.test
+
+@inject(() => {
     return {
-        username,
-        setUserName
     }
 })
 @observer
@@ -32,7 +30,6 @@ export default class AddTag extends Component {
         this.props.handleCancel()
     }
     render() {
-        console.log(this.props)
         return (
             <Dialog
                 className="mod-addknowledge"

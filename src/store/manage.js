@@ -1,20 +1,18 @@
 import {observable, action} from 'mobx';
 
 class Store {
-    // 还有问题
-    @observable libs = []
-    @action getLibs = () => {
-        this.libs.push({
-            name: '知识库1',
-            id: 1
-        })
-        // , {
-        //     name: '知识库2',
-        //     id: 2
-        // }]
+    @observable knowledgeList = [];
+    @action setKnowledgeList = list => {
+        this.knowledgeList = list;
     }
-    @action setLib = (lib, index) => {
-        this.libs[index] = lib
+    @action getKnowledgeList = () => {
+        fetch('/pub/librarys').then(res => {
+            return res.json();
+        }).then(data => {
+            if (data.data && data.data.librarys.length) {
+                this.setKnowledgeList(data.data.librarys);
+            }
+        });
     }
 }
 
