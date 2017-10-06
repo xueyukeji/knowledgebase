@@ -5,11 +5,7 @@ import { NavLink } from 'react-router-dom'
 import ListItem from '../components/knowledge/components/list-item.js'
 
 @inject(stores => {
-    let { username, setUserName } = stores.test
-    return {
-        username,
-        setUserName
-    }
+    stores
 })
 @observer
 export default class Knowledge extends Component {

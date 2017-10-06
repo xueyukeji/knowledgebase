@@ -9,21 +9,37 @@ import MyCheck from '../components/my-check'
 import MyCheckDetail from '../components/check-detail'
 import Professor from '../components/professor'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {inject, observer} from 'mobx-react';
 
+@inject(stores => {
+    let {
+        knowledgeList,
+        getKnowledgeList
+    } = stores.manage;
+    return {
+        knowledgeList,
+        getKnowledgeList
+    }
+})
+@observer
 export default class AppRouter extends Component {
+    componentDidMount() {
+        this.props.getKnowledgeList();
+    }
+
     render() {
         return (
             <Router>
                 <div className="wrap">
-                    <Nav />
+                    <Nav list={this.props.knowledgeList} />
                     <Top />
                     <div className="wrap-right">
                         <Route path="/knowledge/:id" component={Knowledge} />
                         <Route path="/my-contribution" component={MyContribution} />
-                        <Route path="/my-check" component={MyCheck} />
-                        <Route path="/my-check/detail" component={MyCheckDetail}/>
-                        <Route path="/professor" component={Professor}/>
+                        <Route path="/my-check" component={MyCheck} exact />
+                        <Route path="/my-check/detail" component={MyCheckDetail} />
                         <Route path="/manage" component={Manage}/>
+                        <Route path="/professor" component={Professor}/>
                         <Route path="/add-knowledge-item" component={AddKnowledgeItem}/>
                     </div>
                 </div>

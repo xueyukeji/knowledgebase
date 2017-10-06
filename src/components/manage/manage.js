@@ -22,9 +22,6 @@ export default class Manage extends Component {
         }
     }
 
-    componentDidMount() {
-    }
-
     show = () => {
         this.props.showEditKnowledgeDialog()
     }
