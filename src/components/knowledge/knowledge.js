@@ -8,11 +8,7 @@ import ListItem from './components/list-item.js'
 import AddTag from './components/add-tag.js'
 
 @inject(stores => {
-    let { username, setUserName } = stores.test
-    return {
-        username,
-        setUserName
-    }
+    stores
 })
 @observer
 export default class Knowledge extends Component {

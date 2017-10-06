@@ -18,7 +18,7 @@ export default class AppRouter extends Component {
                     <Nav />
                     <Top />
                     <div className="wrap-right">
-                        <Route path="/knowledge" component={Knowledge} />
+                        <Route path="/knowledge/:id" component={Knowledge} />
                         <Route path="/my-contribution" component={MyContribution} />
                         <Route path="/my-check" component={MyCheck} />
                         <Route path="/my-check/detail" component={MyCheckDetail}/>
