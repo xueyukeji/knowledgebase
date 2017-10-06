@@ -12,4 +12,11 @@
 			margin-bottom: 15px;
 		}
 	}
+	.select-tags {
+		.el-select,
+		.default-tag {
+			width: 33% !important;
+			display: inline-block;
+		}
+	}
 }
