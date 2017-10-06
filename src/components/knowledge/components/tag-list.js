@@ -6,7 +6,7 @@ import { Tag, Popover } from 'element-react'
     stores
 })
 @observer
-export default class AddTag extends Component {
+export default class TagList extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -46,13 +46,13 @@ export default class AddTag extends Component {
         return (
             <div className="mod-taglist">
                 {
-                    this.state.tags.map(tag => {
+                    this.state.tags.map((tag, index) => {
                         return (
-                            <Popover className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
+                            <Popover key={index} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
                                 <ul className="scenod-level">
                                     {
-                                        tag.childs.map(c => {
-                                            return (<li>{c.name}</li>)
+                                        tag.childs.map((c, index) => {
+                                            return (<li key={index}>{c.name}</li>)
                                         })
                                     }
                                 </ul>

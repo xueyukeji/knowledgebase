@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Button, Dialog, Tabs, MessageBox } from 'element-react'
-import AddTagItem from './add-tag-item.js'
+// import AddTagItem from './add-tag-item.js'
 @inject(stores => {
     stores
 })
@@ -86,13 +86,13 @@ export default class AddTag extends Component {
                 lockScroll={false}>
                 <Dialog.Body>
                     <Tabs type="card" value="Tab 1" editable onTabEdit={(action, tab) => this.editTab(action, tab)}>
-                        {
+                        {/* {
                             this.state.tabs.map((item, index) => {
                                 return <Tabs.Pane key={index} closable label={item.title} name={item.name}>
                                     <AddTagItem tags={item.tags} />
                                 </Tabs.Pane>
                             })
-                        }
+                        } */}
                     </Tabs>
                 </Dialog.Body>
                 <Dialog.Footer className="dialog-footer">

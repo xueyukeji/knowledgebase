@@ -6,7 +6,7 @@ import { Input, Tag, Button } from 'element-react'
     stores
 })
 @observer
-export default class AddTag extends Component {
+export default class AddTagItem extends Component {
     constructor(props) {
         super(props);
 

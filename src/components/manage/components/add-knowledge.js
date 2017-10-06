@@ -21,7 +21,7 @@ import { Button, Dialog, Input, Message } from 'element-react'
     }
 })
 @observer
-export default class AddTag extends Component {
+export default class AddKnowledge extends Component {
     constructor(props) {
         super(props)
         this.state = {

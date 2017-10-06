@@ -29,9 +29,6 @@ export default class Knowledge extends Component {
             dialogVisible: false
         })
     }
-    createTag = () => {
-        console.log('create tag....')
-    }
     render() {
         return (
             <div className="mod-homepage">
@@ -43,7 +40,7 @@ export default class Knowledge extends Component {
                 </div>
                 <h4>知识条目</h4>
                 <ListItem />
-                <AddTag visible={this.state.dialogVisible} handleCancel={this.hideAddTagDialog} createTag={this.createTag} />
+                <AddTag visible={this.state.dialogVisible} handleCancel={this.hideAddTagDialog} />
             </div>
         )
     }
