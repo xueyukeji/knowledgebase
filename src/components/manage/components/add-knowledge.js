@@ -52,7 +52,7 @@ export default class AddTag extends Component {
         this.props.creatKnowledge({ name: this.state.name }).then((d) => {
             console.log('ddddd', d)
             Message.success('新增知识库成功！')
-            this.props.handleCancel()
+            this.props.hideEditKnowledgeDialog()
             this.props.getKnowledgeList()
         })
     }

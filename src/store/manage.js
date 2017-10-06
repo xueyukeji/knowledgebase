@@ -7,7 +7,9 @@ class Store {
 
     @action showEditKnowledgeDialog = (params) => {
         console.log('stores-->', params)
-        this.curKnowledge = {name: params.name, id: params.id}
+        if (params) {
+            this.curKnowledge = { name: params.name, id: params.id }
+        }
         this.isShowEditKnowledgeDialog = true
     }
 
