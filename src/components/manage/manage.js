@@ -5,37 +5,34 @@ import AddKnowLedge from './components/add-knowledge.js'
 import KnowledgeList from './components/knowledge-list.js'
 
 @inject(stores => {
-    console.log(stores)
+    let {
+        showEditKnowledgeDialog,
+        hideEditKnowledgeDialog
+    } = stores.manage;
+    return {
+        showEditKnowledgeDialog,
+        hideEditKnowledgeDialog
+    }
 })
 @observer
 export default class Manage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showAddKnowledgeDialog: false
         }
     }
 
     componentDidMount() {
-
     }
 
     show = () => {
-        this.setState({
-            showAddKnowledgeDialog: true
-        })
-    }
-
-    hide = () => {
-        this.setState({
-            showAddKnowledgeDialog: false
-        })
+        this.props.showEditKnowledgeDialog()
     }
 
     render() {
         return (
             <Layout.Row className="mod-manage" gutter="10">
-                <Layout.Col span="20">
+                <Layout.Col span="24">
                     <div className="manage-wrap">
                         <div className="manage-title" >
                             知识库管理
@@ -46,7 +43,7 @@ export default class Manage extends Component {
                         <KnowledgeList />
                     </div>
                 </Layout.Col>
-                <AddKnowLedge visible={this.state.showAddKnowledgeDialog} handleCancel={this.hide} />
+                <AddKnowLedge />
             </Layout.Row>
         )
     }
