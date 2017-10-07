@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx';
+import {createFetch} from './fetch-creator';
 
 class Store {
     @observable knowledgeList = [];
@@ -22,8 +23,8 @@ class Store {
         this.knowledgeList = list;
     }
     @action getKnowledgeList = () => {
-        fetch('/pub/librarys').then(res => {
-            return res.json();
+        createFetch({
+            url: 'pub/librarys'
         }).then(data => {
             if (data.data && data.data.librarys.length) {
                 this.setKnowledgeList(data.data.librarys);
@@ -32,23 +33,26 @@ class Store {
     }
 
     @action creatKnowledge = params => {
-        return fetch('/pub/librarys', {
+        return createFetch({
+            url: 'pub/librarys',
             method: 'post',
-            body: JSON.stringify(params)
-        })
+            body: params
+        });
     }
 
     @action removeKnowledge = params => {
-        return fetch('pub/librarys/' + params + '/del', {
+        return createFetch({
+            url: 'pub/librarys/' + params + '/del',
             method: 'post'
-        })
+        });
     }
 
     @action modifyKnowledge = params => {
-        return fetch('pub/librarys/' + params.id, {
+        return createFetch({
+            url: 'pub/librarys/' + params.id,
             method: 'post',
-            body: JSON.stringify(params)
-        })
+            body: params
+        });
     }
 }
 

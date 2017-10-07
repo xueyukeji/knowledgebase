@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx';
+import {createFetch} from './fetch-creator';
 
 class Store {
     @observable itemListobj = null;
@@ -6,8 +7,14 @@ class Store {
         this.itemListobj = obj;
     }
     @action getItemList = (params) => {
-        fetch('/pub/item/?libraryId=' + params.libraryId + '&start=' + params.start + '&limit=' + params.limit).then(res => {
-            return res.json();
+        createFetch({
+            url: 'pub/getItem',
+            method: 'post',
+            params: {
+                libraryId: params.libraryId,
+                start: params.start,
+                limit: params.limit
+            }
         }).then(data => {
             if (data.data && data.data.items.length) {
                 this.setItemList(data);
@@ -16,23 +23,26 @@ class Store {
     }
 
     @action createItem = params => {
-        return fetch('/pub/item', {
+        return createFetch({
+            url: 'pub/item',
             method: 'post',
-            body: JSON.stringify(params)
-        })
+            body: params
+        });
     }
 
     @action removeItem = params => {
-        return fetch('pub/item/' + params + '/del', {
+        return createFetch({
+            url: `pub/item/${params}/del`,
             method: 'post'
-        })
+        });
     }
 
     @action modifyItem = params => {
-        return fetch('pub/item/' + params.id, {
+        return createFetch({
+            url: `pub/item/${params.id}`,
             method: 'post',
-            body: JSON.stringify(params)
-        })
+            body: params
+        });
     }
 }
 

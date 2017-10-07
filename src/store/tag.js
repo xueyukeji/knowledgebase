@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx';
+import {createFetch} from './fetch-creator';
 
 class Store {
     @observable tags = [];
@@ -19,8 +20,8 @@ class Store {
         this.tags = list;
     }
     @action getTags = () => {
-        return fetch('/pub/tags').then(res => {
-            return res.json()
+        return createFetch({
+            url: 'pub/tags'
         }).then(data => {
             if (data.data && data.data.tags.length) {
                 this.setTags(data.data.tags);
@@ -29,8 +30,8 @@ class Store {
     }
     @action getTagsById = params => {
         var parentId = params ? params.parentId : ''
-        return fetch('/pub/tags/' + parentId).then(res => {
-            return res.json()
+        return createFetch({
+            url: 'pub/tags/' + parentId
         }).then(data => {
             if (data.data && data.data.tags.length) {
                 return data.data.tags;
@@ -39,24 +40,27 @@ class Store {
     }
 
     @action creatTag = params => {
-        return fetch('/pub/tags', {
+        return createFetch({
+            url: 'pub/tags',
             method: 'post',
-            body: JSON.stringify(params)
+            body: params
         }).then(this.getTags);
     }
 
     @action updateTag = params => {
-        return fetch('/pub/tags/' + params.id + '/update', {
+        return createFetch({
+            url: 'pub/tags/' + params.id + '/update',
             method: 'post',
-            body: JSON.stringify(params)
-        })
+            body: params
+        });
     }
 
     @action deleteTag = params => {
-        return fetch('/pub/tags/' + params.id + '/del', {
+        return createFetch({
+            url: 'pub/tags/' + params.id + '/del',
             method: 'post',
-            body: JSON.stringify(params)
-        })
+            body: params
+        });
     }
 }
 

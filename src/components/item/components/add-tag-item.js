@@ -22,9 +22,11 @@ export default class AddTagItem extends Component {
     }
 
     onChange = value => {
-        this.setState({
-            inputValue: value
-        });
+        if (value.length < 8) {
+            this.setState({
+                inputValue: value
+            });
+        }
     }
 
     addTag = () => {
