@@ -5,10 +5,12 @@ import { Tag, Popover } from 'element-react'
 @inject(stores => {
     let {
         tags,
+        parentTags,
         getTags
     } = stores.tag
     return {
         tags,
+        parentTags,
         getTags
     }
 })
@@ -52,10 +54,10 @@ export default class TagList extends Component {
         console.log('showScenodLevel tags')
     }
     render() {
-        let { tags } = this.props
+        let { tags, parentTags } = this.props
         return (
             <div className="mod-taglist">
-                {
+                {/* {
                     tags.map(tag => {
                         return (
                             tag.id ? <Popover key={tag.id} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
@@ -75,8 +77,29 @@ export default class TagList extends Component {
                                 : ''
                         )
                     })
-                }
+                } */}
+                {
+                    parentTags.map(item => {
+                        return (
+                            <Popover key={item.id} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
+                                <ul className="scenod-level">
+                                    {
+                                        tags.filter(t => {
+                                            return t.parentId === item.id;
+                                        }).map(t => {
+                                            return (
+                                                <li key={t.id}>{t.tag}</li>
+                                            );
+                                        })
+                                    }
+                                </ul>
 
+                            )}>
+                                <Tag>{item.tag} <i className="triangle-down"></i></Tag>
+                            </Popover>
+                        )
+                    })
+                }
             </div>
         )
     }

@@ -9,19 +9,19 @@ import SelectFile from './components/select-file.js'
         getKnowledgeList
     } = stores.manage
     let {
+        tags,
         parentTags,
-        childTags,
-        getTagsById
+        getTags
     } = stores.tag
     let {
         createItem
     } = stores.item
     return {
+        tags,
         knowledgeList,
         getKnowledgeList,
         parentTags,
-        childTags,
-        getTagsById,
+        getTags,
         createItem
     }
 })
@@ -32,6 +32,7 @@ export default class Knowledge extends Component {
 
         this.state = {
             dialogVisible: false,
+            curParentId: '',
             form: {
                 name: '',
                 desc: '',
@@ -44,61 +45,11 @@ export default class Knowledge extends Component {
                 childTag: '',
                 tag: ''
             },
-            columns: [
-                {
-                    type: 'selection'
-                },
-                {
-                    label: '名称',
-                    prop: 'name',
-                    width: 200
-                },
-                {
-                    label: '日期',
-                    prop: 'date',
-                    width: 120
-
-                },
-                {
-                    label: '类型',
-                    prop: 'type',
-                    width: 100
-                }
-            ],
-            data: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                province: '上海',
-                city: '普陀区',
-                type: '1518 弄',
-                zip: 200333
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                province: '上海',
-                city: '普陀区',
-                type: '1518 弄',
-                zip: 200333
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                province: '上海',
-                city: '普陀区',
-                type: '1518 弄',
-                zip: 200333
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                province: '上海',
-                city: '普陀区',
-                type: '1518 弄',
-                zip: 200333
-            }]
         };
     }
     componentWillMount() {
         this.props.getKnowledgeList()
-        this.props.getTagsById()
+        this.props.getTags()
     }
 
     onSubmit(e) {
@@ -106,14 +57,19 @@ export default class Knowledge extends Component {
     }
 
     onChange(key, value) {
-        this.state.form[key] = value;
+        let form = this.state.form;
+        form[key] = value;
         if (key === 'tag') {
-            this.state.form.tagIds[2] = {
+            let tags = this.state.form.tagIds;
+            tags[2] = {
                 id: '',
                 tag: value
-            }
+            };
+            form.tagIds = tags;
         }
-        this.forceUpdate();
+        this.setState({
+            form
+        });
     }
     showSelectFileDialog = () => {
         this.setState({
@@ -131,19 +87,24 @@ export default class Knowledge extends Component {
     }
 
     selectParentTag = (parentId) => {
-        this.state.form.parentTag = parentId
-        this.state.form.tagIds[0] = {
+        let form = this.state.form;
+        form.tagIds[0] = {
             id: parentId
-        }
-        this.props.childTags.length = 0
-        this.props.getTagsById({ parentId })
+        };
+        this.setState({
+            curParentId: parentId,
+            form
+        });
     }
 
-    selectChildTag = (v) => {
-        this.state.form.tagIds[1] = {
-            id: v
-        }
-        this.state.form.childTag = v
+    selectChildTag = (cId) => {
+        let form = this.state.form;
+        form.tagIds[1] = {
+            id: cId
+        };
+        this.setState({
+            form
+        });
     }
     confirmCreateItem() {
         this.props.createItem(this.state.form).then(() => {
@@ -152,7 +113,7 @@ export default class Knowledge extends Component {
         })
     }
     render() {
-        let { knowledgeList, parentTags, childTags } = this.props
+        let { knowledgeList, parentTags, tags } = this.props
         return (
             <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
@@ -184,7 +145,9 @@ export default class Knowledge extends Component {
                         </Select>
                         <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="请选择二级标签">
                             {
-                                childTags.map(item => {
+                                tags.filter(t => {
+                                    return t.parentId === this.state.curParentId
+                                }).map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id}></Select.Option>
                                 })
                             }
