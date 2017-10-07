@@ -132,3 +132,10 @@
         }
     }
 }
+
+.el-select-dropdown__item.selected {
+    &,
+    &.hover {
+        background-color: $primary;
+    }
+}

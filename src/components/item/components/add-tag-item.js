@@ -18,20 +18,21 @@ import { Input, Tag, Button, MessageBox } from 'element-react-codish';
 export default class AddTagItem extends Component {
     state = {
         inputVisible: false,
-        inputValue: ''
+        inputValue: '',
     }
 
     onChange = value => {
-        if (value.length < 8) {
-            this.setState({
-                inputValue: value
-            });
-        }
+        this.setState({
+            inputValue: value
+        });
     }
 
     addTag = () => {
         let {parentId, creatTag} = this.props;
         let {inputValue} = this.state;
+        if (inputValue.length > 8) {
+            return MessageBox.alert('标签名不能超过8个字符！', '提示');
+        }
         if (parentId && inputValue) {
             creatTag({
                 tag: inputValue,
@@ -89,7 +90,7 @@ export default class AddTagItem extends Component {
                 }
                 {
                     this.state.inputVisible ? (
-                        <span>
+                        <div className="add-tag-input-wrap">
                             <Input
                                 className="input-new-tag"
                                 value={this.state.inputValue}
@@ -98,7 +99,7 @@ export default class AddTagItem extends Component {
                                 onChange={this.onChange} />
                             <Button size="mini" onClick={this.addTag}>添加</Button>
                             <Button size="mini" onClick={this.cancelAdd}>取消</Button>
-                        </span>
+                        </div>
                     ) : <Button className="button-new-tag" size="small" onClick={this.showInput}>新增</Button>
                 }
             </div>

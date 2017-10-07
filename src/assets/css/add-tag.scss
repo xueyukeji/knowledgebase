@@ -25,6 +25,20 @@
                 margin-left: 5px;
                 width: 100px;
             }
+            .add-tag-input-wrap {
+                display: inline-block;
+                vertical-align: middle;
+                .el-tooltip {
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+            .error-info {
+                color: $red;
+                position: absolute;
+                bottom: 10px;
+                right: 100px;
+            }
         }
     }
 }
