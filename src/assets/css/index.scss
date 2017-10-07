@@ -48,15 +48,6 @@
 
 // reset element css
 .mod-homepage {
-    .el-button--primary {
-        background-color: $primary;
-        border-color: $primary;
-    }
-    .el-button--primary:focus,
-    .el-button--primary:hover {
-        background-color: $primary;
-        border-color: $primary;
-    }
 }
 
 .el-dialog {
@@ -102,5 +93,42 @@
     button:hover,
     .el-pager li:hover {
         color: $primary;
+    }
+}
+
+.el-button {
+    &:focus,
+    &:hover {
+        border-color: $primary;
+        color: $primary;
+    }
+    &--primary {
+        background-color: $primary;
+        border-color: $primary;
+        &:hover {
+            background-color: $primary;
+            color: #fff;
+        }
+    }
+}
+
+.el-tabs {
+    &__item {
+        &.is-active {
+            color: $primary;
+        }
+    }
+    &__new-tab {
+        &:hover {
+            color: $primary;
+        }
+    }
+}
+
+.el-input {
+    &__inner {
+        &:focus {
+            border-color: $primary;
+        }
     }
 }
