@@ -2,12 +2,19 @@ import { observable, action, computed } from 'mobx';
 
 class Store {
     @observable tags = [];
+    @observable isAddTagPopVisible = false;
     @computed get parentTags() {
         return this.tags.filter(item => {
             return !item.parentId;
         });
     }
 
+    @action showAddTagPop = () => {
+        this.isAddTagPopVisible = true;
+    }
+    @action hideAddTagPop = () => {
+        this.isAddTagPopVisible = false;
+    }
     @action setTags = list => {
         this.tags = list;
     }
@@ -51,11 +58,6 @@ class Store {
             body: JSON.stringify(params)
         })
     }
-
-    // router.get('/pub/tags', tag.getTags) // 所有标签(默认除开自定义标签)
-    // router.get('/pub/tags/:parentId', tag.getTagsById) // 根据pid获取标签
-    // router.post('/pub/tags', tag.createTag) // 创建标签(是否自定义 0 | 1)
-    // router.post('/pub/tags/:id/update', tag.updateTag)
-    // router.post('/pub/tags/:id/del', tag.deleteTag)
 }
+
 export default new Store()

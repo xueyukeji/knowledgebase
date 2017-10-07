@@ -37,7 +37,7 @@ export default class AddTag extends Component {
     removeParentTag = tab => {
         let {id, label} = tab.props;
         if (id) {
-            MessageBox.confirm(`确定删除标签: ${label}吗？`, '提示', {
+            MessageBox.confirm(`确定删除标签: ${label} 吗？`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

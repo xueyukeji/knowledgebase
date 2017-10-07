@@ -22,7 +22,9 @@ export default class AddTagItem extends Component {
     }
 
     onChange = value => {
-        this.setState({ inputValue: value });
+        this.setState({
+            inputValue: value
+        });
     }
 
     addTag = () => {
@@ -53,14 +55,17 @@ export default class AddTagItem extends Component {
     }
 
     showInput = () => {
-        this.setState({ inputVisible: true }, () => {
-            this.refs.saveTagInput.focus();
+        this.setState({
+            inputVisible: true
+        }, () => {
+            this.inputNode.focus();
         });
     }
 
     cancelAdd = () => {
         this.setState({
-            inputVisible: false
+            inputVisible: false,
+            inputValue: ''
         });
     }
 
@@ -86,7 +91,7 @@ export default class AddTagItem extends Component {
                             <Input
                                 className="input-new-tag"
                                 value={this.state.inputValue}
-                                ref="saveTagInput"
+                                ref={node => this.inputNode = node}
                                 size="mini"
                                 onChange={this.onChange} />
                             <Button size="mini" onClick={this.addTag}>添加</Button>

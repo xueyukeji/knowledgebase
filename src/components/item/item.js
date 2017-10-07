@@ -1,41 +1,38 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { Button } from 'element-react-codish'
-import { NavLink } from 'react-router-dom'
-import SearchItem from './components/search-item.js'
-import TagList from './components/tag-list.js'
-import ListItem from './components/list-item.js'
-import AddTag from './components/add-tag.js'
+import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import { Button } from 'element-react-codish';
+import { NavLink } from 'react-router-dom';
+import SearchItem from './components/search-item.js';
+import TagList from './components/tag-list.js';
+import ListItem from './components/list-item.js';
+import AddTag from './components/add-tag.js';
 
 @inject(stores => {
     let {
         tags,
-        getTags
+        getTags,
+        isAddTagPopVisible,
+        showAddTagPop,
+        hideAddTagPop
     } = stores.tag
     return {
         tags,
-        getTags
+        getTags,
+        isAddTagPopVisible,
+        showAddTagPop,
+        hideAddTagPop
     }
 })
 @observer
 export default class Knowledge extends Component {
-    constructor(props) {
-        super(props)
+    showAddTagPop = () => {
+        this.props.showAddTagPop();
+    }
 
-        this.state = {
-            dialogVisible: false,
-        }
+    hideAddTagPop = () => {
+        this.props.hideAddTagPop();
     }
-    showAddTagDialog = () => {
-        this.setState({
-            dialogVisible: true
-        })
-    }
-    hideAddTagDialog = () => {
-        this.setState({
-            dialogVisible: false
-        })
-    }
+
     render() {
         return (
             <div className="mod-homepage">
@@ -43,11 +40,13 @@ export default class Knowledge extends Component {
                 <TagList />
                 <div className="btn-groups">
                     <NavLink to="/add-item"><Button type="primary">新增知识条目</Button></NavLink>
-                    <Button type="primary" onClick={this.showAddTagDialog} >增加标签</Button>
+                    <Button type="primary" onClick={this.showAddTagPop} >增加标签</Button>
                 </div>
                 <h4>知识条目</h4>
                 <ListItem />
-                <AddTag visible={this.state.dialogVisible} handleCancel={this.hideAddTagDialog} />
+                <AddTag
+                    visible={this.props.isAddTagPopVisible}
+                    handleCancel={this.hideAddTagPop} />
             </div>
         )
     }
