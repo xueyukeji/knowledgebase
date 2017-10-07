@@ -41,7 +41,7 @@ export default class Knowledge extends Component {
             <div className="mod-homepage">
                 <SearchItem />
                 <TagList />
-                <div>
+                <div className="btn-groups">
                     <NavLink to="/add-item"><Button type="primary">新增知识条目</Button></NavLink>
                     <Button type="primary" onClick={this.showAddTagDialog} >增加标签</Button>
                 </div>

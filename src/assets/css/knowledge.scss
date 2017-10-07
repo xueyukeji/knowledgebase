@@ -1,4 +1,10 @@
 .mod-homepage {
+    .btn-groups{
+        text-align: center;
+        .el-button{
+            margin-right: 20px;
+        }
+    }
 	.el-button--primary {
 		margin-top: 10px;
 		width: 120px;

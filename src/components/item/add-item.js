@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Form, Input, Select, Button } from 'element-react'
+import { Form, Input, Select, Button, Message } from 'element-react'
 import SelectFile from './components/select-file.js'
 
 @inject(stores => {
@@ -108,8 +108,11 @@ export default class Knowledge extends Component {
     }
     confirmCreateItem() {
         this.props.createItem(this.state.form).then(() => {
-            // todo
-
+            this.props.history.go(-1)
+            Message({
+                type: 'success',
+                message: '新增成功!'
+            });
         })
     }
     render() {

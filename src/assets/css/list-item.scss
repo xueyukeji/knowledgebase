@@ -17,7 +17,7 @@
 		}
 		.tag-items {
 			.tags {
-				margin: 10px 0;
+				margin-top: 10px;
 				.el-tag {
 					margin-right: 10px;
 				}
@@ -26,7 +26,14 @@
 				float: right;
 			}
 		}
-		.conent {}
+		.content {
+			width: 100%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			word-wrap: break-word;
+			line-height: 20px;
+			max-height: 60px;
+		}
 		.info {
 			margin-top: 10px;
 			.icon-look {
@@ -40,9 +47,9 @@
 				font-size: 25px;
 			}
 		}
-    }
-    .el-pagination{
-        text-align: center;
-        margin-top: 20px;
-    }
+	}
+	.el-pagination {
+		text-align: center;
+		margin-top: 20px;
+	}
 }

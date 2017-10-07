@@ -1,23 +1,21 @@
 import { observable, action } from 'mobx';
 
 class Store {
-    @observable itemList = [];
-    @action setItemList = list => {
-        this.itemList = list;
+    @observable itemListobj = null;
+    @action setItemList = obj => {
+        this.itemListobj = obj;
     }
-    @action getItemList = () => {
-        fetch('/pub/item').then(res => {
+    @action getItemList = (params) => {
+        fetch('/pub/item/?libraryId=' + params.libraryId + '&start=' + params.start + '&limit=' + params.limit).then(res => {
             return res.json();
         }).then(data => {
             if (data.data && data.data.items.length) {
-                this.setItemList(data.data.items);
+                this.setItemList(data);
             }
         });
     }
 
     @action createItem = params => {
-        console.log(JSON.stringify(params))
-        debugger
         return fetch('/pub/item', {
             method: 'post',
             body: JSON.stringify(params)
