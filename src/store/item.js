@@ -1,36 +1,37 @@
 import { observable, action } from 'mobx';
 
 class Store {
-    @observable knowledgeItemList = [];
-    @action setKnowledgeItemList = list => {
-        this.knowledgeItemList = list;
+    @observable itemList = [];
+    @action setItemList = list => {
+        this.itemList = list;
     }
-    @action getKnowledgeItemList = () => {
+    @action getItemList = () => {
         fetch('/pub/item').then(res => {
             return res.json();
         }).then(data => {
-            console.log('item item --->', data.data.items)
             if (data.data && data.data.items.length) {
-                this.setKnowledgeItemList(data.data.items);
+                this.setItemList(data.data.items);
             }
         });
     }
 
-    @action creatKnowledgeItem = params => {
-        return fetch('/pub/librarys', {
+    @action createItem = params => {
+        console.log(JSON.stringify(params))
+        debugger
+        return fetch('/pub/item', {
             method: 'post',
             body: JSON.stringify(params)
         })
     }
 
-    @action removeKnowledgeItem = params => {
-        return fetch('pub/librarys/' + params + '/del', {
+    @action removeItem = params => {
+        return fetch('pub/item/' + params + '/del', {
             method: 'post'
         })
     }
 
-    @action modifyKnowledgeItem = params => {
-        return fetch('pub/librarys/' + params.id, {
+    @action modifyItem = params => {
+        return fetch('pub/item/' + params.id, {
             method: 'post',
             body: JSON.stringify(params)
         })

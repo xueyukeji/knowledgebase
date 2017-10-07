@@ -13,12 +13,16 @@ import SelectFile from './components/select-file.js'
         childTags,
         getTagsById
     } = stores.tag
+    let {
+        createItem
+    } = stores.item
     return {
         knowledgeList,
         getKnowledgeList,
         parentTags,
         childTags,
-        getTagsById
+        getTagsById,
+        createItem
     }
 })
 @observer
@@ -28,13 +32,20 @@ export default class Knowledge extends Component {
 
         this.state = {
             dialogVisible: false,
+            knowledges: [],
+            parentTags: [],
+            childTags: [],
             form: {
                 name: '',
-                knowledges: [],
                 desc: '',
-                author: '',
-                parentTags: [],
-                childTags: []
+                libraryId: '',
+                creatorId: 98,
+                creatorName: '',
+                fileIds: [1, 2, 3],
+                tagIds: [],
+                parentTag: '',
+                childTag: '',
+                tag: ''
             },
             columns: [
                 {
@@ -95,11 +106,9 @@ export default class Knowledge extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            form: {
-                knowledges: nextProps.knowledgeList,
-                parentTags: nextProps.parentTags,
-                childTags: nextProps.childTags
-            }
+            knowledges: nextProps.knowledgeList,
+            parentTags: nextProps.parentTags,
+            childTags: nextProps.childTags
         })
     }
 
@@ -109,6 +118,12 @@ export default class Knowledge extends Component {
 
     onChange(key, value) {
         this.state.form[key] = value;
+        if (key === 'tag') {
+            this.state.form.tagIds[2] = {
+                id: '',
+                tag: value
+            }
+        }
         this.forceUpdate();
     }
     showSelectFileDialog = () => {
@@ -121,8 +136,31 @@ export default class Knowledge extends Component {
             dialogVisible: false
         })
     }
+
+    selectKnowledge = (v) => {
+        this.state.form.libraryId = v
+    }
+
     selectParentTag = (parentId) => {
+        this.state.form.parentTag = parentId
+        this.state.form.tagIds[0] = {
+            id: parentId
+        }
         this.props.getTagsById({ parentId })
+    }
+
+    selectChildTag = (v) => {
+        this.state.form.tagIds[1] = {
+            id: v
+        }
+        this.state.form.childTag = v
+    }
+    confirmCreateItem() {
+        console.log(this.state.form)
+        this.props.createItem(this.state.form).then(() => {
+            debugger
+        })
+        // todo
     }
     render() {
         return (
@@ -132,9 +170,9 @@ export default class Knowledge extends Component {
                         <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}></Input>
                     </Form.Item>
                     <Form.Item label="知识库：">
-                        <Select value={this.state.form.knowledges} placeholder="请选择知识库">
+                        <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
                             {
-                                this.state.form.knowledges.map(item => {
+                                this.state.knowledges.map(item => {
                                     return <Select.Option key={item.id} label={item.name} value={item.id}></Select.Option>
                                 })
                             }
@@ -144,32 +182,32 @@ export default class Knowledge extends Component {
                         <Input type="textarea" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
                     </Form.Item>
                     <Form.Item label="作者：">
-                        <Input value={this.state.form.author} onChange={this.onChange.bind(this, 'name')}></Input>
+                        <Input value={this.state.form.creatorName} onChange={this.onChange.bind(this, 'creatorName')}></Input>
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：">
-                        <Select value={this.state.form.parentTags} onChange={this.selectParentTag} placeholder="请选择一级标签">
+                        <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="请选择一级标签">
                             {
-                                this.state.form.parentTags.map(item => {
+                                this.state.parentTags.map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id} ></Select.Option>
                                 })
                             }
                         </Select>
-                        <Select value={this.state.form.childTags} placeholder="请选择一级标签">
+                        <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="请选择二级标签">
                             {
-                                this.state.form.childTags.map(item => {
+                                this.state.childTags.map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id}></Select.Option>
                                 })
                             }
                         </Select>
-                        <Input className="default-tag" value={this.state.form.name}
-                            onChange={this.onChange.bind(this, 'name')}
+                        <Input className="default-tag" value={this.state.form.tag}
+                            onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>
                     </Form.Item>
                     <Form.Item label="附件：">
                         <Button size="small" type="primary" onClick={this.showSelectFileDialog}>选择文件</Button> <span className="select-flie-tips">从个人空间选择与知识相关的文件</span>
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" nativeType="submit">确定</Button>
+                        <Button type="primary" nativeType="submit" onClick={() => { this.confirmCreateItem() }}>确定</Button>
                         <Button>取消</Button>
                     </Form.Item>
                 </Form>

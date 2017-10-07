@@ -3,16 +3,12 @@ import { inject, observer } from 'mobx-react'
 import { Tag, Layout, Pagination } from 'element-react'
 @inject(stores => {
     let {
-        creatKnowledgeItem,
-        modifyKnowledgeItem,
-        getKnowledgeItemList,
-        knowledgeItemList
+        getItemList,
+        itemList
     } = stores.item;
     return {
-        creatKnowledgeItem,
-        modifyKnowledgeItem,
-        getKnowledgeItemList,
-        knowledgeItemList
+        getItemList,
+        itemList
     }
 })
 @observer
@@ -27,13 +23,13 @@ export default class ListItem extends Component {
         }
     }
     componentWillMount() {
-        this.props.getKnowledgeItemList(this.state.params)
+        this.props.getItemList(this.state.params)
     }
     render() {
-        let { knowledgeItemList } = this.props;
+        let { itemList } = this.props;
         return (<div className="mod-listitem">
             {
-                knowledgeItemList.map(item => {
+                itemList.map(item => {
                     return (
                         <div className="list-item" key={item.id}>
                             <div className="title">

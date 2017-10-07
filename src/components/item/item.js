@@ -8,7 +8,14 @@ import ListItem from './components/list-item.js'
 import AddTag from './components/add-tag.js'
 
 @inject(stores => {
-    stores
+    let {
+        tags,
+        getTags
+    } = stores.tag
+    return {
+        tags,
+        getTags
+    }
 })
 @observer
 export default class Knowledge extends Component {
@@ -35,7 +42,7 @@ export default class Knowledge extends Component {
                 <SearchItem />
                 <TagList />
                 <div>
-                    <NavLink to="/add-knowledge-item"><Button type="primary">新增知识条目</Button></NavLink>
+                    <NavLink to="/add-item"><Button type="primary">新增知识条目</Button></NavLink>
                     <Button type="primary" onClick={this.showAddTagDialog} >增加标签</Button>
                 </div>
                 <h4>知识条目</h4>

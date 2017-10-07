@@ -3,7 +3,14 @@ import { inject, observer } from 'mobx-react'
 import { Tag, Popover } from 'element-react'
 
 @inject(stores => {
-    stores
+    let {
+        tags,
+        getTags
+    } = stores.tag
+    return {
+        tags,
+        getTags
+    }
 })
 @observer
 export default class TagList extends Component {
@@ -38,28 +45,34 @@ export default class TagList extends Component {
             ]
         }
     }
+    componentWillMount() {
+        this.props.getTags()
+    }
     showScenodLevel = () => {
         console.log('showScenodLevel tags')
     }
     render() {
-        console.log(this.props)
+        let { tags } = this.props
         return (
             <div className="mod-taglist">
                 {
-                    this.state.tags.map((tag, index) => {
+                    tags.map(tag => {
                         return (
-                            <Popover key={index} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
+                            tag.id ? <Popover key={tag.id} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
                                 <ul className="scenod-level">
                                     {
-                                        tag.childs.map((c, index) => {
-                                            return (<li key={index}>{c.name}</li>)
+                                        tag.children.length > 0 ? tag.children.map(child => {
+                                            return (<li key={child.id}>{child.tag}</li>)
                                         })
+                                            :
+                                            <li>暂无子标签</li>
                                     }
                                 </ul>
 
                             )}>
-                                <Tag>{tag.name} <i className="triangle-down"></i></Tag>
+                                <Tag>{tag.tag} <i className="triangle-down"></i></Tag>
                             </Popover>
+                                : ''
                         )
                     })
                 }
