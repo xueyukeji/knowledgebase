@@ -1,8 +1,17 @@
 import { observable, action } from 'mobx';
-import {createFetch} from './fetch-creator';
+import { createFetch } from './fetch-creator';
 
 class Store {
     @observable itemListobj = null;
+    @observable searchInput = null;// 知识条目搜索用到
+    @observable tagIds = []; // 知识条目搜索用到
+    @action setTagIds = arr => {
+        debugger
+        this.tagIds = arr
+    }
+    @action setSearchInput = str => {
+        this.searchInput = str
+    }
     @action setItemList = obj => {
         this.itemListobj = obj;
     }
@@ -10,11 +19,7 @@ class Store {
         createFetch({
             url: 'pub/getItem',
             method: 'post',
-            params: {
-                libraryId: params.libraryId,
-                start: params.start,
-                limit: params.limit
-            }
+            body: params
         }).then(data => {
             if (data.data && data.data.items.length) {
                 this.setItemList(data);

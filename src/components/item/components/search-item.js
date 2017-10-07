@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom'
 import { Layout, Input, Select, Button } from 'element-react-codish';
-export default class SearchItem extends Component {
+import { inject, observer } from 'mobx-react'
+@inject(stores => {
+    let {
+        searchInput,
+        setSearchInput,
+        getSearchInput,
+        getItemList,
+    } = stores.item
+    return {
+        searchInput,
+        setSearchInput,
+        getSearchInput,
+        getItemList
+    }
+})
+
+@observer
+class SearchItem extends Component {
     constructor(props) {
         super(props);
 
@@ -15,7 +33,23 @@ export default class SearchItem extends Component {
             value: '1'
         };
     }
-
+    onChangeInput = (v) => {
+        this.props.setSearchInput(v)
+    }
+    onSearch = () => {
+        console.log(this.props.searchInput)
+        this.getData()
+    }
+    getData() {
+        const params = {
+            libraryId: parseInt(this.props.match.params.id),
+            start: 1,
+            limit: 10,
+            tagIds: [],
+            tag: this.props.searchInput
+        }
+        this.props.getItemList(params)
+    }
     render() {
         return (
             <Layout.Row className="search-item" gutter="20">
@@ -27,12 +61,13 @@ export default class SearchItem extends Component {
                     </Select>
                 </Layout.Col>
                 <Layout.Col span="19">
-                    <Input placeholder="请输入您要查询的字段" />
+                    <Input placeholder="请输入您要查询的字段" value={this.props.searchInput} onChange={this.onChangeInput} />
                 </Layout.Col>
                 <Layout.Col span="2">
-                    <Button type="default">搜索</Button>
+                    <Button type="default" onClick={this.onSearch }>搜索</Button>
                 </Layout.Col>
             </Layout.Row>
         );
     }
 }
+export default withRouter(SearchItem)

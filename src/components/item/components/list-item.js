@@ -5,11 +5,17 @@ import { Tag, Layout, Pagination } from 'element-react-codish'
 @inject(stores => {
     let {
         getItemList,
-        itemListobj
+        itemListobj,
+        tagIds,
+        setTagIds,
+        setSearchInput
     } = stores.item;
     return {
         getItemList,
-        itemListobj
+        itemListobj,
+        tagIds,
+        setTagIds,
+        setSearchInput
     }
 })
 @observer
@@ -20,7 +26,7 @@ class ListItem extends Component {
         }
     }
     componentWillMount() {
-        this.onCurrentChange(1)
+        this.getDatas(1)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -28,14 +34,20 @@ class ListItem extends Component {
             if (this.props.itemListobj) {
                 this.props.itemListobj.data.items.length = 0
             }
-            this.onCurrentChange(1, nextProps)
+            debugger
+            var tagIds = []
+            this.props.setTagIds(tagIds)
+            this.props.setSearchInput('')
+            this.getDatas(1, nextProps)
         }
     }
-    onCurrentChange = (currentPage, nextProps) => {
+    getDatas = (currentPage, nextProps) => {
         const params = {
-            libraryId: nextProps ? nextProps.match.params.id : this.props.match.params.id,
+            libraryId: nextProps ? parseInt(nextProps.match.params.id) : parseInt(this.props.match.params.id),
             start: currentPage,
-            limit: 10
+            limit: 10,
+            tagIds: this.props.tagIds,
+            tag: ''
         }
         this.props.getItemList(params)
     }
@@ -75,12 +87,12 @@ class ListItem extends Component {
                 })
             }
             {
-                itemListobj &&  itemListobj.count > 10 &&
+                itemListobj && itemListobj.count > 10 &&
                 <Pagination
                     className="pagination"
                     currentPage={1}
                     layout="prev, pager, next"
-                    onCurrentChange={this.onCurrentChange}
+                    onCurrentChange={this.getDatas}
                     total={itemListobj.count} />
             }
         </div>

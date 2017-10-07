@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Tag, Popover } from 'element-react-codish'
 
@@ -6,96 +7,83 @@ import { Tag, Popover } from 'element-react-codish'
     let {
         tags,
         parentTags,
-        getTags
+        getTags,
     } = stores.tag
+    let {
+        setSearchInput,
+        setTagIds,
+        getItemList,
+    } = stores.item
     return {
         tags,
         parentTags,
-        getTags
+        getTags,
+        setSearchInput,
+        setTagIds,
+        getItemList
     }
 })
 @observer
-export default class TagList extends Component {
+class TagList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tags: [
-                {
-                    key: 1, name: '语文', type: 'gray',
-                    childs: [
-                        { name: '一年级语文上册' },
-                        { name: '一年级语文下册' },
-                        { name: '一年级语文上册' },
-                        { name: '一年级语文下册' },
-                        { name: '一年级语文上册' },
-                        { name: '一年级语文下册' },
-                        { name: '一年级语文上册' },
-                        { name: '一年级语文下册' },
-                        { name: '一年级语文上册' },
-                        { name: '一年级语文下册' },
-                        { name: '一年级语文上册' },
-                        { name: '一年级语文下册' },
-                    ]
-                },
-                { key: 2, name: '数学', type: 'gray', childs: [] },
-                { key: 5, name: '英语', type: 'gray', childs: [] },
-                { key: 3, name: '政治', type: 'gray', childs: [] },
-                { key: 4, name: '历史', type: 'gray', childs: [] },
-                { key: 6, name: '地理', type: 'gray', childs: [] },
-                { key: 7, name: '物理', type: 'gray', childs: [] },
-                { key: 8, name: '生物', type: 'gray', childs: [] }
-            ]
         }
     }
     componentWillMount() {
         this.props.getTags()
     }
     showScenodLevel = () => {
-        console.log('showScenodLevel tags')
+    }
+    selectParentTag = (parentTag) => {
+        var tagsIds = []
+        tagsIds[0] = parentTag.id
+        this.props.setTagIds(tagsIds)
+        this.props.setSearchInput(parentTag.tag)
+        this.getData(tagsIds)
+    }
+    selectChildTag = (childTag) => {
+        let ptag = this.props.parentTags.filter(p => {
+            return childTag.parentId === p.id
+        })
+        var tagsIds = []
+        tagsIds[0] = childTag.id
+        this.props.setTagIds(tagsIds)
+        this.props.setSearchInput(ptag[0].tag + '/' + childTag.tag)
+        this.getData(tagsIds)
+    }
+    getData(tagsIds) {
+        const params = {
+            libraryId: parseInt(this.props.match.params.id),
+            start: 1,
+            limit: 10,
+            tagIds: tagsIds,
+            tag: ''
+        }
+        this.props.getItemList(params)
     }
     render() {
         let { tags, parentTags } = this.props
         return (
             <div className="mod-taglist">
-                {/* {
-                    tags.map(tag => {
-                        return (
-                            tag.id ? <Popover key={tag.id} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
-                                <ul className="scenod-level">
-                                    {
-                                        tag.children.length > 0 ? tag.children.map(child => {
-                                            return (<li key={child.id}>{child.tag}</li>)
-                                        })
-                                            :
-                                            <li>暂无子标签</li>
-                                    }
-                                </ul>
-
-                            )}>
-                                <Tag>{tag.tag} <i className="triangle-down"></i></Tag>
-                            </Popover>
-                                : ''
-                        )
-                    })
-                } */}
                 {
                     parentTags.map(item => {
                         return (
-                            <Popover key={item.id} className="first-level" placement="bottom" title="" width="400" trigger="click" content={(
+                            <Popover key={item.id} className="first-level" placement="bottom" title="" width="400" trigger="hover" content={(
                                 <ul className="scenod-level">
                                     {
                                         tags.filter(t => {
                                             return t.parentId === item.id;
                                         }).map(t => {
                                             return (
-                                                <li key={t.id}>{t.tag}</li>
+                                                <li key={t.id} onClick={() => { this.selectChildTag(t) }}>{t.tag}</li>
                                             );
                                         })
                                     }
                                 </ul>
 
                             )}>
-                                <Tag>{item.tag} <i className="triangle-down"></i></Tag>
+                                <span onClick={() => { this.selectParentTag(item) }}><Tag >{item.tag} <i className="triangle-down" ></i></Tag></span>
                             </Popover>
                         )
                     })
@@ -104,3 +92,6 @@ export default class TagList extends Component {
         )
     }
 }
+
+export default withRouter(TagList)
+
