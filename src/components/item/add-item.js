@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Form, Input, Select, Button, Message } from 'element-react'
+import { Form, Input, Select, Button, Message } from 'element-react-codish'
 import SelectFile from './components/select-file.js'
 
 @inject(stores => {

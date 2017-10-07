@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Transfer, Layout } from 'element-react'
+import { Transfer, Layout } from 'element-react-codish'
 import {inject, observer} from 'mobx-react'
 
 @inject(stores => {

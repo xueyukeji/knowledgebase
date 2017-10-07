@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Tag, Popover } from 'element-react'
+import { Tag, Popover } from 'element-react-codish'
 
 @inject(stores => {
     let {

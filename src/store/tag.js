@@ -35,18 +35,18 @@ class Store {
         return fetch('/pub/tags', {
             method: 'post',
             body: JSON.stringify(params)
-        })
+        }).then(this.getTags);
     }
 
     @action updateTag = params => {
-        return fetch('/pub/tags' + params.id + '/update', {
+        return fetch('/pub/tags/' + params.id + '/update', {
             method: 'post',
             body: JSON.stringify(params)
         })
     }
 
     @action deleteTag = params => {
-        return fetch('/pub/tags' + params.id + '/del', {
+        return fetch('/pub/tags/' + params.id + '/del', {
             method: 'post',
             body: JSON.stringify(params)
         })

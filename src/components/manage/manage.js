@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Button } from 'element-react'
+import { Layout, Button } from 'element-react-codish'
 import { inject, observer } from 'mobx-react'
 import AddKnowLedge from './components/add-knowledge.js'
 import KnowledgeList from './components/knowledge-list.js'

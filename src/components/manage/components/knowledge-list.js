@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, MessageBox, Message } from 'element-react'
+import { Button, MessageBox, Message } from 'element-react-codish'
 import { inject, observer } from 'mobx-react'
 
 @inject(stores => {

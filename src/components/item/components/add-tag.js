@@ -1,79 +1,88 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Button, Dialog, Tabs, MessageBox } from 'element-react';
+import { Button, Dialog, Tabs, MessageBox } from 'element-react-codish';
 import AddTagItem from './add-tag-item';
 
 @inject(stores => {
-    stores
+    let {
+        tags,
+        parentTags,
+        creatTag,
+        deleteTag,
+        getTags
+    } = stores.tag;
+    return {
+        tags,
+        parentTags,
+        creatTag,
+        deleteTag,
+        getTags
+    };
 })
 @observer
 export default class AddTag extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            tabs: [{
-                title: '标签一',
-                name: 'Tab 1',
-                tags: [
-                    { key: 1, name: '标签一', type: 'gray' },
-                    { key: 2, name: '标签二', type: 'gray' },
-                    { key: 5, name: '标签三', type: 'gray' },
-                    { key: 3, name: '标签四', type: 'gray' },
-                    { key: 4, name: '标签五', type: 'gray' },
-                    { key: 6, name: '标签六', type: 'gray' },
-                    { key: 7, name: '标签一', type: 'gray' },
-                    { key: 8, name: '标签二', type: 'gray' },
-                    { key: 9, name: '标签三', type: 'gray' },
-                    { key: 10, name: '标签四', type: 'gray' },
-                    { key: 11, name: '标签五', type: 'gray' },
-                    { key: 12, name: '标签六', type: 'gray' }
-                ]
-            }, {
-                title: '标签二',
-                name: 'Tab 2',
-                tags: []
-            }],
-            tabIndex: 1
-
-        }
-    }
-
-    editTab(action, tab) {
-        if (action === 'add') {
-            this.showInputFirstLevelTagName()
-        }
-
-        if (action === 'remove') {
-            const { tabs } = this.state;
-            console.log(action, tab);
-            tabs.splice(tab.key.replace(/^\.\$/, ''), 1);
-            this.setState({
-                tabs,
-            });
-        }
-    }
-
-    showInputFirstLevelTagName() {
+    addParentTag = () => {
         MessageBox.prompt('请输入您要创建的一级标签名称', '', {
             inputPattern: /^.{0,8}$/,
             inputErrorMessage: '标签长度在不能超过8个字符'
         }).then(({ value }) => {
-            const { tabs, tabIndex } = this.state;
-            const index = tabIndex + 1;
-            tabs.push({
-                title: value,
-                name: value,
-                tags: [],
+            this.props.creatTag({
+                tag: value,
+                parentId: null,
+                isCurtom: 0
             });
-            this.setState({
-                tabs,
-                tabIndex: index,
-            });
-        }).catch(() => {
-            // Message({
-            //     type: 'info',
-            //     message: '取消输入'
-            // });
+        }).catch(() => {});
+    }
+
+    removeParentTag = tab => {
+        let {id, label} = tab.props;
+        if (id) {
+            MessageBox.confirm(`确定删除标签: ${label}吗？`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                return this.props.deleteTag({
+                    id
+                });
+            }).then(this.props.getTags);
+        }
+        return false;
+    }
+
+    renderPopupBody() {
+        let {parentTags} = this.props;
+        if (parentTags.length) {
+            return (
+                <Tabs
+                    type="card"
+                    editable
+                    onTabRemove={this.removeParentTag}
+                    onTabAdd={this.addParentTag}
+                    onTabEdit={() => {}}>
+                    {
+                        parentTags.map(item => {
+                            return (
+                                <Tabs.Pane
+                                    key={item.id}
+                                    closable
+                                    label={item.tag}
+                                    name={`${item.id}`}
+                                    id={item.id}>
+                                    <AddTagItem parentId={item.id} tags={this.getChildTags(item.id)} />
+                                </Tabs.Pane>
+                            );
+                        })
+                    }
+                </Tabs>
+            );
+        }
+        return <div />;
+    }
+
+    getChildTags = id => {
+        return this.props.tags.filter(item => {
+            return item.parentId === id;
         });
     }
 
@@ -86,20 +95,9 @@ export default class AddTag extends Component {
                 visible={this.props.visible}
                 onCancel={this.props.handleCancel}
                 lockScroll={false}>
-                <Dialog.Body>
-                    <Tabs type="card" value="Tab 1" editable onTabEdit={(action, tab) => this.editTab(action, tab)}>
-                        {
-                            this.state.tabs.map((item, index) => {
-                                return <Tabs.Pane key={index} closable label={item.title} name={item.name}>
-                                    <AddTagItem tags={item.tags} />
-                                </Tabs.Pane>
-                            })
-                        }
-                    </Tabs>
-                </Dialog.Body>
+                <Dialog.Body>{this.renderPopupBody()}</Dialog.Body>
                 <Dialog.Footer className="dialog-footer">
                     <Button onClick={this.props.handleCancel}>取消</Button>
-                    <Button type="info" onClick={this.props.createTag}>创建</Button>
                 </Dialog.Footer>
             </Dialog>
         )

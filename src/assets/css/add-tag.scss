@@ -1,27 +1,30 @@
 .mod-addtag {
-	min-width: 600px;
-	.el-dialog__body {
-		padding: 30px 0;
-		.el-tabs {
-			.el-tabs__new-tab {
-				margin: 12px 15px 9px 10px;
-			}
-		}
-		.mod-addtagitem {
-			padding: 0 20px;
-			.el-tag {
-				margin: 5px;
-			}
-			.el-input,
-			.el-input__inner {
-				width: inherit;
-			}
-			.el-button--default {
-				height: 25px;
-				line-height: 8px;
-				margin-left: 5px;
-				width: 100px;
-			}
-		}
-	}
+    min-width: 600px;
+    .el-dialog__body {
+        padding: 30px 0;
+        .el-tabs {
+            .el-tabs__new-tab {
+                margin: 12px 15px 9px 10px;
+            }
+            &__nav-wrap {
+                padding-left: 10px;
+            }
+        }
+        .mod-addtagitem {
+            padding: 0 20px;
+            .el-tag {
+                margin: 5px;
+            }
+            .input-new-tag {
+                margin-right: 10px;
+                width: 100px;
+            }
+            .button-new-tag {
+                height: 25px;
+                line-height: 8px;
+                margin-left: 5px;
+                width: 100px;
+            }
+        }
+    }
 }

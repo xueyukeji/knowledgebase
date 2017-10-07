@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { Tag, Layout, Pagination } from 'element-react'
+import { Tag, Layout, Pagination } from 'element-react-codish'
 @inject(stores => {
     let {
         getItemList,

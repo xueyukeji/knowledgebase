@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Button, Dialog, Breadcrumb, Table } from 'element-react'
+import { Button, Dialog, Breadcrumb, Table } from 'element-react-codish'
 
 @inject(stores => {
     stores

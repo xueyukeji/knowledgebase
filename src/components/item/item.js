@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Button } from 'element-react'
+import { Button } from 'element-react-codish'
 import { NavLink } from 'react-router-dom'
 import SearchItem from './components/search-item.js'
 import TagList from './components/tag-list.js'
