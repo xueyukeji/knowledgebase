@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Button } from 'element-react-codish';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import SearchItem from './components/search-item.js';
 import TagList from './components/tag-list.js';
 import ListItem from './components/list-item.js';
@@ -14,13 +14,17 @@ import AddTag from './components/add-tag.js';
         isAddTagPopVisible,
         showAddTagPop,
         hideAddTagPop
-    } = stores.tag
+    } = stores.tag;
+    let {
+        knowledgeList,
+    } = stores.manage;
     return {
         tags,
         getTags,
         isAddTagPopVisible,
         showAddTagPop,
-        hideAddTagPop
+        hideAddTagPop,
+        knowledgeList
     }
 })
 @observer
@@ -34,6 +38,9 @@ export default class Knowledge extends Component {
     }
 
     render() {
+        if (!this.props.match.params.id && this.props.knowledgeList[0]) {
+            return <Redirect to={`/knowledge/${this.props.knowledgeList[0].id}`} />;
+        }
         return (
             <div className="mod-homepage">
                 <SearchItem />
