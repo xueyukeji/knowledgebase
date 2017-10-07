@@ -32,9 +32,6 @@ export default class Knowledge extends Component {
 
         this.state = {
             dialogVisible: false,
-            knowledges: [],
-            parentTags: [],
-            childTags: [],
             form: {
                 name: '',
                 desc: '',
@@ -104,14 +101,6 @@ export default class Knowledge extends Component {
         this.props.getTagsById()
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            knowledges: nextProps.knowledgeList,
-            parentTags: nextProps.parentTags,
-            childTags: nextProps.childTags
-        })
-    }
-
     onSubmit(e) {
         e.preventDefault();
     }
@@ -146,6 +135,7 @@ export default class Knowledge extends Component {
         this.state.form.tagIds[0] = {
             id: parentId
         }
+        this.props.childTags.length = 0
         this.props.getTagsById({ parentId })
     }
 
@@ -156,13 +146,13 @@ export default class Knowledge extends Component {
         this.state.form.childTag = v
     }
     confirmCreateItem() {
-        console.log(this.state.form)
         this.props.createItem(this.state.form).then(() => {
-            debugger
+            // todo
+
         })
-        // todo
     }
     render() {
+        let { knowledgeList, parentTags, childTags } = this.props
         return (
             <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
@@ -172,7 +162,7 @@ export default class Knowledge extends Component {
                     <Form.Item label="知识库：">
                         <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
                             {
-                                this.state.knowledges.map(item => {
+                                knowledgeList.map(item => {
                                     return <Select.Option key={item.id} label={item.name} value={item.id}></Select.Option>
                                 })
                             }
@@ -187,14 +177,14 @@ export default class Knowledge extends Component {
                     <Form.Item className="select-tags" label="标签：">
                         <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="请选择一级标签">
                             {
-                                this.state.parentTags.map(item => {
+                                parentTags.map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id} ></Select.Option>
                                 })
                             }
                         </Select>
                         <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="请选择二级标签">
                             {
-                                this.state.childTags.map(item => {
+                                childTags.map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id}></Select.Option>
                                 })
                             }
