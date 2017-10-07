@@ -107,6 +107,26 @@ export default class Knowledge extends Component {
         });
     }
     confirmCreateItem() {
+        if (!this.state.form.name) {
+            Message('请输入标题名称')
+            return
+        }
+        if (!this.state.form.libraryId) {
+            Message('请选择知识库')
+            return
+        }
+        if (!this.state.form.creatorName) {
+            Message('请输入作者名称')
+            return
+        }
+        if (typeof (this.state.form.tagIds[0]) === 'undefined') {
+            Message('请选择一级标签')
+            return
+        }
+        if (typeof (this.state.form.tagIds[1]) === 'undefined') {
+            Message('请选择一级标签')
+            return
+        }
         this.props.createItem(this.state.form).then(() => {
             this.props.history.go(-1)
             Message({
@@ -121,7 +141,8 @@ export default class Knowledge extends Component {
             <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
                     <Form.Item label="标题：">
-                        <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}></Input>
+                        <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}
+                            placeholder="请输入标题"></Input>
                     </Form.Item>
                     <Form.Item label="知识库：">
                         <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
@@ -133,10 +154,10 @@ export default class Knowledge extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item label="描述：">
-                        <Input type="textarea" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
+                        <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
                     </Form.Item>
                     <Form.Item label="作者：">
-                        <Input value={this.state.form.creatorName} onChange={this.onChange.bind(this, 'creatorName')}></Input>
+                        <Input value={this.state.form.creatorName} placeholder="请输入作者" onChange={this.onChange.bind(this, 'creatorName')}></Input>
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：">
                         <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="请选择一级标签">
