@@ -54,7 +54,6 @@ export default class AddTagItem extends Component {
     }
 
     render() {
-        console.log('[add-tag-item]', this.props.tags)
         return (
             <div className="mod-addtagitem">
                 {
