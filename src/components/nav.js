@@ -21,6 +21,7 @@ export default class Nav extends Component {
                     })
                 }
                 <div className="nav-item__sep"></div>
+                {/**
                 <div className="nav-item nav-my">
                     <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>
@@ -29,7 +30,7 @@ export default class Nav extends Component {
                 </div>
                 <div className="nav-item nav-professor">
                     <NavLink to="/professor" activeClassName="active">知识专家</NavLink>
-                </div>
+                </div>**/}
                 <div className="nav-item nav-manage">
                     <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
                 </div>
