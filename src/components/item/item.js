@@ -38,8 +38,12 @@ export default class Knowledge extends Component {
     }
 
     render() {
-        if (!this.props.match.params.id && this.props.knowledgeList[0]) {
-            return <Redirect to={`/knowledge/${this.props.knowledgeList[0].id}`} />;
+        if (!this.props.match.params.id) {
+            if (this.props.knowledgeList[0]) {
+                return <Redirect to={`/knowledge/${this.props.knowledgeList[0].id}`} />;
+            } else {
+                return <Redirect to={'/manage'} />;
+            }
         }
         return (
             <div className="mod-homepage">
