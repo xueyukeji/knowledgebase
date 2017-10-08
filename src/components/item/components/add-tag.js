@@ -77,7 +77,11 @@ export default class AddTag extends Component {
                 </Tabs>
             );
         }
-        return <div />;
+        return (
+            <div className="add-tag-button-wrap">
+                <Button size="small" onClick={this.addParentTag}>添加标签</Button>
+            </div>
+        );
     }
 
     getChildTags = id => {
