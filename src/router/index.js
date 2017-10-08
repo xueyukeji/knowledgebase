@@ -16,15 +16,20 @@ import {inject, observer} from 'mobx-react';
         knowledgeList,
         getKnowledgeList
     } = stores.manage;
+    let {
+        getUserInfo
+    } = stores.user
     return {
         knowledgeList,
-        getKnowledgeList
+        getKnowledgeList,
+        getUserInfo
     }
 })
 @observer
 export default class AppRouter extends Component {
     componentDidMount() {
         this.props.getKnowledgeList();
+        this.props.getUserInfo()
     }
 
     render() {

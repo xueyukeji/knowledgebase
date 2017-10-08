@@ -7,7 +7,7 @@ class Store {
 
     @action getUserInfo = () => {
         return createFetch({
-            url: 'apps/user'
+            url: 'user'
         }).then(data => {
             this.userInfo = data;
         });

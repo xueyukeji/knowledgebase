@@ -16,20 +16,23 @@ import SelectFile from './components/select-file.js'
     let {
         createItem
     } = stores.item
+    let {
+        userInfo
+    } = stores.user
     return {
         tags,
         knowledgeList,
         getKnowledgeList,
         parentTags,
         getTags,
-        createItem
+        createItem,
+        userInfo
     }
 })
 @observer
 export default class Knowledge extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             dialogVisible: false,
             curParentId: '',
@@ -37,7 +40,7 @@ export default class Knowledge extends Component {
                 name: '',
                 desc: '',
                 libraryId: '',
-                creatorId: 98,
+                creatorId: '',
                 creatorName: '',
                 fileIds: [1, 2, 3],
                 tagIds: [],
@@ -127,7 +130,11 @@ export default class Knowledge extends Component {
             Message('请选择一级标签')
             return
         }
-        this.props.createItem(this.state.form).then(() => {
+        const params = Object.assign(this.state.form, {
+            creatorName: this.props.userInfo.data.userName,
+            creatorId: this.props.userInfo.data.userId
+        });
+        this.props.createItem(params).then(() => {
             this.props.history.go(-1)
             Message({
                 type: 'success',
@@ -136,7 +143,7 @@ export default class Knowledge extends Component {
         })
     }
     render() {
-        let { knowledgeList, parentTags, tags } = this.props
+        let { knowledgeList, parentTags, tags, userInfo } = this.props
         return (
             <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
@@ -157,7 +164,7 @@ export default class Knowledge extends Component {
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
                     </Form.Item>
                     <Form.Item label="作者：">
-                        <Input value={this.state.form.creatorName} placeholder="请输入作者" onChange={this.onChange.bind(this, 'creatorName')}></Input>
+                        {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：">
                         <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="请选择一级标签">
