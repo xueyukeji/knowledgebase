@@ -69,7 +69,7 @@ class TagList extends Component {
                 {
                     parentTags.map(item => {
                         return (
-                            <Popover key={item.id} className="first-level" placement="bottom" title="" width="400" trigger="hover" content={(
+                            <Popover key={item.id} className="first-level" placement="bottom" title="" width="300" trigger="hover" content={(
                                 <ul className="scenod-level">
                                     {
                                         tags.filter(t => {

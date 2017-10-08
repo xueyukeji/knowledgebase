@@ -45,7 +45,7 @@ export default class AddTagItem extends Component {
     }
 
     handleClose = (tag) => {
-        MessageBox.confirm(`确定删除标签: ${tag.tag}吗？`, '提示', {
+        MessageBox.confirm(`确定删除标签: ${tag.tag}吗？对应知识条目里面的标签也会删除`, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'

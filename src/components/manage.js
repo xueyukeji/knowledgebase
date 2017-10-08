@@ -16,8 +16,6 @@ export default class Manage extends Component {
     }
     componentDidMount() {
         this.props.getLibs()
-        console.log(this.props.libs)
-        // debugger
     }
     constructor(props) {
         super(props);

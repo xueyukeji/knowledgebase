@@ -26,9 +26,9 @@ class SearchItem extends Component {
             options: [{
                 value: '1',
                 label: '标签搜索'
-            }, {
-                value: '2',
-                label: '内容搜索'
+            // }, {
+            //     value: '2',
+            //     label: '内容搜索'
             }],
             value: '1'
         };

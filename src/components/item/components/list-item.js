@@ -34,7 +34,6 @@ class ListItem extends Component {
             if (this.props.itemListobj) {
                 this.props.itemListobj.data.items.length = 0
             }
-            debugger
             var tagIds = []
             this.props.setTagIds(tagIds)
             this.props.setSearchInput('')

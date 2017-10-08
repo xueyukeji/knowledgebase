@@ -6,7 +6,6 @@ class Store {
     @observable searchInput = null;// 知识条目搜索用到
     @observable tagIds = []; // 知识条目搜索用到
     @action setTagIds = arr => {
-        debugger
         this.tagIds = arr
     }
     @action setSearchInput = str => {
@@ -23,6 +22,8 @@ class Store {
         }).then(data => {
             if (data.data && data.data.items.length) {
                 this.setItemList(data);
+            } else {
+                this.setItemList(null);
             }
         });
     }
