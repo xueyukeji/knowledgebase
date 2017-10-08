@@ -4,7 +4,7 @@
     "private": true,
     "proxy": {
         "/pub": {
-            "target": "http://192.168.0.100:3000",
+            "target": "http://192.168.0.35",
             "ws": true
         }
     },
