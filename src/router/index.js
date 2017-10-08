@@ -8,7 +8,7 @@ import AddItem from '../components/item/add-item.js'
 // import MyCheckDetail from '../components/check-detail'
 // import Professor from '../components/professor'
 import Manage from '../components/manage/manage.js'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom'
 import {inject, observer} from 'mobx-react';
 
 @inject(stores => {
