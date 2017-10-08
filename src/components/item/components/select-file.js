@@ -3,9 +3,13 @@ import { inject, observer } from 'mobx-react'
 import { Button, Dialog, Breadcrumb, Table } from 'element-react-codish'
 
 @inject(stores => {
-    stores
+    let {
+        userFile
+    } = stores.user;
+    return {
+        userFile
+    };
 })
-
 @observer
 export default class Knowledge extends Component {
     constructor(props) {
