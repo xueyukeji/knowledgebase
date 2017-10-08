@@ -118,10 +118,6 @@ export default class Knowledge extends Component {
             Message('请选择知识库')
             return
         }
-        if (!this.state.form.creatorName) {
-            Message('请输入作者名称')
-            return
-        }
         if (typeof (this.state.form.tagIds[0]) === 'undefined') {
             Message('请选择一级标签')
             return

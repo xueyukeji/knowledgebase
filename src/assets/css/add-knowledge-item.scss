@@ -16,7 +16,13 @@
 		.el-select,
 		.default-tag {
 			width: 33% !important;
-			display: inline-block;
-		}
+            display: inline-block;
+            padding: 0 5px;
+        }
+        .el-select{
+            &:first-child{
+                margin-left: -5px;
+            }
+        }
 	}
 }
