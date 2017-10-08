@@ -17,8 +17,13 @@ import SelectFile from './components/select-file.js'
         createItem
     } = stores.item
     let {
-        userInfo
-    } = stores.user
+        setUserFile,
+        userInfo,
+        setCurFileParents,
+        setSelected,
+        getUserFile,
+        selected
+    } = stores.user;
     return {
         tags,
         knowledgeList,
@@ -26,7 +31,12 @@ import SelectFile from './components/select-file.js'
         parentTags,
         getTags,
         createItem,
-        userInfo
+        userInfo,
+        setUserFile,
+        setCurFileParents,
+        setSelected,
+        getUserFile,
+        selected
     }
 })
 @observer
@@ -42,12 +52,13 @@ export default class Knowledge extends Component {
                 libraryId: '',
                 creatorId: '',
                 creatorName: '',
-                fileIds: [1, 2, 3],
+                fileIds: [],
                 tagIds: [],
                 parentTag: '',
                 childTag: '',
                 tag: ''
             },
+            files: []
         };
     }
     componentWillMount() {
@@ -77,12 +88,21 @@ export default class Knowledge extends Component {
     showSelectFileDialog = () => {
         this.setState({
             dialogVisible: true
-        })
+        }, () => {
+            this.props.getUserFile();
+        });
     }
     hideSelectFileDialog = () => {
         this.setState({
             dialogVisible: false
-        })
+        });
+        this.clearUserFile();
+    }
+
+    clearUserFile() {
+        this.props.setUserFile([]);
+        this.props.setCurFileParents([]);
+        this.props.setSelected([]);
     }
 
     selectKnowledge = (v) => {
@@ -126,6 +146,10 @@ export default class Knowledge extends Component {
             Message('请选择一级标签')
             return
         }
+        if (this.state.form.fileIds.length < 1) {
+            Message('请选择文件')
+            return
+        }
         const params = Object.assign(this.state.form, {
             creatorName: this.props.userInfo.data.userName,
             creatorId: this.props.userInfo.data.userId
@@ -138,8 +162,33 @@ export default class Knowledge extends Component {
             });
         })
     }
+
+    handleConfirm = () => {
+        let {form} = this.state;
+        let files = this.props.selected.slice();
+        form = Object.assign(form, {
+            fileIds: files.map(item => {
+                return item.fileId;
+            })
+        });
+        this.setState({
+            files: files,
+            dialogVisible: false,
+            form: form
+        });
+        this.clearUserFile();
+    }
+
+    getSelectedFile = () => {
+        return this.state.files.map(item => {
+            return (
+                <div key={item.fileId}>{item.fileName}</div>
+            );
+        });
+    }
     render() {
-        let { knowledgeList, parentTags, tags, userInfo } = this.props
+        let { knowledgeList, parentTags, tags, userInfo } = this.props;
+        let {files} = this.state;
         return (
             <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
@@ -184,14 +233,19 @@ export default class Knowledge extends Component {
                             placeholder="自定义标签"></Input>
                     </Form.Item>
                     <Form.Item label="附件：">
-                        <Button size="small" type="primary" onClick={this.showSelectFileDialog}>选择文件</Button> <span className="select-flie-tips">从个人空间选择与知识相关的文件</span>
+                        {
+                            files.length ?
+                                this.getSelectedFile() : null
+                        }
+                        <Button size="small" type="primary" onClick={this.showSelectFileDialog}>选择文件</Button>
+                        <span className="select-flie-tips">从个人空间选择与知识相关的文件</span>
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" nativeType="submit" onClick={() => { this.confirmCreateItem() }}>确定</Button>
                         <Button>取消</Button>
                     </Form.Item>
                 </Form>
-                <SelectFile dialogVisible={this.state.dialogVisible} closeSelecFileDialog={this.hideSelectFileDialog} />
+                <SelectFile dialogVisible={this.state.dialogVisible} handleConfirm={this.handleConfirm} closeSelecFileDialog={this.hideSelectFileDialog} />
             </div>
         )
     }

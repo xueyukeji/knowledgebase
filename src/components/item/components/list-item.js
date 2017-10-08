@@ -52,7 +52,6 @@ class ListItem extends Component {
     }
     render() {
         let { itemListobj } = this.props;
-        console.log(this.props, itemListobj)
         return (<div className="mod-listitem">
             {
                 itemListobj && itemListobj.data.items.map(item => {

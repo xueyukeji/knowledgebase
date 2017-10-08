@@ -26,3 +26,19 @@
         }
 	}
 }
+
+.table-file {
+    table {
+        width: 100% !important;
+    }
+}
+
+.folder {
+    width: 32px;
+    height: 32px;
+    background: url(../images/folder.png) no-repeat;
+    background-size: 100%;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
