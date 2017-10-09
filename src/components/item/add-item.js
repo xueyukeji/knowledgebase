@@ -175,8 +175,8 @@ class AddItem extends Component {
         })) {
             return MessageBox.alert('选择的附件不能为文件夹！');
         }
-        if (files.length > 100) {
-            return MessageBox.alert('文件个数不能超过100个！');
+        if (files.length > 30) {
+            return MessageBox.alert('文件个数不能超过30个！');
         }
         form = Object.assign(form, {
             fileIds: files.map(item => {
