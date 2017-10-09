@@ -10,6 +10,7 @@ import AddItem from '../components/item/add-item.js'
 import Manage from '../components/manage/manage.js'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { inject, observer } from 'mobx-react';
+import {Loading} from 'element-react-codish';
 
 @inject(stores => {
     let {
@@ -35,6 +36,9 @@ export default class AppRouter extends Component {
     }
 
     render() {
+        if (this.props.knowledgeList.length < 1) {
+            return <Loading className="root-loading" />
+        }
         return (
             <Router>
                 <div className="wrap">
