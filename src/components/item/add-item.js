@@ -198,6 +198,9 @@ class AddItem extends Component {
             );
         });
     }
+    cancel = () => {
+        this.props.history.go(-1)
+    }
     render() {
         let { knowledgeList, parentTags, tags, userInfo } = this.props;
         let {files, dialogVisible} = this.state;
@@ -254,7 +257,9 @@ class AddItem extends Component {
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" nativeType="submit" onClick={() => { this.confirmCreateItem() }}>确定</Button>
-                        <Button>取消</Button>
+                        <Button onClick={() => {
+                            this.cancel()
+                        }}>取消</Button>
                     </Form.Item>
                 </Form>
                 {

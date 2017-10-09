@@ -1,9 +1,20 @@
-import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
-
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import { inject, observer } from 'mobx-react'
+@inject(stores => {
+    let {
+        userInfo,
+        getUserInfo
+    } = stores.user
+    return {
+        userInfo,
+        getUserInfo
+    }
+})
+@observer
 export default class Nav extends Component {
     render() {
-        let {list} = this.props;
+        let { list } = this.props;
         return (
             <div className="nav">
                 <div className="logo"></div>
@@ -31,9 +42,13 @@ export default class Nav extends Component {
                 <div className="nav-item nav-professor">
                     <NavLink to="/professor" activeClassName="active">知识专家</NavLink>
                 </div>**/}
-                <div className="nav-item nav-manage">
-                    <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
-                </div>
+                {
+                    (this.props.userInfo.userType === 0 || this.props.userInfo.userType === 1) ?
+                        <div className="nav-item nav-manage">
+                            <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
+                        </div> : ''
+                }
+
             </div>
         )
     }
