@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
 import { Form, Input, Select, Button, Message } from 'element-react-codish'
-import SelectFile from './components/select-file.js'
+import SelectFile from './components/select-file.js';
+import {MessageBox} from 'element-react-codish';
 
 @inject(stores => {
     let {
@@ -23,7 +24,8 @@ import SelectFile from './components/select-file.js'
         setCurFileParents,
         setSelected,
         getUserFile,
-        selected
+        selected,
+        userFile
     } = stores.user;
     return {
         tags,
@@ -37,7 +39,8 @@ import SelectFile from './components/select-file.js'
         setCurFileParents,
         setSelected,
         getUserFile,
-        selected
+        selected,
+        userFile
     }
 })
 @observer
@@ -167,6 +170,11 @@ class AddItem extends Component {
     handleConfirm = () => {
         let {form} = this.state;
         let files = this.props.selected.slice();
+        if (files.some(item => {
+            return item.folder;
+        })) {
+            return MessageBox.alert('选择的附件不能为文件夹！');
+        }
         form = Object.assign(form, {
             fileIds: files.map(item => {
                 return item.fileId;
@@ -189,7 +197,7 @@ class AddItem extends Component {
     }
     render() {
         let { knowledgeList, parentTags, tags, userInfo } = this.props;
-        let {files} = this.state;
+        let {files, dialogVisible} = this.state;
         return (
             <div className="mod-addknowledge-item">
                 <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
@@ -246,7 +254,13 @@ class AddItem extends Component {
                         <Button>取消</Button>
                     </Form.Item>
                 </Form>
-                <SelectFile dialogVisible={this.state.dialogVisible} handleConfirm={this.handleConfirm} closeSelecFileDialog={this.hideSelectFileDialog} />
+                {
+                    dialogVisible ?
+                        <SelectFile
+                            dialogVisible={true}
+                            handleConfirm={this.handleConfirm}
+                            closeSelecFileDialog={this.hideSelectFileDialog} /> : null
+                }
             </div>
         )
     }

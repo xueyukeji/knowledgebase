@@ -24,7 +24,7 @@ export default class Knowledge extends Component {
         super(props);
         this.COLUMNS = [
             {
-                type: 'selection'
+                type: 'selection',
             },
             {
                 label: '名称',

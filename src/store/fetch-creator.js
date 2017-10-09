@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 const URL_PREFIX = process.env.NODE_ENV === 'development' ? '/apps/' : '/apps/';
 
@@ -15,8 +15,8 @@ function createQuery(method, body) {
     const query = {
         'method': method,
         'headers': {
-            'ct': Cookies.get('ct'),
-            // 'ct': '9miqzc6qxfxld23d2621cb4ed31f36a587d264c7658a5cbe63ea2296c82606e84f50f92947340150745385679000000000000000000',
+            // 'ct': Cookies.get('ct'),
+            'ct': 'dk9cqtn0vmsg31dae883f6d303ea3fd16cc04e2aeb92902efb4b17e27040783eac357959efb00150757961179000000000000000000',
             'cv': '3.5.0',
             'Accept': 'application/json',
             'Content-type': 'application/json;charset=UTF-8',
