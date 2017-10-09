@@ -55,7 +55,6 @@ export default class AddKnowledge extends Component {
         });
     }
     create() {
-        console.log(this.props.curKnowledge)
         if (this.props.curKnowledge.id) {
             this.props.modifyKnowledge({ name: this.state.name, id: this.props.curKnowledge.id }).then(() => {
                 this.getData()

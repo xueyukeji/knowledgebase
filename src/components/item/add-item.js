@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { withRouter } from 'react-router-dom'
 import { Form, Input, Select, Button, Message } from 'element-react-codish'
 import SelectFile from './components/select-file.js'
 
@@ -40,7 +41,7 @@ import SelectFile from './components/select-file.js'
     }
 })
 @observer
-export default class Knowledge extends Component {
+class AddItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -63,7 +64,7 @@ export default class Knowledge extends Component {
     }
     componentWillMount() {
         this.props.getKnowledgeList()
-        this.props.getTags()
+        this.props.getTags(this.props.match.params.id)
     }
 
     onSubmit(e) {
@@ -250,3 +251,4 @@ export default class Knowledge extends Component {
         )
     }
 }
+export default withRouter(AddItem)

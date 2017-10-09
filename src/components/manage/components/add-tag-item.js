@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import {inject, observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Input, Tag, Button, MessageBox } from 'element-react-codish';
 
 @inject(stores => {
     let {
         deleteTag,
         creatTag,
-        getTags
+        getTags,
+        curLibId,
     } = stores.tag;
     return {
         deleteTag,
         creatTag,
-        getTags
+        getTags,
+        curLibId
     };
 })
 @observer
@@ -28,13 +30,14 @@ export default class AddTagItem extends Component {
     }
 
     addTag = () => {
-        let {parentId, creatTag} = this.props;
-        let {inputValue} = this.state;
+        let { parentId, creatTag } = this.props;
+        let { inputValue } = this.state;
         if (inputValue.length > 8) {
             return MessageBox.alert('标签名不能超过8个字符！', '提示');
         }
         if (parentId && inputValue) {
             creatTag({
+                libraryId: this.props.curLibId,
                 tag: inputValue,
                 parentId,
                 isCustom: 0
@@ -53,7 +56,7 @@ export default class AddTagItem extends Component {
             return this.props.deleteTag({
                 id: tag.id
             });
-        }).then(this.props.getTags);
+        }).then(this.props.getTags(this.props.curLibId));
         return false;
     }
 

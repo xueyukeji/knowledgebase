@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 
-const URL_PREFIX = process.env.NODE_ENV === 'development' ? '/' : '/apps/';
+const URL_PREFIX = process.env.NODE_ENV === 'development' ? '/apps/' : '/apps/';
 
 const checkStatus = response => {
     if (response.status < 300) {

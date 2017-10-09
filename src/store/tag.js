@@ -1,8 +1,9 @@
 import { observable, action, computed } from 'mobx';
-import {createFetch} from './fetch-creator';
+import { createFetch } from './fetch-creator';
 
 class Store {
     @observable tags = [];
+    @observable curLibId = '';
     @observable isAddTagPopVisible = false;
     @computed get parentTags() {
         return this.tags.filter(item => {
@@ -10,6 +11,9 @@ class Store {
         });
     }
 
+    @action setCurLibId = (id) => {
+        this.curLibId = id
+    }
     @action showAddTagPop = () => {
         this.isAddTagPopVisible = true;
     }
@@ -19,9 +23,10 @@ class Store {
     @action setTags = list => {
         this.tags = list;
     }
-    @action getTags = () => {
+    @action getTags = (id) => {
         return createFetch({
-            url: 'pub/tags'
+            url: 'pub/tags',
+            params: { libraryId: id }
         }).then(data => {
             if (data.data && data.data.tags.length) {
                 this.setTags(data.data.tags);
@@ -44,7 +49,9 @@ class Store {
             url: 'pub/tags',
             method: 'post',
             body: params
-        }).then(this.getTags);
+        }).then(() => {
+            this.getTags(this.curLibId)
+        });
     }
 
     @action updateTag = params => {

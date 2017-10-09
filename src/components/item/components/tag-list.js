@@ -31,7 +31,7 @@ class TagList extends Component {
         }
     }
     componentWillMount() {
-        this.props.getTags()
+        this.props.getTags(this.props.match.params.id)
     }
     showScenodLevel = () => {
     }
@@ -69,7 +69,7 @@ class TagList extends Component {
                 {
                     parentTags.map(item => {
                         return (
-                            <Popover key={item.id} className="first-level" placement="bottom" title="" width="300" trigger="hover" content={(
+                            <Popover key={item.id} className="first-level" placement="bottom" width="300" trigger="hover" content={(
                                 <ul className="scenod-level">
                                     {
                                         tags.filter(t => {
@@ -81,7 +81,6 @@ class TagList extends Component {
                                         })
                                     }
                                 </ul>
-
                             )}>
                                 <span onClick={() => { this.selectParentTag(item) }}><Tag >{item.tag} <i className="triangle-down" ></i></Tag></span>
                             </Popover>

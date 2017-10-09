@@ -9,24 +9,29 @@ import AddTagItem from './add-tag-item';
         parentTags,
         creatTag,
         deleteTag,
-        getTags
+        getTags,
+        curLibId
     } = stores.tag;
     return {
         tags,
         parentTags,
         creatTag,
         deleteTag,
-        getTags
+        getTags,
+        curLibId
     };
 })
 @observer
 export default class AddTag extends Component {
+
+
     addParentTag = () => {
         MessageBox.prompt('请输入您要创建的一级标签名称', '', {
             inputPattern: /^.{0,8}$/,
             inputErrorMessage: '标签长度在不能超过8个字符'
         }).then(({ value }) => {
             this.props.creatTag({
+                libraryId: this.props.curLibId,
                 tag: value,
                 parentId: null,
                 isCurtom: 0
@@ -45,7 +50,9 @@ export default class AddTag extends Component {
                 return this.props.deleteTag({
                     id
                 });
-            }).then(this.props.getTags);
+            }).then(() => {
+                this.props.getTags(this.props.curLibId);
+            });
         }
         return false;
     }
@@ -96,6 +103,7 @@ export default class AddTag extends Component {
                 className="mod-addtag"
                 title="新增标签"
                 size="small"
+                closeOnClickModal="false"
                 visible={this.props.visible}
                 onCancel={this.props.handleCancel}
                 lockScroll={false}>

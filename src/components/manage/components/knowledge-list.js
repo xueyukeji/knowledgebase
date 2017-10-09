@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, MessageBox, Message } from 'element-react-codish'
 import { inject, observer } from 'mobx-react'
+import AddTag from './add-tag.js';
 
 @inject(stores => {
     let {
@@ -9,17 +10,39 @@ import { inject, observer } from 'mobx-react'
         getKnowledgeList,
         removeKnowledge,
     } = stores.manage;
+    let {
+        isAddTagPopVisible,
+        showAddTagPop,
+        hideAddTagPop,
+        setCurLibId,
+        getTags
+    } = stores.tag
     return {
         showEditKnowledgeDialog,
         knowledgeList,
         getKnowledgeList,
-        removeKnowledge
+        removeKnowledge,
+        isAddTagPopVisible,
+        showAddTagPop,
+        hideAddTagPop,
+        setCurLibId,
+        getTags
     };
 })
 @observer
 export default class Manage extends Component {
     componentWillMount() {
         this.props.getKnowledgeList();
+    }
+
+    showAddTagPop = (id) => {
+        this.props.showAddTagPop();
+        this.props.setCurLibId(id)
+        this.props.getTags(id)
+    }
+
+    hideAddTagPop = () => {
+        this.props.hideAddTagPop();
     }
 
     delKnowledge = (id) => {
@@ -40,25 +63,29 @@ export default class Manage extends Component {
     render() {
         let { knowledgeList } = this.props;
         return (
-            <ul className="manage-list">
-                {
-                    knowledgeList.map(item => {
-                        return (
-                            <li key={item.id}>
-                                <span className="title">{item.name}</span>
-                                <div className="op-btns">
-                                    <Button type="text" onClick={() => {
-                                        this.props.showEditKnowledgeDialog(item)
-                                    }}>编辑</Button>
-                                    <Button type="text" onClick={() => {
-                                        this.delKnowledge(item.id)
-                                    }}>删除</Button>
-                                </div>
-                            </li>
-                        );
-                    })
-                }
-            </ul>
+            <div>
+                <ul className="manage-list">
+                    {
+                        knowledgeList.map(item => {
+                            return (
+                                <li key={item.id}>
+                                    <span className="title">{item.name}</span>
+                                    <div className="op-btns">
+                                        <Button type="text" onClick={() => {this.showAddTagPop(item.id)} }>添加标签</Button>
+                                        <Button type="text" onClick={() => {
+                                            this.props.showEditKnowledgeDialog(item)
+                                        }}>编辑</Button>
+                                        <Button type="text" onClick={() => {
+                                            this.delKnowledge(item.id)
+                                        }}>删除</Button>
+                                    </div>
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+                <AddTag visible={this.props.isAddTagPopVisible} handleCancel={this.hideAddTagPop} />
+            </div>
         )
     }
 }
