@@ -46,7 +46,7 @@ export default class Nav extends Component {
                     (this.props.userInfo.userType === 0 || this.props.userInfo.userType === 1) ?
                         <div className="nav-item nav-manage">
                             <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
-                        </div> : ''
+                        </div> : null
                 }
 
             </div>
