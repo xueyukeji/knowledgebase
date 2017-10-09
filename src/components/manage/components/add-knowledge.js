@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Button, Dialog, Input, Message } from 'element-react-codish'
+import { Button, Dialog, Input, Message, MessageBox } from 'element-react-codish'
 
 @inject(stores => {
     let {
@@ -55,6 +55,11 @@ export default class AddKnowledge extends Component {
         });
     }
     create() {
+        console.log(this.state.name.length)
+        if (this.state.name.length === 0 || this.state.name.length > 8) {
+            MessageBox.alert('知识库名称长度必须在1到8个字符')
+            return
+        }
         if (this.props.curKnowledge.id) {
             this.props.modifyKnowledge({ name: this.state.name, id: this.props.curKnowledge.id }).then(() => {
                 this.getData()
@@ -77,6 +82,7 @@ export default class AddKnowledge extends Component {
                 className="mod-addknowledge"
                 title={this.state.title}
                 size="small"
+                closeOnClickModal={false}
                 visible={this.props.isShowEditKnowledgeDialog}
                 onCancel={() => {
                     this.props.hideEditKnowledgeDialog()

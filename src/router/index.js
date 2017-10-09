@@ -9,7 +9,7 @@ import AddItem from '../components/item/add-item.js'
 // import Professor from '../components/professor'
 import Manage from '../components/manage/manage.js'
 import { HashRouter as Router, Route } from 'react-router-dom'
-import {inject, observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
     let {
@@ -17,9 +17,11 @@ import {inject, observer} from 'mobx-react';
         getKnowledgeList
     } = stores.manage;
     let {
+        userInfo,
         getUserInfo
     } = stores.user
     return {
+        userInfo,
         knowledgeList,
         getKnowledgeList,
         getUserInfo
@@ -46,8 +48,11 @@ export default class AppRouter extends Component {
                         <Route path="/my-check" component={MyCheck} exact />
                         <Route path="/my-check/detail" component={MyCheckDetail} />
                         <Route path="/professor" component={Professor}/>**/}
-                        <Route path="/manage" component={Manage}/>
-                        <Route path="/add-item/:id" component={AddItem}/>
+                        {
+                            (this.props.userInfo.userType === 0 || this.props.userInfo.userType === 1) ?
+                                <Route path="/manage" component={Manage} /> : ''
+                        }
+                        <Route path="/add-item/:id" component={AddItem} />
                     </div>
                 </div>
             </Router>

@@ -91,8 +91,10 @@ export default class Knowledge extends Component {
         let {curFileParents} = this.props;
         return (
             <Dialog
+                className="select-file-dialog"
                 title="选择云盘文件"
                 size="small"
+                closeOnClickModal={false}
                 visible={this.props.dialogVisible}
                 onCancel={this.props.closeSelecFileDialog}
                 lockScroll={false}>

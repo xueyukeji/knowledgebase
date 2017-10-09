@@ -103,7 +103,7 @@ export default class AddTag extends Component {
                 className="mod-addtag"
                 title="新增标签"
                 size="small"
-                closeOnClickModal="false"
+                closeOnClickModal={false}
                 visible={this.props.visible}
                 onCancel={this.props.handleCancel}
                 lockScroll={false}>
