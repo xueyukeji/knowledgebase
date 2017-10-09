@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import { Layout, Input, Select, Button } from 'element-react-codish';
 import { inject, observer } from 'mobx-react'
 @inject(stores => {
@@ -60,11 +60,14 @@ class SearchItem extends Component {
                         })}
                     </Select>
                 </Layout.Col>
-                <Layout.Col span="19">
+                <Layout.Col span="15">
                     <Input placeholder="请输入您要查询的字段" value={this.props.searchInput} onChange={this.onChangeInput} />
                 </Layout.Col>
-                <Layout.Col span="2">
+                <Layout.Col span="3">
                     <Button type="default" onClick={this.onSearch }>搜索</Button>
+                </Layout.Col>
+                <Layout.Col span="3" className="add-itembtn">
+                    <NavLink to={`/add-item/${this.props.match.params.id}`}><Button type="primary">新增知识条目</Button></NavLink>
                 </Layout.Col>
             </Layout.Row>
         );
