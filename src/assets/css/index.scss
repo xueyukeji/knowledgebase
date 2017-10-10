@@ -155,30 +155,5 @@
 .kd-list {
     max-height: 55%;
     overflow-y: auto;
-}
-
-::-webkit-scrollbar-track-piece {
-    // background-color: #383434;
-    // border-left: 1px solid #383434;
-    // opacity: 0.5;
-    // border-radius: 5px;
-}
-
-::-webkit-scrollbar {
-    // border-radius: 5px;
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: $primary;
-    background-clip: padding-box;
-    border: 1px solid $primary;
-    min-height: 10px;
-    opacity: 0.5;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    border: 1px solid $primary;
-    background-color: $primary;
+    position: relative;
 }

@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import Ps from 'perfect-scrollbar';
+import defaultAvatar from '../assets/images/default-avatar.png';
 
 export default class Nav extends Component {
+    componentDidMount() {
+        new Ps(this.scrollWrap, {
+            suppressScrollX: false,
+            wheelPropagation: true
+        });
+    }
+
     render() {
         let {list, userInfo} = this.props;
-        let userType = '', userName = '', userIcon;
+        let userType = '', userName = '', userIcon = defaultAvatar;
         if (userInfo && userInfo.data) {
             userType = userInfo.data.userType;
             userName = userInfo.data.userName;
-            userIcon = userInfo.data.userIcon || require('../assets/images/default-avatar.png');
+            userIcon = userInfo.data.userIcon;
         }
         return (
             <div className="nav">
                 <div className="logo"></div>
-                <div className="kd-list">
+                <div className="kd-list" ref={node => this.scrollWrap = node}>
                     {
                         list.map(item => {
                             return (

@@ -4901,6 +4901,10 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+perfect-scrollbar@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/perfect-scrollbar/-/perfect-scrollbar-1.0.2.tgz#d2cc3e9ffcea5ec99f5688d238cff0c22dbb6f8c"
+
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.taobao.org/performance-now/download/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"

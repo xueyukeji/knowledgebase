@@ -86,9 +86,9 @@
 	}
 	.user-info {
 		position: absolute;
-		bottom: 3%;
-		left: 31%;
-        border-radius: 50%;
+		bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
 		img {
 			display: inline-block;
 			width: 50px;
