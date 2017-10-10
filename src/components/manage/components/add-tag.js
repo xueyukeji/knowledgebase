@@ -36,11 +36,11 @@ export default class AddTag extends Component {
                 parentId: null,
                 isCurtom: 0
             });
-        }).catch(() => {});
+        }).catch(() => { });
     }
 
     removeParentTag = tab => {
-        let {id, label} = tab.props;
+        let { id, label } = tab.props;
         if (id) {
             MessageBox.confirm(`确定删除标签: ${label} 吗？对应的二级标签和知识条目里面的标签也会删除`, '提示', {
                 confirmButtonText: '确定',
@@ -58,7 +58,7 @@ export default class AddTag extends Component {
     }
 
     renderPopupBody() {
-        let {parentTags} = this.props;
+        let { parentTags } = this.props;
         if (parentTags.length) {
             return (
                 <Tabs
@@ -66,7 +66,7 @@ export default class AddTag extends Component {
                     editable
                     onTabRemove={this.removeParentTag}
                     onTabAdd={this.addParentTag}
-                    onTabEdit={() => {}}>
+                    onTabEdit={() => { }}>
                     {
                         parentTags.map(item => {
                             return (
@@ -74,7 +74,7 @@ export default class AddTag extends Component {
                                     key={item.id}
                                     closable
                                     label={item.tag}
-                                    name={`${item.id}`}
+                                    name={item.tag}
                                     id={item.id}>
                                     <AddTagItem parentId={item.id} tags={this.getChildTags(item.id)} />
                                 </Tabs.Pane>

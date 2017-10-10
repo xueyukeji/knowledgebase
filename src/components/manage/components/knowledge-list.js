@@ -57,7 +57,6 @@ export default class Manage extends Component {
                 this.props.getKnowledgeList();
             })
         }).catch(() => { });
-
     }
 
     render() {
@@ -71,7 +70,7 @@ export default class Manage extends Component {
                                 <li key={item.id}>
                                     <span className="title">{item.name}</span>
                                     <div className="op-btns">
-                                        <Button type="text" onClick={() => {this.showAddTagPop(item.id)} }>添加标签</Button>
+                                        <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
                                             this.props.showEditKnowledgeDialog(item)
                                         }}>编辑</Button>
@@ -84,7 +83,11 @@ export default class Manage extends Component {
                         })
                     }
                 </ul>
-                <AddTag visible={this.props.isAddTagPopVisible} handleCancel={this.hideAddTagPop} />
+                {
+                    this.props.isAddTagPopVisible ?
+                        <AddTag visible={true} handleCancel={this.hideAddTagPop} />
+                        : null
+                }
             </div>
         )
     }
