@@ -15,7 +15,6 @@ import { inject, observer } from 'mobx-react'
 export default class Nav extends Component {
     render() {
         let { list } = this.props;
-        console.log('this.props.userInfo.data', this.props.userInfo.data)
         return (
             <div className="nav">
                 <div className="logo"></div>

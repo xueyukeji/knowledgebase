@@ -32,7 +32,7 @@ import {Loading} from 'element-react-codish';
 export default class AppRouter extends Component {
     componentDidMount() {
         this.props.getKnowledgeList();
-        this.props.getUserInfo()
+        this.props.getUserInfo();
     }
 
     render() {
@@ -54,7 +54,7 @@ export default class AppRouter extends Component {
                         <Route path="/professor" component={Professor}/>**/}
                         {
                             (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) ?
-                                <Route path="/manage" component={Manage} /> : ''
+                                <Route path="/manage" component={Manage} /> : null
                         }
                         <Route path="/add-item/:id" component={AddItem} />
                     </div>
