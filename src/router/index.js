@@ -20,7 +20,7 @@ import {Loading} from 'element-react-codish';
     let {
         userInfo,
         getUserInfo
-    } = stores.user
+    } = stores.user;
     return {
         userInfo,
         knowledgeList,
@@ -42,7 +42,7 @@ export default class AppRouter extends Component {
         return (
             <Router>
                 <div className="wrap">
-                    <Nav list={this.props.knowledgeList} />
+                    <Nav list={this.props.knowledgeList} userInfo={this.props.userInfo} />
                     <Top />
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
@@ -52,10 +52,7 @@ export default class AppRouter extends Component {
                         <Route path="/my-check" component={MyCheck} exact />
                         <Route path="/my-check/detail" component={MyCheckDetail} />
                         <Route path="/professor" component={Professor}/>**/}
-                        {
-                            (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) ?
-                                <Route path="/manage" component={Manage} /> : null
-                        }
+                        <Route path="/manage" component={Manage} />
                         <Route path="/add-item/:id" component={AddItem} />
                     </div>
                 </div>

@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { inject, observer } from 'mobx-react'
-@inject(stores => {
-    let {
-        userInfo,
-        getUserInfo
-    } = stores.user
-    return {
-        userInfo,
-        getUserInfo
-    }
-})
-@observer
+
 export default class Nav extends Component {
     render() {
-        let { list } = this.props;
+        let {list, userInfo} = this.props;
+        let userType = '', userName = '', userIcon;
+        if (userInfo && userInfo.data) {
+            userType = userInfo.data.userType;
+            userName = userInfo.data.userName;
+            userIcon = userInfo.data.userIcon;
+        }
         return (
             <div className="nav">
                 <div className="logo"></div>
@@ -45,14 +40,14 @@ export default class Nav extends Component {
                     <NavLink to="/professor" activeClassName="active">知识专家</NavLink>
                 </div>**/}
                 {
-                    (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) ?
+                    (userType === 0 || userType === 1) ?
                         <div className="nav-item nav-manage">
                             <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
                         </div> : null
                 }
                 <div className="user-info">
-                    <p className="tc">{this.props.userInfo.data.userName}</p>
-                    {/* <img src={this.props.userInfo.data.userIcon} alt="" /> */}
+                    <img src={userIcon} alt="" />
+                    <p className="tc">{userName}</p>
                 </div>
             </div>
         )
