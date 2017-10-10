@@ -57,7 +57,7 @@ class AddItem extends Component {
                 creatorId: '',
                 creatorName: '',
                 fileIds: [],
-                tagIds: [],
+                tagIds: [{ id: '' }, { id: '' }, { tag: '' }],
                 parentTag: '',
                 childTag: '',
                 tag: ''
@@ -93,8 +93,13 @@ class AddItem extends Component {
                 tagIds: [
                     {
                         validator: (rule, value, callback) => {
-                            if (value.length === 0) {
+                            console.log(value, this.state.form.tagIds)
+                            if (!this.state.form.tagIds[0].id) {
                                 callback(new Error('请选择一级标签'));
+                                return
+                            }
+                            if (this.state.form.tag.length > 8) {
+                                callback(new Error('请输入8个字符以内的标签'));
                                 return
                             }
                             callback()
@@ -257,6 +262,9 @@ class AddItem extends Component {
     render() {
         let { knowledgeList, parentTags, tags, userInfo } = this.props;
         let { files, dialogVisible } = this.state;
+        const curLibrary = this.props.knowledgeList && this.props.knowledgeList.filter((k) => {
+            return k.id === parseInt(this.props.match.params.id)
+        })
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
@@ -265,9 +273,7 @@ class AddItem extends Component {
                             to={`/knowledge/${this.props.match.params.id}`}
                             activeClassName="active">
                             {
-                                this.props.knowledgeList && this.props.knowledgeList.filter((k) => {
-                                    return k.id === parseInt(this.props.match.params.id)
-                                })[0].name
+                                curLibrary[0] && curLibrary[0].name
                             }
                         </NavLink>
                     </Breadcrumb.Item>

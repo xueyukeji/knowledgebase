@@ -110,6 +110,10 @@
     }
 }
 
+.el-message{
+    z-index:100000;
+}
+
 .el-button {
 	&:focus,
 	&:hover {

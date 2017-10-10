@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 
-const URL_PREFIX = process.env.NODE_ENV === 'development' ? '/' : '/apps/';
+const URL_PREFIX = process.env.NODE_ENV === 'development' ? '/apps/' : '/apps/';
 
 const checkStatus = response => {
     if (response.status < 300) {
@@ -16,7 +16,7 @@ function createQuery(method, body) {
         'method': method,
         'headers': {
             'ct': Cookies.get('ct'),
-            // 'ct': '47fgprjeqnc710d69e999fa7a3d99f75c5cb0e8551c4b6f92cb0bd01b7f497b392932c6bf8220150766605379000000000000000000',
+            // 'ct': 'weg9gpplvxkyce9f1c8d9b172e4747f025617dce336beea158c38ce0f5c492a69b7d87df65770150767779579000000000000000000',
             'cv': '3.5.0',
             'Accept': 'application/json',
             'Content-type': 'application/json;charset=UTF-8',
