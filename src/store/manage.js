@@ -28,6 +28,8 @@ class Store {
         }).then(data => {
             if (data.data && data.data.librarys.length) {
                 this.setKnowledgeList(data.data.librarys);
+            } else {
+                this.setKnowledgeList([]);
             }
         });
     }

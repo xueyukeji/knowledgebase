@@ -26,23 +26,24 @@ import ListItem from './components/list-item.js';
 @observer
 export default class Knowledge extends Component {
     render() {
-        if (this.props.match.params.id && this.props.knowledgeList[0]) {
+        if (!this.props.match.params.id && this.props.knowledgeList[0]) {
             return <Redirect to={`/knowledge/${this.props.knowledgeList[0].id}`} />;
         }
-        if (this.props.userInfo && this.props.userInfo.data) {
+        if (!this.props.match.params.id && this.props.userInfo && this.props.userInfo.data) {
             if (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) {
                 return <Redirect to='/manage' />;
             }
         }
-        {
-            return (
-                <div className="mod-homepage">
-                    <SearchItem />
-                    <TagList />
-                    <h4>知识条目</h4>
-                    <ListItem />
-                </div>
-            )
+        if (this.props.knowledgeList.length === 0) {
+            return <div className="search-tips">尚未创建知识库</div>
         }
+        return (
+            <div className="mod-homepage">
+                <SearchItem />
+                <TagList />
+                <h4>知识条目</h4>
+                <ListItem />
+            </div>
+        )
     }
 }
