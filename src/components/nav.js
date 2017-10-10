@@ -42,13 +42,15 @@ export default class Nav extends Component {
                 <div className="nav-item nav-professor">
                     <NavLink to="/professor" activeClassName="active">知识专家</NavLink>
                 </div>**/}
-                {
+                <div className="nav-item nav-manage">
+                    <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
+                </div>
+                {/* {
                     (this.props.userInfo.userType === 0 || this.props.userInfo.userType === 1) ?
                         <div className="nav-item nav-manage">
                             <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
                         </div> : null
-                }
-
+                } */}
             </div>
         )
     }
