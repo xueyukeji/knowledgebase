@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import Ps from 'perfect-scrollbar';
+import PerfectScrollbar from 'perfect-scrollbar';
 import defaultAvatar from '../assets/images/default-avatar.png';
 
 export default class Nav extends Component {
     componentDidMount() {
-        new Ps(this.scrollWrap, {
+        new PerfectScrollbar('#scrollWrap', {
             suppressScrollX: false,
-            wheelPropagation: true
         });
     }
 
@@ -22,7 +21,7 @@ export default class Nav extends Component {
         return (
             <div className="nav">
                 <div className="logo"></div>
-                <div className="kd-list" ref={node => this.scrollWrap = node}>
+                <div className="kd-list" id="scrollWrap">
                     {
                         list.map(item => {
                             return (
