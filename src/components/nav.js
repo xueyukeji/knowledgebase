@@ -15,22 +15,25 @@ import { inject, observer } from 'mobx-react'
 export default class Nav extends Component {
     render() {
         let { list } = this.props;
+        console.log('this.props.userInfo.data', this.props.userInfo.data)
         return (
             <div className="nav">
                 <div className="logo"></div>
-                {
-                    list.map(item => {
-                        return (
-                            <div className="nav-item nav-base" key={item.id}>
-                                <NavLink
-                                    to={`/knowledge/${item.id}`}
-                                    activeClassName="active">
-                                    {item.name}
-                                </NavLink>
-                            </div>
-                        );
-                    })
-                }
+                <div className="kd-list">
+                    {
+                        list.map(item => {
+                            return (
+                                <div className="nav-item nav-base" key={item.id}>
+                                    <NavLink
+                                        to={`/knowledge/${item.id}`}
+                                        activeClassName="active">
+                                        {item.name}
+                                    </NavLink>
+                                </div>
+                            );
+                        })
+                    }
+                </div>
                 <div className="nav-item__sep"></div>
                 {/**
                 <div className="nav-item nav-my">
@@ -49,7 +52,8 @@ export default class Nav extends Component {
                         </div> : null
                 }
                 <div className="user-info">
-                    <img src={this.props.userInfo.userIcon} alt=""/>
+                    <p className="tc">{this.props.userInfo.data.userName}</p>
+                    {/* <img src={this.props.userInfo.data.userIcon} alt="" /> */}
                 </div>
             </div>
         )

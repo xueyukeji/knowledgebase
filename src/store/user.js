@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import { createFetch } from './fetch-creator';
+import { createFetch } from '../utils/fetch-creator';
 
 class Store {
     // todo

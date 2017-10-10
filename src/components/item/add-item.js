@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import { Form, Input, Select, Button, Message, Breadcrumb } from 'element-react-codish'
 import SelectFile from './components/select-file.js';
 import { MessageBox } from 'element-react-codish';
@@ -53,7 +53,7 @@ class AddItem extends Component {
             form: {
                 name: '',
                 desc: '',
-                libraryId: this.props.match.params.id,
+                libraryId: parseInt(this.props.match.params.id),
                 creatorId: '',
                 creatorName: '',
                 fileIds: [],
@@ -78,6 +78,7 @@ class AddItem extends Component {
                     }
                 ],
                 desc: [
+                    { required: true, message: '请输入描述', trigger: 'change' },
                     {
                         validator: (rule, value, callback) => {
                             if (value.length > 500) {
@@ -105,6 +106,18 @@ class AddItem extends Component {
                         },
                         trigger: 'change'
                     }
+                ],
+                fileIds: [
+                    {
+                        validator: (rule, value, callback) => {
+                            if (this.state.form.fileIds.length < 1) {
+                                callback(new Error('请选择文件'));
+                                return
+                            }
+                            callback()
+                        },
+                        trigger: 'change'
+                    }
                 ]
             }
         };
@@ -113,11 +126,9 @@ class AddItem extends Component {
         this.props.getKnowledgeList()
         this.props.getTags(this.props.match.params.id)
     }
-
     onSubmit(e) {
         e.preventDefault();
     }
-
     onChange(key, value) {
         let form = this.state.form;
         form[key] = value;
@@ -146,18 +157,15 @@ class AddItem extends Component {
         });
         this.clearUserFile();
     }
-
     clearUserFile() {
         this.props.setUserFile([]);
         this.props.setCurFileParents([]);
         this.props.setSelected([]);
     }
-
     selectKnowledge = (libraryId) => {
         this.state.form.libraryId = libraryId
         this.props.getTags(libraryId)
     }
-
     selectParentTag = (parentId) => {
         let form = this.state.form;
         form.tagIds[0] = {
@@ -168,7 +176,6 @@ class AddItem extends Component {
             form
         });
     }
-
     selectChildTag = (cId) => {
         let form = this.state.form;
         form.tagIds[1] = {
@@ -181,12 +188,6 @@ class AddItem extends Component {
     confirmCreateItem() {
         this.refs.form.validate((valid) => {
             if (valid) {
-                console.log(this.state.form)
-                debugger
-                if (this.state.form.fileIds.length < 1) {
-                    Message('请选择文件')
-                    return
-                }
                 const params = Object.assign(this.state.form, {
                     creatorName: this.props.userInfo.data.userName,
                     creatorId: this.props.userInfo.data.userId
@@ -203,7 +204,6 @@ class AddItem extends Component {
             }
         })
     }
-
     handleConfirm = () => {
         let { form } = this.state;
         let files = this.props.selected.slice();
@@ -227,7 +227,6 @@ class AddItem extends Component {
         });
         this.clearUserFile();
     }
-
     getSelectedFile = () => {
         return this.state.files.map(item => {
             return (
@@ -235,17 +234,25 @@ class AddItem extends Component {
             );
         });
     }
-    cancel = () => {
-        this.props.history.go(-1)
-    }
+
     render() {
         let { knowledgeList, parentTags, tags, userInfo } = this.props;
         let { files, dialogVisible } = this.state;
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
-                    <Breadcrumb.Item><span onClick={() => { this.cancel() }}>知识库首页</span></Breadcrumb.Item>
-                    <Breadcrumb.Item>创建知识库</Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink
+                            to={`/knowledge/${this.props.match.params.id}`}
+                            activeClassName="active">
+                            {
+                                knowledgeList.filter((k) => {
+                                    return k.id === parseInt(this.props.match.params.id)
+                                })[0].name
+                            }
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>创建知识条目</Breadcrumb.Item>
                 </Breadcrumb>
                 <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
                     <Form.Item label="标题：" prop="name">
@@ -268,14 +275,14 @@ class AddItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="请选择一级标签">
+                        <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="一级标签">
                             {
                                 parentTags.map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id} ></Select.Option>
                                 })
                             }
                         </Select>
-                        <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="请选择二级标签">
+                        <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="二级标签">
                             {
                                 tags.filter(t => {
                                     return t.parentId === this.state.curParentId
@@ -288,7 +295,7 @@ class AddItem extends Component {
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>
                     </Form.Item>
-                    <Form.Item label="附件：" prop="files">
+                    <Form.Item label="附件：" prop="fileIds" required>
                         {
                             files.length ?
                                 this.getSelectedFile() : null
@@ -298,9 +305,9 @@ class AddItem extends Component {
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" nativeType="submit" onClick={() => { this.confirmCreateItem() }}>确定</Button>
-                        <Button onClick={() => {
-                            this.cancel()
-                        }}>取消</Button>
+                        <Button>
+                            <NavLink to={`/knowledge/${this.props.match.params.id}`}> 取消 </NavLink>
+                        </Button>
                     </Form.Item>
                 </Form>
                 {

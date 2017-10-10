@@ -1,5 +1,5 @@
 import { observable, action, computed } from 'mobx';
-import { createFetch } from './fetch-creator';
+import { createFetch } from '../utils/fetch-creator';
 
 class Store {
     @observable tags = [];
