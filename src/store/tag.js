@@ -30,6 +30,8 @@ class Store {
         }).then(data => {
             if (data.data && data.data.tags.length) {
                 this.setTags(data.data.tags);
+            } else {
+                this.setTags([]);
             }
         });
     }

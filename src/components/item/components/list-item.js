@@ -10,12 +10,16 @@ import { Tag, Layout, Pagination } from 'element-react-codish'
         setTagIds,
         setSearchInput
     } = stores.item;
+    let {
+        getTags
+    } = stores.tag
     return {
         getItemList,
         itemListobj,
         tagIds,
         setTagIds,
-        setSearchInput
+        setSearchInput,
+        getTags
     }
 })
 @observer
@@ -26,6 +30,7 @@ class ListItem extends Component {
         }
     }
     componentWillMount() {
+        this.props.getTags(this.props.match.params.id)
         this.getDatas(1)
     }
 
@@ -34,6 +39,7 @@ class ListItem extends Component {
             if (this.props.itemListobj) {
                 this.props.itemListobj.data.items.length = 0
             }
+            this.props.getTags(nextProps.match.params.id)
             var tagIds = []
             this.props.setTagIds(tagIds)
             this.props.setSearchInput('')
