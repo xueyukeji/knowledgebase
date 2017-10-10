@@ -59,7 +59,6 @@ class ListItem extends Component {
     }
     render() {
         let { itemListobj } = this.props;
-        console.log('itemListobj', itemListobj)
         if (!itemListobj) {
             return <div className="search-tips">暂无内容</div>
         }

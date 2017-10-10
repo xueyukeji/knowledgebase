@@ -26,6 +26,9 @@ import ListItem from './components/list-item.js';
 @observer
 export default class Knowledge extends Component {
     render() {
+        // if (!this.props.userInfo && !this.props.userInfo.data) {
+        //     return window.location.href = 'login.html';
+        // }
         if (!this.props.match.params.id && this.props.knowledgeList[0]) {
             return <Redirect to={`/knowledge/${this.props.knowledgeList[0].id}`} />;
         }

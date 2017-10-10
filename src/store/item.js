@@ -3,7 +3,7 @@ import { createFetch } from '../utils/fetch-creator';
 
 class Store {
     @observable itemListobj = null;
-    @observable searchInput = null;// 知识条目搜索用到
+    @observable searchInput = '';// 知识条目搜索用到
     @observable tagIds = []; // 知识条目搜索用到
     @action setTagIds = arr => {
         this.tagIds = arr

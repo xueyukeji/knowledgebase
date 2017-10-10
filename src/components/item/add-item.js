@@ -318,7 +318,7 @@ class AddItem extends Component {
                                 this.getSelectedFile() : null
                         }
                         <Button size="small" type="primary" onClick={this.showSelectFileDialog}>选择文件</Button>
-                        <span className="select-flie-tips">从个人空间选择与知识相关的文件</span>
+                        <span className="select-flie-tips">从个人空间选取（请先将文件上传到云盘）</span>
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" nativeType="submit" onClick={() => { this.confirmCreateItem() }}>确定</Button>

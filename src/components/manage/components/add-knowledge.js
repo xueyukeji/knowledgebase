@@ -55,7 +55,6 @@ export default class AddKnowledge extends Component {
         });
     }
     create() {
-        console.log(this.state.name.length)
         if (this.state.name.length === 0 || this.state.name.length > 8) {
             MessageBox.alert('知识库名称长度必须在1到8个字符')
             return
