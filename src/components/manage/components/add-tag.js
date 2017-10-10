@@ -72,7 +72,7 @@ export default class AddTag extends Component {
                                     key={item.id}
                                     closable
                                     label={item.tag}
-                                    name={item.id}
+                                    name={item.tag}
                                     id={item.id}>
                                     <AddTagItem parentId={item.id} tags={this.getChildTags(item.id)} />
                                 </Tabs.Pane>

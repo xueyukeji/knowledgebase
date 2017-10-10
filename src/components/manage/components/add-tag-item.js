@@ -56,7 +56,7 @@ export default class AddTagItem extends Component {
             return this.props.deleteTag({
                 id: tag.id
             });
-        }).then(this.props.getTags(this.props.curLibId));
+        }).then(() => { this.props.getTags(this.props.curLibId) });
         return false;
     }
 
@@ -103,7 +103,7 @@ export default class AddTagItem extends Component {
                             <Button size="mini" onClick={this.addTag}>添加</Button>
                             <Button size="mini" onClick={this.cancelAdd}>取消</Button>
                         </div>
-                    ) : <Button className="button-new-tag" size="small" onClick={this.showInput}>新增</Button>
+                    ) : <Button className="button-new-tag" size="small" onClick={this.showInput}>新增二级标签</Button>
                 }
             </div>
         )

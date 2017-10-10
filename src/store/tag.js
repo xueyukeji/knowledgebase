@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
-
+import { Message } from 'element-react-codish';
 class Store {
     @observable tags = [];
     @observable curLibId = '';
@@ -51,7 +51,11 @@ class Store {
             url: 'pub/tags',
             method: 'post',
             body: params
-        }).then(() => {
+        }).then((res) => {
+            if (res.code !== 200) {
+                Message(res.msg)
+                return
+            }
             this.getTags(this.curLibId)
         });
     }

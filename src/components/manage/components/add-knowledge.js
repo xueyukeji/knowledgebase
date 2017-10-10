@@ -60,11 +60,19 @@ export default class AddKnowledge extends Component {
             return
         }
         if (this.props.curKnowledge.id) {
-            this.props.modifyKnowledge({ name: this.state.name, id: this.props.curKnowledge.id }).then(() => {
+            this.props.modifyKnowledge({ name: this.state.name, id: this.props.curKnowledge.id }).then((res) => {
+                if (res.code !== 200) {
+                    Message(res.msg)
+                    return
+                }
                 this.getData()
             })
         } else {
-            this.props.creatKnowledge({ name: this.state.name }).then(() => {
+            this.props.creatKnowledge({ name: this.state.name }).then((res) => {
+                if (res.code !== 200) {
+                    Message(res.msg)
+                    return
+                }
                 this.getData()
             })
         }

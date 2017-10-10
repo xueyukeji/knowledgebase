@@ -13,174 +13,161 @@
 @import "./tag-list";
 @import "./add-tag";
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 #root {
-    height: 100%;
+	height: 100%;
 }
 
 .wrap {
-    padding-left: 180px;
-    padding-top: 70px;
-    height: 100%;
-    overflow: hidden;
+	padding-left: 180px;
+	padding-top: 70px;
+	height: 100%;
+	overflow: hidden;
 }
 
 .wrap-right {
-    padding: 15px;
-    height: 100%;
-    overflow-y: auto;
+	padding: 15px;
+	height: 100%;
+	overflow-y: auto;
 }
 
 .tr {
-    text-align: right;
+	text-align: right;
 }
 
 .tc {
-    text-align: center;
+	text-align: center;
 }
 
 .p-tips {
-    font-size: 12px;
-    color: $text-title-weak;
+	font-size: 12px;
+	color: $text-title-weak;
 }
 
 // reset element css
 .mod-homepage {}
 
 .el-dialog {
-    .el-dialog__header {
-        padding: 20px;
-        background: $primary;
-        span.el-dialog__title {
-            color: white;
-        }
-        .el-icon-close {
-            color: white;
-        }
-    }
-    .el-dialog__body {
-        .el-table--border td,
-        .el-table--border th {
-            border-right: none;
-            height: 35px;
-        }
-        .el-table td,
-        .el-table th.is-leaf {
-            border-bottom: none;
-        }
-    }
-    .el-dialog__footer {
-        .el-button--info {
-            background-color: $primary;
-            border-color: $primary;
-        }
-        .el-button--info:focus,
-        .el-button--info:hover {
-            background-color: $primary;
-            border-color: $primary;
-            color: white;
-        }
-    }
+	.el-dialog__header {
+		padding: 20px;
+		background: $primary;
+		span.el-dialog__title {
+			color: white;
+		}
+		.el-icon-close {
+			color: white;
+		}
+	}
+	.el-dialog__body {
+		.el-table--border td,
+		.el-table--border th {
+			border-right: none;
+			height: 35px;
+		}
+		.el-table td,
+		.el-table th.is-leaf {
+			border-bottom: none;
+		}
+	}
+	.el-dialog__footer {
+		.el-button--info {
+			background-color: $primary;
+			border-color: $primary;
+		}
+		.el-button--info:focus,
+		.el-button--info:hover {
+			background-color: $primary;
+			border-color: $primary;
+			color: white;
+		}
+	}
 }
 
 .el-pagination {
-    .el-pager li.active {
-        border-color: $primary;
-        background-color: $primary;
-    }
-    button:hover,
-    .el-pager li:hover {
-        color: $primary;
+	.el-pager li.active {
+		border-color: $primary;
+		background-color: $primary;
+	}
+	button:hover,
+	.el-pager li:hover {
+		color: $primary;
+	}
+}
+
+.el-tabs__new-tab {
+	border: 1px solid $primary;
+	.el-icon-plus:before {
+		color: $primary;
+	}
+}
+
+.el-message-box{
+    border: 1px solid $border;
+    .el-message-box__content{
+        padding: 30px 20px 0 20px;
     }
 }
 
 .el-button {
-    &:focus,
-    &:hover {
-        border-color: $primary;
-        color: $primary;
-    }
-    &--primary {
-        background-color: $primary;
-        border-color: $primary;
-        &:hover {
-            background-color: $primary;
-            color: #fff;
-        }
-    }
+	&:focus,
+	&:hover {
+		border-color: $primary;
+		color: $primary;
+	}
+	&--primary {
+		background-color: $primary;
+		border-color: $primary;
+		&:hover {
+			background-color: $primary;
+			color: #fff;
+		}
+	}
 }
 
 .el-tabs {
-    &__item {
-        &.is-active {
-            color: $primary;
-        }
-    }
-    &__new-tab {
-        &:hover {
-            color: $primary;
-        }
-    }
+	&__item {
+		&.is-active {
+			color: $primary;
+		}
+	}
+	&__new-tab {
+		&:hover {
+			color: $primary;
+		}
+	}
 }
 
 .el-input {
-    &__inner {
-        &:focus {
-            border-color: $primary;
-        }
-    }
+	&__inner {
+		&:focus {
+			border-color: $primary;
+		}
+	}
 }
 
 .el-select-dropdown__item.selected {
-    &,
-    &.hover {
-        background-color: $primary;
-    }
+	&,
+	&.hover {
+		background-color: $primary;
+	}
 }
 
 .root-loading {
-    height: 100%;
+	height: 100%;
 }
 
 .search-tips {
-    position: absolute;
-    top: 40%;
-    left: 57%;
-    font-size: 16px;
-    color: $text-title-weak;
+	position: absolute;
+	top: 40%;
+	left: 57%;
+	font-size: 16px;
+	color: $text-title-weak;
 }
 
 .kd-list {
-    max-height: 55%;
-    position: relative;
-    overflow: hidden;
-    overflow-y: auto;
-}
-
-::-webkit-scrollbar-track-piece {
-    // background-color: #383434;
-    // border-left: 1px solid #383434;
-    // opacity: 0.5;
-    // border-radius: 5px;
-}
-
-::-webkit-scrollbar {
-    // border-radius: 5px;
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: $primary;
-    background-clip: padding-box;
-    border: 1px solid $primary;
-    min-height: 10px;
-    opacity: 0.5;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    border: 1px solid $primary;
-    background-color: $primary;
+	max-height: 55%;
+	overflow-y: auto;
+	position: relative;
 }

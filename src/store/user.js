@@ -4,12 +4,12 @@ import { createFetch } from '../utils/fetch-creator';
 class Store {
     // todo
     @observable userInfo = {
-        // data: {
-        //     userName: '',
-        //     userId: 98,
-        //     userType: 0,
-        //     userIcon: ''
-        // }
+        data: {
+            // userName: 'jeff',
+            // userId: 98,
+            // userType: 0,
+            // userIcon: ''
+        }
     };
     @observable userFile = [];
     @observable curFileParents = [];

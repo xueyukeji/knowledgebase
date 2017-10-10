@@ -29,8 +29,10 @@ export default class Manage extends Component {
     }
 
     render() {
-        if (!this.props.userInfo.data || this.props.userInfo.data && this.props.userInfo.data.userType !== 0 && this.props.userInfo.data.userType !== 1 ) {
-            return <div> 您没有权限访问此页面！！！ </div>
+        if (this.props.userInfo) {
+            if (!this.props.userInfo.data || this.props.userInfo.data && this.props.userInfo.data.userType !== 0 && this.props.userInfo.data.userType !== 1 ) {
+                return <div> 您没有权限访问此页面！！！ </div>
+            }
         }
         return (
             <Layout.Row className="mod-manage" gutter="10">

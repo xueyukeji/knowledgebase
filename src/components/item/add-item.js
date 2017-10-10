@@ -97,12 +97,7 @@ class AddItem extends Component {
                                 callback(new Error('请选择一级标签'));
                                 return
                             }
-                            if (this.state.form.tagIds.length === 1) {
-                                callback(new Error('请选择二级标签'));
-                                return
-                            } else {
-                                callback()
-                            }
+                            callback()
                         },
                         trigger: 'change'
                     }
@@ -171,6 +166,9 @@ class AddItem extends Component {
         form.tagIds[0] = {
             id: parentId
         };
+        form.tagIds[1] = {
+            id: ''
+        }
         this.setState({
             curParentId: parentId,
             form
@@ -192,7 +190,11 @@ class AddItem extends Component {
                     creatorName: this.props.userInfo.data.userName,
                     creatorId: this.props.userInfo.data.userId
                 });
-                this.props.createItem(params).then(() => {
+                this.props.createItem(params).then((res) => {
+                    if (res.code !== 200) {
+                        Message(res.msg)
+                        return
+                    }
                     this.props.history.go(-1)
                     Message({
                         type: 'success',
@@ -263,7 +265,7 @@ class AddItem extends Component {
                             to={`/knowledge/${this.props.match.params.id}`}
                             activeClassName="active">
                             {
-                                knowledgeList.filter((k) => {
+                                this.props.knowledgeList && this.props.knowledgeList.filter((k) => {
                                     return k.id === parseInt(this.props.match.params.id)
                                 })[0].name
                             }
