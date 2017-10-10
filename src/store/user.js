@@ -22,7 +22,7 @@ class Store {
             this.userInfo = data;
         }).catch(() => {
             // todo
-            window.location = window.location.origin + '/login.html';
+            // window.location = window.location.origin + '/login.html';
         });
     }
     @action getUserFile = (fi = '') => {

@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import PerfectScrollbar from 'perfect-scrollbar';
 import defaultAvatar from '../assets/images/default-avatar.png';
 
 export default class Nav extends Component {
-    componentDidMount() {
-        new PerfectScrollbar('#scrollWrap', {
-            suppressScrollX: false,
-        });
-    }
-
     render() {
         let {list, userInfo} = this.props;
         let userType = '', userName = '', userIcon = defaultAvatar;
