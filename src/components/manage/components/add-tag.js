@@ -23,8 +23,6 @@ import AddTagItem from './add-tag-item';
 })
 @observer
 export default class AddTag extends Component {
-
-
     addParentTag = () => {
         MessageBox.prompt('请输入您要创建的一级标签名称', '', {
             inputPattern: /^.{0,8}$/,

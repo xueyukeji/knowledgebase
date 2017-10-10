@@ -16,9 +16,7 @@ function createQuery(method, body) {
         'method': method,
         'headers': {
             // 'ct': Cookies.get('ct'),
-            // 'ct': 'hvblyn808c71a20ed10804a0f8dd246f7922dbf86d200861f51c3f0717d1557c71063bbc8edf0150766646501012602100000000000',
-            'ct':
-            'g03juh578vt7a5076ba50b434462e4e517681a5a3f51041b5c5005c2978c85c30a6b67767f630150766692679000000000000000000',
+            'ct': '47fgprjeqnc710d69e999fa7a3d99f75c5cb0e8551c4b6f92cb0bd01b7f497b392932c6bf8220150766605379000000000000000000',
             'cv': '3.5.0',
             'Accept': 'application/json',
             'Content-type': 'application/json;charset=UTF-8',

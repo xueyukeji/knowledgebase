@@ -29,6 +29,11 @@
             }
         }
     }
+    .delete-file {
+        cursor: pointer;
+        color: $blue;
+        margin-left: 20px;
+    }
 }
 .select-file-dialog{
     min-width: 600px;

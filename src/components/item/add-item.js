@@ -227,10 +227,27 @@ class AddItem extends Component {
         });
         this.clearUserFile();
     }
+    deleteFile = data => {
+        let { form, files } = this.state;
+        form = Object.assign(form, {
+            fileIds: files.filter(item => {
+                return item !== data.fileId;
+            })
+        });
+        this.setState({
+            files: files.filter(item => item.fileId !== data.fileId),
+            form: form
+        });
+    }
     getSelectedFile = () => {
         return this.state.files.map(item => {
             return (
-                <div key={item.fileId}>{item.fileName}</div>
+                <div key={item.fileId}>
+                    {item.fileName}
+                    <span className="delete-file" onClick={() => {
+                        this.deleteFile(item);
+                    }}>删除</span>
+                </div>
             );
         });
     }

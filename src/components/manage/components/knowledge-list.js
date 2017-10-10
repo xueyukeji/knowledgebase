@@ -15,7 +15,8 @@ import AddTag from './add-tag.js';
         showAddTagPop,
         hideAddTagPop,
         setCurLibId,
-        getTags
+        getTags,
+        setTags
     } = stores.tag
     return {
         showEditKnowledgeDialog,
@@ -26,7 +27,8 @@ import AddTag from './add-tag.js';
         showAddTagPop,
         hideAddTagPop,
         setCurLibId,
-        getTags
+        getTags,
+        setTags
     };
 })
 @observer
@@ -43,6 +45,7 @@ export default class Manage extends Component {
 
     hideAddTagPop = () => {
         this.props.hideAddTagPop();
+        this.props.setTags([]);
     }
 
     delKnowledge = (id) => {
