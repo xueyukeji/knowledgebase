@@ -29,7 +29,7 @@ export default class Manage extends Component {
     }
 
     render() {
-        if (this.props.userInfo.userType !== 0 || this.props.userInfo.userType !== 1 ) {
+        if (this.props.userInfo.data.userType !== 0 && this.props.userInfo.data.userType !== 1 ) {
             return <div> 您没有权限访问此页面！！！ </div>
         }
         return (

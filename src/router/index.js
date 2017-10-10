@@ -55,7 +55,7 @@ export default class AppRouter extends Component {
                         <Route path="/my-check/detail" component={MyCheckDetail} />
                         <Route path="/professor" component={Professor}/>**/}
                         {
-                            (this.props.userInfo.userType === 0 || this.props.userInfo.userType === 1) ?
+                            (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) ?
                                 <Route path="/manage" component={Manage} /> : ''
                         }
                         <Route path="/add-item/:id" component={AddItem} />

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Tag, Layout, Pagination } from 'element-react-codish'
+import Constants from '../../../utils/constants'
 @inject(stores => {
     let {
         getItemList,
@@ -10,12 +11,16 @@ import { Tag, Layout, Pagination } from 'element-react-codish'
         setTagIds,
         setSearchInput
     } = stores.item;
+    let {
+        getTags
+    } = stores.tag
     return {
         getItemList,
         itemListobj,
         tagIds,
         setTagIds,
-        setSearchInput
+        setSearchInput,
+        getTags
     }
 })
 @observer
@@ -26,6 +31,7 @@ class ListItem extends Component {
         }
     }
     componentWillMount() {
+        this.props.getTags(this.props.match.params.id)
         this.getDatas(1)
     }
 
@@ -34,6 +40,7 @@ class ListItem extends Component {
             if (this.props.itemListobj) {
                 this.props.itemListobj.data.items.length = 0
             }
+            this.props.getTags(nextProps.match.params.id)
             var tagIds = []
             this.props.setTagIds(tagIds)
             this.props.setSearchInput('')
@@ -51,6 +58,7 @@ class ListItem extends Component {
         this.props.getItemList(params)
     }
     render() {
+        console.log(Constants)
         let { itemListobj } = this.props;
         return (<div className="mod-listitem">
             {

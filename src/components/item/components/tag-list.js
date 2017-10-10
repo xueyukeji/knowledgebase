@@ -7,7 +7,6 @@ import { Tag, Popover } from 'element-react-codish'
     let {
         tags,
         parentTags,
-        getTags,
     } = stores.tag
     let {
         setSearchInput,
@@ -17,7 +16,6 @@ import { Tag, Popover } from 'element-react-codish'
     return {
         tags,
         parentTags,
-        getTags,
         setSearchInput,
         setTagIds,
         getItemList
@@ -29,9 +27,6 @@ class TagList extends Component {
         super(props)
         this.state = {
         }
-    }
-    componentWillMount() {
-        this.props.getTags(this.props.match.params.id)
     }
     showScenodLevel = () => {
     }

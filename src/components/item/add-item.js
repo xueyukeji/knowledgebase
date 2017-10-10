@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
-import { Form, Input, Select, Button, Message } from 'element-react-codish'
+import { Form, Input, Select, Button, Message, Breadcrumb } from 'element-react-codish'
 import SelectFile from './components/select-file.js';
-import {MessageBox} from 'element-react-codish';
+import { MessageBox } from 'element-react-codish';
 
 @inject(stores => {
     let {
@@ -53,7 +53,7 @@ class AddItem extends Component {
             form: {
                 name: '',
                 desc: '',
-                libraryId: '',
+                libraryId: this.props.match.params.id,
                 creatorId: '',
                 creatorName: '',
                 fileIds: [],
@@ -62,7 +62,51 @@ class AddItem extends Component {
                 childTag: '',
                 tag: ''
             },
-            files: []
+            files: [],
+            rules: {
+                name: [
+                    { required: true, message: '请输入标题', trigger: 'change' },
+                    {
+                        validator: (rule, value, callback) => {
+                            if (value.length > 32) {
+                                callback(new Error('标题名称长度不能超过32个字符'));
+                                return
+                            }
+                            callback()
+                        },
+                        trigger: 'blur'
+                    }
+                ],
+                desc: [
+                    {
+                        validator: (rule, value, callback) => {
+                            if (value.length > 500) {
+                                callback(new Error('标题描述长度不能超过500个字符'));
+                                return
+                            }
+                            callback()
+                        },
+                        trigger: 'blur'
+                    }
+                ],
+                tagIds: [
+                    {
+                        validator: (rule, value, callback) => {
+                            if (value.length === 0) {
+                                callback(new Error('请选择一级标签'));
+                                return
+                            }
+                            if (this.state.form.tagIds.length === 1) {
+                                callback(new Error('请选择二级标签'));
+                                return
+                            } else {
+                                callback()
+                            }
+                        },
+                        trigger: 'change'
+                    }
+                ]
+            }
         };
     }
     componentWillMount() {
@@ -109,8 +153,9 @@ class AddItem extends Component {
         this.props.setSelected([]);
     }
 
-    selectKnowledge = (v) => {
-        this.state.form.libraryId = v
+    selectKnowledge = (libraryId) => {
+        this.state.form.libraryId = libraryId
+        this.props.getTags(libraryId)
     }
 
     selectParentTag = (parentId) => {
@@ -134,41 +179,33 @@ class AddItem extends Component {
         });
     }
     confirmCreateItem() {
-        if (!this.state.form.name) {
-            Message('请输入标题名称')
-            return
-        }
-        if (!this.state.form.libraryId) {
-            Message('请选择知识库')
-            return
-        }
-        if (typeof (this.state.form.tagIds[0]) === 'undefined') {
-            Message('请选择一级标签')
-            return
-        }
-        if (typeof (this.state.form.tagIds[1]) === 'undefined') {
-            Message('请选择一级标签')
-            return
-        }
-        if (this.state.form.fileIds.length < 1) {
-            Message('请选择文件')
-            return
-        }
-        const params = Object.assign(this.state.form, {
-            creatorName: this.props.userInfo.data.userName,
-            creatorId: this.props.userInfo.data.userId
-        });
-        this.props.createItem(params).then(() => {
-            this.props.history.go(-1)
-            Message({
-                type: 'success',
-                message: '新增成功!'
-            });
+        this.refs.form.validate((valid) => {
+            if (valid) {
+                console.log(this.state.form)
+                debugger
+                if (this.state.form.fileIds.length < 1) {
+                    Message('请选择文件')
+                    return
+                }
+                const params = Object.assign(this.state.form, {
+                    creatorName: this.props.userInfo.data.userName,
+                    creatorId: this.props.userInfo.data.userId
+                });
+                this.props.createItem(params).then(() => {
+                    this.props.history.go(-1)
+                    Message({
+                        type: 'success',
+                        message: '新增成功!'
+                    });
+                })
+            } else {
+                return false;
+            }
         })
     }
 
     handleConfirm = () => {
-        let {form} = this.state;
+        let { form } = this.state;
         let files = this.props.selected.slice();
         if (files.some(item => {
             return item.folder;
@@ -203,15 +240,19 @@ class AddItem extends Component {
     }
     render() {
         let { knowledgeList, parentTags, tags, userInfo } = this.props;
-        let {files, dialogVisible} = this.state;
+        let { files, dialogVisible } = this.state;
         return (
             <div className="mod-addknowledge-item">
-                <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
-                    <Form.Item label="标题：">
+                <Breadcrumb separator="/">
+                    <Breadcrumb.Item><span onClick={() => { this.cancel() }}>知识库首页</span></Breadcrumb.Item>
+                    <Breadcrumb.Item>创建知识库</Breadcrumb.Item>
+                </Breadcrumb>
+                <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
+                    <Form.Item label="标题：" prop="name">
                         <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}
                             placeholder="请输入标题"></Input>
                     </Form.Item>
-                    <Form.Item label="知识库：">
+                    <Form.Item label="知识库：" required>
                         <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
                             {
                                 knowledgeList.map(item => {
@@ -220,13 +261,13 @@ class AddItem extends Component {
                             }
                         </Select>
                     </Form.Item>
-                    <Form.Item label="描述：">
+                    <Form.Item label="描述：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
                     </Form.Item>
-                    <Form.Item label="作者：">
+                    <Form.Item label="作者：" required>
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
-                    <Form.Item className="select-tags" label="标签：">
+                    <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
                         <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="请选择一级标签">
                             {
                                 parentTags.map(item => {
@@ -247,7 +288,7 @@ class AddItem extends Component {
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>
                     </Form.Item>
-                    <Form.Item label="附件：">
+                    <Form.Item label="附件：" prop="files">
                         {
                             files.length ?
                                 this.getSelectedFile() : null
