@@ -101,7 +101,7 @@ export default class AddTag extends Component {
         return (
             <Dialog
                 className="mod-addtag"
-                title="新增标签"
+                title="管理标签"
                 size="small"
                 closeOnClickModal={false}
                 visible={this.props.visible}

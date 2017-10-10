@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Tag, Layout, Pagination } from 'element-react-codish'
+import Constants from '../../../utils/constants'
 @inject(stores => {
     let {
         getItemList,
@@ -57,6 +58,7 @@ class ListItem extends Component {
         this.props.getItemList(params)
     }
     render() {
+        console.log(Constants)
         let { itemListobj } = this.props;
         return (<div className="mod-listitem">
             {

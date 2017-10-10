@@ -1,8 +1,16 @@
 import { observable, action } from 'mobx';
-import {createFetch} from './fetch-creator';
+import { createFetch } from './fetch-creator';
 
 class Store {
-    @observable userInfo = {};
+    // todo
+    @observable userInfo = {
+        data: {
+            userName: 'jeff',
+            userId: 98,
+            userType: 0,
+            userIcon: '../assets/images/jijun.png'
+        }
+    };
     @observable userFile = [];
     @observable curFileParents = [];
     @observable selected = [];
