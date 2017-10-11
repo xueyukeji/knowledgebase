@@ -103,15 +103,15 @@
 	}
 }
 
-.el-message-box{
-    border: 1px solid $border;
-    .el-message-box__content{
-        padding: 30px 20px 0 20px;
-    }
+.el-message-box {
+	border: 1px solid $border;
+	.el-message-box__content {
+		padding: 30px 20px 0 20px;
+	}
 }
 
-.el-message{
-    z-index:100000;
+.el-message {
+	z-index: 100000;
 }
 
 .el-button {
@@ -174,4 +174,8 @@
 	max-height: 55%;
 	overflow-y: auto;
 	position: relative;
+}
+
+.Select-clear {
+	display: none;
 }

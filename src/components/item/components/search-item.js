@@ -27,7 +27,8 @@ class SearchItem extends Component {
         this.state = {
             options: [{
                 value: '1',
-                label: '标签搜索'
+                label: '标签搜索',
+                clearableValue: false
                 // }, {
                 //     value: '2',
                 //     label: '内容搜索'
@@ -60,7 +61,7 @@ class SearchItem extends Component {
                 <Layout.Col span="3">
                     <Select
                         name="form-field-name"
-                        value="one"
+                        value="1"
                         options={this.state.options}
                         onChange={this.logChange}/>
                     {/*  <Select value={this.state.value}>
