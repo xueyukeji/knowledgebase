@@ -60,7 +60,8 @@ class SearchItem extends Component {
                 <Layout.Col span="3">
                     <Select
                         name="form-field-name"
-                        value="one"
+                        value="1"
+                        clearable={false}
                         options={this.state.options}
                         onChange={this.logChange}/>
                     {/*  <Select value={this.state.value}>
