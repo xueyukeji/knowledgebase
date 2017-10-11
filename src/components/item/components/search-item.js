@@ -53,6 +53,7 @@ class SearchItem extends Component {
         this.props.getItemList(params)
     }
     logChange(val) {
+        // TODO
         console.log('Selected: ' + JSON.stringify(val))
     }
     render() {

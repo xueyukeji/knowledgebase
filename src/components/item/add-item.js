@@ -92,7 +92,6 @@ class AddItem extends Component {
                 tagIds: [
                     {
                         validator: (rule, value, callback) => {
-                            console.log(value, this.state.form.tagIds)
                             if (!this.state.form.tagIds[0].id) {
                                 callback(new Error('请选择一级标签'));
                                 return
