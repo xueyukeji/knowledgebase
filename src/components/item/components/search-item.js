@@ -27,7 +27,8 @@ class SearchItem extends Component {
         this.state = {
             options: [{
                 value: '1',
-                label: '标签搜索'
+                label: '标签搜索',
+                clearableValue: false
                 // }, {
                 //     value: '2',
                 //     label: '内容搜索'

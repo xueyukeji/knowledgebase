@@ -4,6 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom'
 import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish'
 import SelectFile from './components/select-file.js';
 import { MessageBox } from 'element-react-codish';
+import Select from 'react-select';
 
 @inject(stores => {
     let {
@@ -58,8 +59,6 @@ class AddItem extends Component {
                 creatorName: '',
                 fileIds: [],
                 tagIds: [{ id: '' }, { id: '' }],
-                parentTag: '',
-                childTag: '',
                 tag: ''
             },
             files: [],
@@ -162,11 +161,12 @@ class AddItem extends Component {
         this.props.setCurFileParents([]);
         this.props.setSelected([]);
     }
-    selectKnowledge = (libraryId) => {
+    selectKnowledge = ({value: libraryId}) => {
         this.state.form.libraryId = libraryId
         this.props.getTags(libraryId)
     }
-    selectParentTag = (parentId) => {
+    selectParentTag = ({value: parentId} = {}) => {
+        if (!parentId) return false;
         let form = this.state.form;
         form.tagIds[0] = {
             id: parentId
@@ -179,7 +179,8 @@ class AddItem extends Component {
             form
         });
     }
-    selectChildTag = (cId) => {
+    selectChildTag = ({value: cId} = {}) => {
+        if (!cId) return false;
         let form = this.state.form;
         form.tagIds[1] = {
             id: cId
@@ -259,8 +260,7 @@ class AddItem extends Component {
         });
     }
     render() {
-        // let { knowledgeList, parentTags, tags, userInfo } = this.props;
-        let { userInfo } = this.props;
+        let { knowledgeList, parentTags, tags, userInfo } = this.props;
         let { files, dialogVisible } = this.state;
         const curLibrary = this.props.knowledgeList && this.props.knowledgeList.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
@@ -285,13 +285,11 @@ class AddItem extends Component {
                             placeholder="请输入标题"></Input>
                     </Form.Item>
                     <Form.Item label="知识库：" required>
-                        {/* <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
-                            {
-                                knowledgeList.map(item => {
-                                    return <Select.Option key={item.id} label={item.name} value={item.id}></Select.Option>
-                                })
-                            }
-                        </Select> */}
+                        <Select
+                            name="name"
+                            onChange={this.selectKnowledge}
+                            value={this.state.form.libraryId}
+                            options={knowledgeList.map(item => ({label: item.name, value: item.id}))}/>
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
@@ -300,22 +298,8 @@ class AddItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        {/* <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="一级标签">
-                            {
-                                parentTags.map(item => {
-                                    return <Select.Option key={item.id} label={item.tag} value={item.id} ></Select.Option>
-                                })
-                            }
-                        </Select> */}
-                        {/* <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="二级标签">
-                            {
-                                tags.filter(t => {
-                                    return t.parentId === this.state.curParentId
-                                }).map(item => {
-                                    return <Select.Option key={item.id} label={item.tag} value={item.id}></Select.Option>
-                                })
-                            }
-                        </Select> */}
+                        <Select value={this.state.curParentId} onChange={this.selectParentTag} placeholder="一级标签" options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
+                        <Select value={this.state.form.tagIds[1].id} onChange={this.selectChildTag} placeholder="二级标签" options={tags.filter(t => t.parentId === this.state.curParentId).map(item => ({label: item.tag, value: item.id}))} />
                         <Input className="default-tag" value={this.state.form.tag}
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>
