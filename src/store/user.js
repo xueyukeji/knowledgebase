@@ -21,8 +21,7 @@ class Store {
         }).then(data => {
             this.userInfo = data;
         }).catch(() => {
-            // todo
-            window.location = window.location.origin + '/login.html';
+            window.location = '/login.html';
         });
     }
     @action getUserFile = (fi = '') => {
