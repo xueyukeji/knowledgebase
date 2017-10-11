@@ -57,7 +57,7 @@ class AddItem extends Component {
                 creatorId: '',
                 creatorName: '',
                 fileIds: [],
-                tagIds: [{ id: '' }, { id: '' }, { tag: '' }],
+                tagIds: [{ id: '' }, { id: '' }],
                 parentTag: '',
                 childTag: '',
                 tag: ''

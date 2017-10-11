@@ -74,7 +74,7 @@ class ListItem extends Component {
                                 <div className="tags">
                                     {
                                         item.tagArr.map(t => {
-                                            return <Tag key={t.id} type="success">{t.tag}</Tag>
+                                            return <Tag key={t.id} type="success">{t.tag ? t.tag : null}</Tag>
                                         })
                                     }
                                 </div>
