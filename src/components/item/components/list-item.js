@@ -66,6 +66,7 @@ class ListItem extends Component {
             {
                 itemListobj && itemListobj.data.items.map(item => {
                     return (
+                        // <NavLink to={`/item-detail/${this.props.match.params.id}`}>
                         <div className="list-item" key={item.id}>
                             <div className="title">
                                 <h5>{item.name}</h5>
@@ -91,6 +92,7 @@ class ListItem extends Component {
                                 </Layout.Row>
                             </div>
                         </div>
+                        // </NavLink>
                     )
                 })
             }

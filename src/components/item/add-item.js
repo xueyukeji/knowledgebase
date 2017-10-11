@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { withRouter, NavLink } from 'react-router-dom'
-import { Form, Input, Select, Button, Message, Breadcrumb } from 'element-react-codish'
+import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish'
 import SelectFile from './components/select-file.js';
 import { MessageBox } from 'element-react-codish';
 
@@ -258,9 +258,9 @@ class AddItem extends Component {
             );
         });
     }
-
     render() {
-        let { knowledgeList, parentTags, tags, userInfo } = this.props;
+        // let { knowledgeList, parentTags, tags, userInfo } = this.props;
+        let { userInfo } = this.props;
         let { files, dialogVisible } = this.state;
         const curLibrary = this.props.knowledgeList && this.props.knowledgeList.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
@@ -285,13 +285,13 @@ class AddItem extends Component {
                             placeholder="请输入标题"></Input>
                     </Form.Item>
                     <Form.Item label="知识库：" required>
-                        <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
+                        {/* <Select value={this.state.form.libraryId} onChange={this.selectKnowledge} placeholder="请选择知识库">
                             {
                                 knowledgeList.map(item => {
                                     return <Select.Option key={item.id} label={item.name} value={item.id}></Select.Option>
                                 })
                             }
-                        </Select>
+                        </Select> */}
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
@@ -300,14 +300,14 @@ class AddItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="一级标签">
+                        {/* <Select value={this.state.form.parentTag} onChange={this.selectParentTag} placeholder="一级标签">
                             {
                                 parentTags.map(item => {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id} ></Select.Option>
                                 })
                             }
-                        </Select>
-                        <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="二级标签">
+                        </Select> */}
+                        {/* <Select value={this.state.form.childTag} onChange={this.selectChildTag} placeholder="二级标签">
                             {
                                 tags.filter(t => {
                                     return t.parentId === this.state.curParentId
@@ -315,7 +315,7 @@ class AddItem extends Component {
                                     return <Select.Option key={item.id} label={item.tag} value={item.id}></Select.Option>
                                 })
                             }
-                        </Select>
+                        </Select> */}
                         <Input className="default-tag" value={this.state.form.tag}
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>

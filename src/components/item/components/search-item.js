@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom'
-import { Layout, Select, Button, Input } from 'element-react-codish';
+import { Layout, Button, Input } from 'element-react-codish';
 import { inject, observer } from 'mobx-react'
+import Select from 'react-select';
+
 @inject(stores => {
     let {
         searchInput,
@@ -49,15 +51,23 @@ class SearchItem extends Component {
         }
         this.props.getItemList(params)
     }
+    logChange(val) {
+        console.log('Selected: ' + JSON.stringify(val))
+    }
     render() {
         return (
             <Layout.Row className="search-item" gutter="20">
                 <Layout.Col span="3">
-                    <Select value={this.state.value}>
-                        {this.state.options.map((el) => {
-                            return <Select.Option key={el.value} label={el.label} value={el.value} />;
-                        })}
-                    </Select>
+                    <Select
+                        name="form-field-name"
+                        value="one"
+                        options={this.state.options}
+                        onChange={this.logChange}/>
+                    {/*  <Select value={this.state.value}>
+                         {this.state.options.map((el) => {
+                             return <Select.Option key={el.value} label={el.label} value={el.value} />;
+                         })}
+                     </Select> */}
                 </Layout.Col>
                 <Layout.Col span="15">
                     {<Input placeholder="请输入标签名字搜索" value={this.props.searchInput || ''}

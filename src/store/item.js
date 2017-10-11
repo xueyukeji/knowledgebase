@@ -3,7 +3,8 @@ import { createFetch } from '../utils/fetch-creator';
 
 class Store {
     @observable itemListobj = null;
-    @observable searchInput = '';// 知识条目搜索用到
+    @observable itemDetails = null; // 知识条目详情
+    @observable searchInput = ''; // 知识条目搜索用到
     @observable tagIds = []; // 知识条目搜索用到
     @action setTagIds = arr => {
         this.tagIds = arr
@@ -26,6 +27,16 @@ class Store {
                 this.setItemList(null);
             }
         });
+    }
+
+    @action getItemDetail = (itemId) => {
+        createFetch({
+            url: 'pub/item/' + itemId
+        }).then((data) => {
+            if (data.data) {
+                this.itemDetails = data.data
+            }
+        })
     }
 
     @action createItem = params => {
