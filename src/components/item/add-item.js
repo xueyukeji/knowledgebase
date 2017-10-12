@@ -160,21 +160,22 @@ class AddItem extends Component {
         this.props.setCurFileParents([]);
         this.props.setSelected([]);
     }
-    selectKnowledge = ({value: libraryId}) => {
+    selectKnowledge = ({value: libraryId} = {}) => {
+        if (!libraryId) return false;
         this.state.form.libraryId = libraryId
         this.props.getTags(libraryId)
     }
-    selectParentTag = ({value: parentId} = {}) => {
-        if (!parentId) return false;
+    selectParentTag = ({value: curParentId} = {}) => {
+        if (!curParentId) return false;
         let form = this.state.form;
         form.tagIds[0] = {
-            id: parentId
+            id: curParentId
         };
         form.tagIds[1] = {
             id: ''
         }
         this.setState({
-            curParentId: parentId,
+            curParentId: curParentId,
             form
         });
     }
@@ -299,7 +300,7 @@ class AddItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        <Select value={this.state.curParentId}
+                        <Select value={this.state.form.tagIds[0].id}
                             onChange={this.selectParentTag}
                             placeholder="一级标签"
                             noResultsText="暂无数据"

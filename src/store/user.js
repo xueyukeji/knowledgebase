@@ -5,10 +5,10 @@ class Store {
     // todo
     @observable userInfo = {
         data: {
-            // userName: 'jeff',
-            // userId: 98,
-            // userType: 0,
-            // userIcon: ''
+            userName: 'jeff',
+            userId: 98,
+            userType: 0,
+            userIcon: ''
         }
     };
     @observable userFile = [];
@@ -21,7 +21,8 @@ class Store {
         }).then(data => {
             this.userInfo = data;
         }).catch(() => {
-            window.location = '/login.html';
+            // TODO
+            // window.location = '/login.html';
         });
     }
     @action getUserFile = (fi = '') => {

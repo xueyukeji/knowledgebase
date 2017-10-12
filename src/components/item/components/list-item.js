@@ -66,33 +66,33 @@ class ListItem extends Component {
             {
                 itemListobj && itemListobj.data.items.map(item => {
                     return (
-                        // <NavLink to={`/item-detail/${this.props.match.params.id}`}>
-                        <div className="list-item" key={item.id}>
-                            <div className="title">
-                                <h5>{item.name}</h5>
-                            </div>
-                            <div className="tag-items">
-                                <div className="tags">
-                                    {
-                                        item.tagArr.map(t => {
-                                            return <Tag key={t.id} type="success">{t.tag ? t.tag : null}</Tag>
-                                        })
-                                    }
+                        <NavLink to={`/item-detail/${this.props.match.params.id}`}>
+                            <div className="list-item" key={item.id}>
+                                <div className="title">
+                                    <h5>{item.name}</h5>
                                 </div>
-                                <p className="p-tips">{constants.getDateStr(item.createTime, 4)}</p>
+                                <div className="tag-items">
+                                    <div className="tags">
+                                        {
+                                            item.tagArr.map(t => {
+                                                return <Tag key={t.id} type="success">{t.tag ? t.tag : null}</Tag>
+                                            })
+                                        }
+                                    </div>
+                                    <p className="p-tips">{constants.getDateStr(item.createTime, 4)}</p>
+                                </div>
+                                <div className="content">{item.desc}</div>
+                                <div className="info">
+                                    <Layout.Row gutter="20">
+                                        <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
+                                        {/* <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col> */}
+                                    </Layout.Row>
+                                </div>
                             </div>
-                            <div className="content">{item.desc}</div>
-                            <div className="info">
-                                <Layout.Row gutter="20">
-                                    <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
-                                    {/* <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
-                                    <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
-                                    <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
-                                    <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col> */}
-                                </Layout.Row>
-                            </div>
-                        </div>
-                        // </NavLink>
+                        </NavLink>
                     )
                 })
             }

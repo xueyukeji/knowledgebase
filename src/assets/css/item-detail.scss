@@ -1,0 +1,15 @@
+.mod-itemdetail {
+  h4 {
+    font-size: 24px;
+    color: $text-title;
+  }
+  p.author {
+    color: $text-title-weak;
+    margin-top: 20px;
+  }
+  .el-table {
+    left: 20%;
+    margin-top: 30px;
+    width: 600px;
+  }
+}
