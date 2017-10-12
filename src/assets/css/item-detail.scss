@@ -1,15 +1,59 @@
 .mod-itemdetail {
   h4 {
+    margin: 30px 0 20px 0;
     font-size: 24px;
     color: $text-title;
   }
   p.author {
     color: $text-title-weak;
-    margin-top: 20px;
   }
   .el-table {
     left: 20%;
     margin-top: 30px;
     width: 600px;
+  }
+  // TODO:
+  .tag-list {
+    border: 1px solid $border;
+
+    .tag-item {
+      line-height: 40px;
+      height: 40px;
+      overflow: hidden;
+      span.ptag {
+        font-weight: bold;
+        padding: 0 10px;
+        background: #f3f3f3;
+        width: 10%;
+        display: inline-block;
+        vertical-align: top;
+      }
+      ul,li {
+        display: inline-block;
+        color: #005aa0;
+      }
+      li:hover{
+          cursor: pointer;
+          color:#5695c2;
+      }
+      ul {
+        width: 85%;
+      }
+      li {
+        width: 11.11%;
+        padding: 0 10px;
+      }
+      span.more {
+        width: 5%;
+        vertical-align: top;
+        cursor: pointer;
+      }
+      span.more:hover{
+          color:$primary;
+      }
+    }
+    .mheight{
+        height: auto !important;
+    }
   }
 }
