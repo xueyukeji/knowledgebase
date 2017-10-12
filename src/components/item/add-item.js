@@ -286,6 +286,8 @@ class AddItem extends Component {
                     <Form.Item label="知识库：" required>
                         <Select
                             name="name"
+                            placeholder="请选择知识库"
+                            noResultsText="暂无数据"
                             onChange={this.selectKnowledge}
                             value={this.state.form.libraryId}
                             options={knowledgeList.map(item => ({label: item.name, value: item.id}))}/>
@@ -297,8 +299,17 @@ class AddItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        <Select value={this.state.curParentId} onChange={this.selectParentTag} placeholder="一级标签" options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
-                        <Select value={this.state.form.tagIds[1].id} onChange={this.selectChildTag} placeholder="二级标签" options={tags.filter(t => t.parentId === this.state.curParentId).map(item => ({label: item.tag, value: item.id}))} />
+                        <Select value={this.state.curParentId}
+                            onChange={this.selectParentTag}
+                            placeholder="一级标签"
+                            noResultsText="暂无数据"
+                            options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
+                        <Select
+                            value={this.state.form.tagIds[1].id}
+                            onChange={this.selectChildTag}
+                            placeholder="二级标签"
+                            noResultsText="暂无数据"
+                            options={tags.filter(t => t.parentId === this.state.curParentId).map(item => ({label: item.tag, value: item.id}))} />
                         <Input className="default-tag" value={this.state.form.tag}
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>
