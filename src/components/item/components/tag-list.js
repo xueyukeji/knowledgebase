@@ -102,10 +102,12 @@ class TagList extends Component {
             }
         }
         allTagsObj['自定义标签'] = allTagsObj.null1
-        parentTags.push({
-            id: '自定义标签',
-            tag: '自定义标签'
-        })
+        if (allTagsObj.null1 && allTagsObj.null1.length) {
+            parentTags.push({
+                id: '自定义标签',
+                tag: '自定义标签'
+            })
+        }
         delete allTagsObj.null0
         delete allTagsObj.null1
         console.log(allTagsObj)
