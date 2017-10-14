@@ -168,7 +168,7 @@ class TagList extends Component {
                 {
                     parentTags.length - selTags.length > 3 ? <div className="collapse-area">
                         <div className="line">
-                            <div className="collapse-wrap" onClick={() => { this.toggleShowMore() }}>
+                            <div className={showThree ? 'collapse-wrap' : 'collapse-wrap expand'} onClick={() => { this.toggleShowMore() }}>
                                 { showThree ? '更多选项' : '收起' }
                             </div>
                         </div>
