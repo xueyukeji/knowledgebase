@@ -12,6 +12,7 @@ import Manage from '../components/manage/manage.js'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { inject, observer } from 'mobx-react';
 // import { Loading } from 'element-react-codish';
+import Cookies from 'js-cookie';
 
 @inject(stores => {
     let {
@@ -33,7 +34,11 @@ import { inject, observer } from 'mobx-react';
 export default class AppRouter extends Component {
     componentDidMount() {
         this.props.getKnowledgeList();
-        this.props.getUserInfo();
+        if (Cookies.get('ct')) {
+            this.props.getUserInfo();
+        } else {
+            window.location = '/login.html';
+        }
     }
 
     render() {

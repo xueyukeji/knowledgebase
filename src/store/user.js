@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
+import Cookies from 'js-cookie';
 
 class Store {
     // todo
@@ -21,6 +22,7 @@ class Store {
         }).then(data => {
             this.userInfo = data;
         }).catch(() => {
+            Cookies.set('ct', '')
             window.location = '/login.html';
         });
     }
