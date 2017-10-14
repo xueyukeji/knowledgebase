@@ -1,15 +1,15 @@
 import { observable, action } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 class Store {
     // todo
     @observable userInfo = {
         data: {
-            // userName: 'jeff',
-            // userId: 98,
-            // userType: 0,
-            // userIcon: ''
+            userName: 'jeff',
+            userId: 98,
+            userType: 0,
+            userIcon: ''
         }
     };
     @observable userFile = [];
@@ -22,8 +22,8 @@ class Store {
         }).then(data => {
             this.userInfo = data;
         }).catch(() => {
-            Cookies.set('ct', '')
-            window.location = '/login.html';
+            // Cookies.set('ct', '')
+            // window.location = '/login.html';
         });
     }
     @action getUserFile = (fi = '') => {

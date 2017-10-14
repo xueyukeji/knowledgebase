@@ -37,7 +37,7 @@ export default class AppRouter extends Component {
         if (Cookies.get('ct')) {
             this.props.getUserInfo();
         } else {
-            window.location = '/login.html';
+            // window.location = '/login.html';
         }
     }
 

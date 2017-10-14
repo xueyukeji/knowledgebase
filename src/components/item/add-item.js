@@ -57,7 +57,7 @@ class AddItem extends Component {
                 libraryId: parseInt(this.props.match.params.id),
                 creatorId: '',
                 creatorName: '',
-                fileIds: [],
+                fileIds: [1, 2, 3],
                 tagIds: [{ id: '' }, { id: '' }],
                 tag: ''
             },
