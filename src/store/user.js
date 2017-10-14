@@ -22,8 +22,8 @@ class Store {
         }).then(data => {
             this.userInfo = data;
         }).catch(() => {
-            Cookies.set('ct', '')
-            window.location = '/login.html';
+            Cookies.set('ct', '');
+            process.env.NODE_ENV !== 'development' && (window.location = '/login.html');
         });
     }
     @action getUserFile = (fi = '') => {

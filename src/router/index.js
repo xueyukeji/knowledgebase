@@ -11,8 +11,6 @@ import ItemDetail from '../components/item/item-detail.js'
 import Manage from '../components/manage/manage.js'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { inject, observer } from 'mobx-react';
-// import { Loading } from 'element-react-codish';
-import Cookies from 'js-cookie';
 
 @inject(stores => {
     let {
@@ -34,11 +32,7 @@ import Cookies from 'js-cookie';
 export default class AppRouter extends Component {
     componentDidMount() {
         this.props.getKnowledgeList();
-        if (Cookies.get('ct')) {
             this.props.getUserInfo();
-        } else {
-            window.location = '/login.html';
-        }
     }
 
     render() {
