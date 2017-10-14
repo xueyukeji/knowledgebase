@@ -75,27 +75,6 @@
             font-size: 14px;
             margin: 0 auto;
             cursor: pointer;
-            color: #a59999;
-            &:after{
-                content: '';
-                width: 7px;
-                height: 7px;
-                border-left: 1px solid;
-                border-bottom: 1px solid;
-                border-color: currentColor;
-                display: inline-block;
-                transform: rotate(-45deg);
-                position: relative;
-                left: 4px;
-                top: -3px;
-                transition: 0.5s transform;
-            }
-            &.expand{
-                &:after{
-                    transform: rotate(135deg);
-                    top: 0px;
-                }
-            }
         }
     }
 
