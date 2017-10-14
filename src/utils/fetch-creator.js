@@ -1,7 +1,10 @@
 import 'isomorphic-fetch';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
-const URL_PREFIX = process.env.NODE_ENV === 'development' ? '/' : '/apps/';
+let URL_PREFIX = '/apps/';
+if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_PROXY) {
+    URL_PREFIX = '/';
+}
 
 const checkStatus = response => {
     if (response.status < 300) {
@@ -15,8 +18,7 @@ function createQuery(method, body) {
     const query = {
         'method': method,
         'headers': {
-            // 'ct': Cookies.get('ct'),
-            'ct': '9pvuruqp645e6324197d8c65400db5a8d49a8571d3f947a320f47fc7d4d6bb0bd26dc93f1ca20150766968279000000000000000000',
+            'ct': process.env.NODE_ENV !== 'development' ? Cookies.get('ct') : '9pvuruqp645e6324197d8c65400db5a8d49a8571d3f947a320f47fc7d4d6bb0bd26dc93f1ca20150766968279000000000000000000',
             'cv': '3.5.0',
             'Accept': 'application/json',
             'Content-type': 'application/json;charset=UTF-8',
