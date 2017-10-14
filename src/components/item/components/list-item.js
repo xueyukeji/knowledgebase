@@ -60,7 +60,7 @@ class ListItem extends Component {
     render() {
         let { itemListobj } = this.props;
         if (!itemListobj) {
-            return <div className="search-tips">暂无内容</div>
+            return <div className="search-tips">暂无知识条目</div>
         }
         return (<div className="mod-listitem">
             {

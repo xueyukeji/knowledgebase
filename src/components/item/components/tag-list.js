@@ -101,11 +101,14 @@ class TagList extends Component {
                 parentTags.splice(i, 1)
             }
         }
-        allTagsObj['自定义标签'] = allTagsObj.null1
-        parentTags.push({
-            id: '自定义标签',
-            tag: '自定义标签'
-        })
+        const customName = '自定义标签'
+        allTagsObj[customName] = allTagsObj.null1
+        if (allTagsObj.null1 && allTagsObj.null1.length) {
+            parentTags.push({
+                id: customName,
+                tag: customName
+            })
+        }
         delete allTagsObj.null0
         delete allTagsObj.null1
         console.log(allTagsObj)
