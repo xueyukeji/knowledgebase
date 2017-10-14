@@ -7,7 +7,7 @@ class Store {
     @observable isAddTagPopVisible = false;
     @computed get parentTags() {
         return this.tags.filter(item => {
-            return !item.parentId;
+            return !item.parentId && !item.isCustom;
         });
     }
 

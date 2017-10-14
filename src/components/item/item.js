@@ -41,7 +41,6 @@ export default class Knowledge extends Component {
             <div className="mod-homepage">
                 <SearchItem />
                 <TagList />
-                <h4>知识条目</h4>
                 <ListItem />
             </div>
         )

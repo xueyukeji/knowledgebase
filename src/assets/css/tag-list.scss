@@ -1,23 +1,83 @@
 .mod-taglist {
-
-	.el-popover {
-		.el-popover[x-placement^=bottom] {
-			margin-top: 5px;
-		}
-	}
+    .filter-wrap{
+        background-color: #f6f6f6;
+        padding-left: 16px;
+        padding-top: 4px;
+        overflow: hidden;
+    }
+    .lib-name{
+        vertical-align: top;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
+        color: #000000;
+        a{
+            color: inherit;
+        }
+        span{
+            padding: 0 8px;
+        }
+    }
+    .el-button{
+        vertical-align: top;
+    }
 	.el-tag {
 		position: relative;
 		margin-right: 15px;
-		width: 100px;
 		height: 30px;
 		text-align: center;
 		line-height: 30px;
 		text-overflow: ellipsis;
 		overflow: hidden;
-		margin-top: 10px;
         cursor: pointer;
         padding-right:10px;
-	}
+        padding-left:10px;
+        color: #a2a2a2;
+        background-color: #f6f6f6;
+        border: 1px solid #06ca67;
+    }
+
+    .tag-wrap{
+        line-height: 24px;
+        padding: 24px 0;
+        .left {
+            float: left;
+            padding-left: 16px;
+            width: 120px;
+            color: #a2a2a2;
+        }
+        .right{
+            color: #404040;
+            >span{
+                margin-left: 38px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .collapse-area{
+        height: 24px;
+        .line{
+            height: 1px;
+            background-color: #e0e0e0;
+            position: relative;
+        }
+        .collapse-wrap{
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            width: 88px;
+            height: 20px;
+            line-height: 18px;
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+    }
+
 	.scenod-level {
 		li {
 			width: 92px;

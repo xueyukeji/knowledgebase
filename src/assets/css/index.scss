@@ -16,6 +16,17 @@
   box-sizing: border-box;
 }
 
+.hidden {
+    display: none;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
 #root {
   height: 100%;
 }
