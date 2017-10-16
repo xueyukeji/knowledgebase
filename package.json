@@ -2,11 +2,7 @@
     "name": "knowledgebase",
     "version": "0.1.0",
     "private": true,
-    "proxy": {
-        "/pub": {
-            "target": "http://192.168.43.114:3000"
-        }
-    },
+    "proxy": "http://111.231.198.240",
     "dependencies": {
         "autoprefixer": "7.1.2",
         "babel-core": "6.25.0",
@@ -58,7 +54,7 @@
         "whatwg-fetch": "2.0.3"
     },
     "scripts": {
-        "start": "node scripts/start.js",
+        "start": "REACT_PROXY=http://111.231.198.240 node scripts/start.js",
         "build": "node scripts/build.js",
         "test": "node scripts/test.js --env=jsdom",
         "dev": "NODE_ENV=development REACT_APP_PROXY=http://127.0.0.1:3000 concurrently -r \"node ./server/app.js\" \"node scripts/start.js\""
