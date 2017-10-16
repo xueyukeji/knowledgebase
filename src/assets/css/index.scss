@@ -1,7 +1,6 @@
 @import "./variable";
 @import "./reset";
 @import "./app";
-@import "./top";
 @import "./nav";
 @import "./my-check";
 @import "./knowledge";
@@ -33,7 +32,6 @@
 
 .wrap {
   padding-left: 180px;
-  padding-top: 70px;
   height: 100%;
   overflow: hidden;
 }
@@ -42,6 +40,8 @@
   padding: 15px;
   height: 100%;
   overflow-y: auto;
+  max-width: 1264px;
+  margin: 0 auto;
 }
 
 .tr {

@@ -29,6 +29,9 @@ export default class Nav extends Component {
                         })
                     }
                 </div>
+                <div className="nav-item nav-cloud">
+                    <a target="_blank" href="/home.html">云盘</a>
+                </div>
                 <div className="nav-item__sep"></div>
                 {/**
                 <div className="nav-item nav-my">

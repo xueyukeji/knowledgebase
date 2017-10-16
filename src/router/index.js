@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Nav from '../components/nav';
-import Top from '../components/top';
 import Item from '../components/item/item.js';
 import AddItem from '../components/item/add-item.js';
 import ItemDetail from '../components/item/item-detail.js';
@@ -40,7 +39,6 @@ export default class AppRouter extends Component {
             <Router>
                 <div className="wrap">
                     <Nav list={this.props.knowledgeList} userInfo={this.props.userInfo} />
-                    <Top />
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
                         <Route path="/knowledge/:id" component={Item} />

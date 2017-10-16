@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 
-let URL_PREFIX = '/apps/';
+let URL_PREFIX = '/';
 if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_PROXY) {
     URL_PREFIX = '/';
 }
