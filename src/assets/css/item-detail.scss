@@ -2,6 +2,10 @@
     .empty-tips {
         text-align: center;
         padding: 10px;
+        .refresh {
+            cursor: pointer;
+            color: $primary;
+        }
     }
     .item {
         padding: 10px 0;

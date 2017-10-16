@@ -6,16 +6,12 @@ import LightBox from 'react-images';
 
 @inject(stores => {
     let {
-        userInfo
-    } = stores.user
-    let {
         itemDetails,
         getItemDetail,
     } = stores.item;
     return {
         itemDetails,
         getItemDetail,
-        userInfo
     }
 })
 @observer
@@ -56,7 +52,7 @@ export default class ItemDetail extends Component {
         if (!itemDetails) {
             return (
                 <div className="mod-itemdetail">
-                    <p className="empty-tips">获取知识条目详情失败，请<span onClick={this.handleRefresh}>重试</span></p>
+                    <p className="empty-tips">获取知识条目详情失败，请<span className="refresh" onClick={this.handleRefresh}>重试</span></p>
                 </div>
             );
         }
