@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { withRouter, NavLink } from 'react-router-dom'
-import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish'
-import SelectFile from './components/select-file.js';
+import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import { withRouter, NavLink } from 'react-router-dom';
+import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish';
+import SelectFile from './select-file.js';
 import { MessageBox } from 'element-react-codish';
 import Select from 'react-select';
 

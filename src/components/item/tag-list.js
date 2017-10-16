@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { withRouter, NavLink } from 'react-router-dom'
-import { inject, observer } from 'mobx-react'
-import { Tag, Button } from 'element-react-codish'
-import groupBy from 'lodash/groupBy'
+import React, { Component } from 'react';
+import { withRouter, NavLink } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import { Tag, Button } from 'element-react-codish';
+import groupBy from 'lodash/groupBy';
 
 @inject(stores => {
     let {

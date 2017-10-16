@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { inject, observer } from 'mobx-react'
-import { Tag, Layout, Pagination } from 'element-react-codish'
-import * as constants from '../../../utils/constants'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import { Tag, Layout, Pagination } from 'element-react-codish';
+import * as constants from '../../utils/constants';
+
 @inject(stores => {
     let {
         getItemList,

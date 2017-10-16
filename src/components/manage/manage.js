@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { Layout, Button } from 'element-react-codish'
-import { inject, observer } from 'mobx-react'
-import AddKnowLedge from './components/add-knowledge.js'
-import KnowledgeList from './components/knowledge-list.js'
+import React, { Component } from 'react';
+import { Layout, Button } from 'element-react-codish';
+import { inject, observer } from 'mobx-react';
+import AddKnowLedge from './add-knowledge.js';
+import KnowledgeList from './knowledge-list.js';
 
 @inject(stores => {
     let {

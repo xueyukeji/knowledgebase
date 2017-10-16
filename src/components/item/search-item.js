@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter, NavLink } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom';
 import { Layout, Button, Input } from 'element-react-codish';
-import { inject, observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
     let {

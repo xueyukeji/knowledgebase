@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
-import SearchItem from './components/search-item.js';
-import TagList from './components/tag-list.js';
-import ListItem from './components/list-item.js';
+import SearchItem from './search-item.js';
+import TagList from './tag-list.js';
+import ListItem from './list-item.js';
 
 @inject(stores => {
     let {
