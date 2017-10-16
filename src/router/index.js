@@ -42,7 +42,6 @@ export default class AppRouter extends Component {
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
                         <Route path="/knowledge/:id" component={Item} />
-                        <Route path="/my-contribution" component={MyContribution} />
                         {/**
                         <Route path="/my-check" component={MyCheck} exact />
                         <Route path="/my-check/detail" component={MyCheckDetail} />

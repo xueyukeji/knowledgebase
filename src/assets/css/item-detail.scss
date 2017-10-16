@@ -1,0 +1,48 @@
+.mod-itemdetail {
+    .empty-tips {
+        text-align: center;
+        padding: 10px;
+    }
+    .item {
+        padding: 10px 0;
+        line-height: 1.5;
+        position: relative;
+        min-height: 21px;
+        border-bottom: 1px solid #eee;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    .title {
+        position: absolute;
+        width: 80px;
+        top: 10px;
+        left: 0;
+        color: #808080;
+    }
+    .content {
+        padding-left: 80px;
+    }
+    .file-item {
+        position: relative;
+        min-height: 56px;
+        padding: 10px 0;
+        line-height: 36px;
+        border-bottom: 1px solid #eee;
+        .preview {
+            position: absolute;
+            right: 0;
+            top: 10px;
+        }
+    }
+    .tag-item {
+        display: inline-block;
+        vertical-align: top;
+        padding: 0 10px;
+        border: 1px solid $primary;
+    }
+    .back {
+        text-align: right;
+        padding: 10px 0;
+    }
+}

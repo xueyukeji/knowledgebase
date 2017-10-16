@@ -33,10 +33,10 @@ export default class Nav extends Component {
                     <a target="_blank" href="/home.html">云盘</a>
                 </div>
                 <div className="nav-item__sep"></div>
+                {/**
                 <div className="nav-item nav-my">
                     <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>
-                {/**
                 <div className="nav-item nav-check">
                     <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>
                 </div>

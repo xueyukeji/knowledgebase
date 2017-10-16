@@ -33,8 +33,8 @@ class Store {
         createFetch({
             url: 'pub/item/' + itemId
         }).then((data) => {
-            if (data.data) {
-                this.itemDetails = data.data
+            if (data.data && data.data.items) {
+                this.itemDetails = data.data.items;
             }
         })
     }

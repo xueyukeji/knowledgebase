@@ -1,12 +1,9 @@
 import 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 
-let URL_PREFIX = 'http://111.231.198.240/apps/';
+let URL_PREFIX = '/apps/';
 if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_PROXY) {
     URL_PREFIX = '/';
-}
-if (process.env.NODE_ENV === 'development' && process.env.REACT_PROXY) {
-    URL_PREFIX = 'http://111.231.198.240/apps/';
 }
 
 const checkStatus = response => {
