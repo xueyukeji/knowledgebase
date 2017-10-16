@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import CheckListItem from './check-list-item'
+import React, {Component} from 'react';
+import CheckListItem from './check-list-item';
 
 export default class CheckList extends Component {
     render() {

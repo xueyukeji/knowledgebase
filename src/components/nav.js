@@ -9,7 +9,7 @@ export default class Nav extends Component {
         if (userInfo && userInfo.data) {
             userType = userInfo.data.userType;
             userName = userInfo.data.userName;
-            userIcon = userInfo.data.userIcon || require('../assets/images/default-avatar.png');
+            userIcon = userInfo.data.userIcon || defaultAvatar;
         }
         return (
             <div className="nav">

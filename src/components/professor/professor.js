@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import ProfessorItem from './professor-item'
-import {Pagination} from 'element-react-codish'
+import React, {Component} from 'react';
+import ProfessorItem from './professor-item';
+import {Pagination} from 'element-react-codish';
 
 export default class Professor extends Component {
     render() {

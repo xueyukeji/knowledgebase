@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import CheckTop from './check-top'
-import CheckList from './check-list'
-import {Pagination} from 'element-react-codish'
+import React, {Component} from 'react';
+import CheckTop from './check-top';
+import CheckList from './check-list';
+import {Pagination} from 'element-react-codish';
 
 export default class MyCheck extends Component {
     render() {

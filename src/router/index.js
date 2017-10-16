@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import Nav from '../components/nav'
-import Top from '../components/top'
-import Item from '../components/item/item.js'
-import AddItem from '../components/item/add-item.js'
-import ItemDetail from '../components/item/item-detail.js'
+import Nav from '../components/nav';
+import Top from '../components/top';
+import Item from '../components/item/item.js';
+import AddItem from '../components/item/add-item.js';
+import ItemDetail from '../components/item/item-detail.js';
 // import MyContribution from '../components/my-contribution'
 // import MyCheck from '../components/my-check'
 // import MyCheckDetail from '../components/check-detail'
 // import Professor from '../components/professor'
-import Manage from '../components/manage/manage.js'
-import { HashRouter as Router, Route } from 'react-router-dom'
+import Manage from '../components/manage/manage.js';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
@@ -36,9 +36,6 @@ export default class AppRouter extends Component {
     }
 
     render() {
-        // if (this.props.knowledgeList.length < 1) {
-        //     return <Loading className="root-loading" />
-        // }
         return (
             <Router>
                 <div className="wrap">

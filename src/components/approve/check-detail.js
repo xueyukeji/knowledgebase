@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import CheckStep from './check-step'
-import {Input, Button, Tag} from 'element-react-codish'
+import React, {Component} from 'react';
+import CheckStep from './check-step';
+import {Input, Button, Tag} from 'element-react-codish';
 
 export default class CheckDetail extends Component {
     render() {
