@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Button, MessageBox, Message } from 'element-react-codish'
 import { inject, observer } from 'mobx-react'
 import AddTag from './add-tag.js';
+import SetPermission from './set-permission.js';
+import SetExpert from './set-expert.js';
 
 @inject(stores => {
     let {
@@ -33,6 +35,11 @@ import AddTag from './add-tag.js';
 })
 @observer
 export default class Manage extends Component {
+    state = {
+        permissionDialog: false,
+        expertDialog: false
+    }
+
     componentWillMount() {
         this.props.getKnowledgeList();
     }
@@ -65,6 +72,30 @@ export default class Manage extends Component {
         }).catch(() => { });
     }
 
+    showSetPerDialog = () => {
+        this.setState({
+            permissionDialog: true
+        })
+    }
+
+    hideSetPerDialog = () => {
+        this.setState({
+            permissionDialog: false
+        })
+    }
+
+    showSetExpertDialog = () => {
+        this.setState({
+            expertDialog: true
+        })
+    }
+
+    hideSetExpertDialog = () => {
+        this.setState({
+            expertDialog: false
+        })
+    }
+
     render() {
         let { knowledgeList } = this.props;
         return (
@@ -76,6 +107,8 @@ export default class Manage extends Component {
                                 <li key={item.id}>
                                     <span className="title">{item.name}</span>
                                     <div className="op-btns">
+                                        <Button type="text" onClick={this.showSetPerDialog}>设置权限</Button>
+                                        <Button type="text" onClick={this.showSetExpertDialog}>设置专家</Button>
                                         <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
                                             this.props.showEditKnowledgeDialog(item)
@@ -92,6 +125,16 @@ export default class Manage extends Component {
                 {
                     this.props.isAddTagPopVisible ?
                         <AddTag visible={true} handleCancel={this.hideAddTagPop} />
+                        : null
+                }
+                {
+                    this.state.permissionDialog ?
+                        <SetPermission visible={true} handleCancel={this.hideSetPerDialog} />
+                        : null
+                }
+                {
+                    this.state.expertDialog ?
+                        <SetExpert visible={true} handleCancel={this.hideSetExpertDialog} />
                         : null
                 }
             </div>
