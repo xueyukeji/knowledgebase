@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import {Redirect} from 'react-router-dom';
 import {Button} from 'element-react-codish';
+import LightBox from 'react-images';
 
 @inject(stores => {
     let {
@@ -18,7 +19,11 @@ import {Button} from 'element-react-codish';
     }
 })
 @observer
-export default class ItemDetail extends Component {a
+export default class ItemDetail extends Component {
+    state = {
+        lightboxIsOpen: false
+    }
+
     componentWillMount() {
         this.handleRefresh();
     }
@@ -28,6 +33,18 @@ export default class ItemDetail extends Component {a
         if (id) {
             this.props.getItemDetail(id);
         }
+    }
+
+    handlePreviewClick = () => {
+        this.setState({
+            lightboxIsOpen: true
+        });
+    }
+
+    closeLightbox = () => {
+        this.setState({
+            lightboxIsOpen: false
+        });
     }
 
     render() {
@@ -103,7 +120,8 @@ export default class ItemDetail extends Component {a
                                         {item}
                                         <Button
                                             className="preview"
-                                            type="primary">预览</Button>
+                                            type="primary"
+                                            onClick={this.handlePreviewClick}>预览</Button>
                                     </div>
                                 )
                             })
@@ -113,6 +131,10 @@ export default class ItemDetail extends Component {a
                 <div className="back">
                     <Button type="">返回</Button>
                 </div>
+                <LightBox
+                    images={[{ src: 'https://images.unsplash.com/photo-1454991727061-be514eae86f7?dpr=2&auto=format&crop=faces&fit=crop&w=300&h=300' }]}
+                    isOpen={this.state.lightboxIsOpen}
+                    onClose={this.closeLightbox} />
             </div>
         )
     }
