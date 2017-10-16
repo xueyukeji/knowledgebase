@@ -7,18 +7,12 @@ import ListItem from './components/list-item.js';
 
 @inject(stores => {
     let {
-        tags,
-        getTags,
-    } = stores.tag;
-    let {
         userInfo
     } = stores.user
     let {
         knowledgeList,
     } = stores.manage;
     return {
-        tags,
-        getTags,
         knowledgeList,
         userInfo
     }

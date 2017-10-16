@@ -122,7 +122,10 @@ class AddItem extends Component {
     }
     componentWillMount() {
         this.props.getKnowledgeList()
-        this.props.getTags(this.props.match.params.id)
+        this.props.getTags({
+            libraryId: this.props.match.params.id,
+            isCustom: 0 // 不返回自定义标签
+        })
     }
     onSubmit(e) {
         e.preventDefault();
@@ -162,7 +165,10 @@ class AddItem extends Component {
     }
     selectKnowledge = ({value: libraryId}) => {
         this.state.form.libraryId = libraryId
-        this.props.getTags(libraryId)
+        this.props.getTags({
+            libraryId,
+            isCustom: 0
+        })
     }
     selectParentTag = ({value: parentId} = {}) => {
         if (!parentId) return false;
@@ -301,13 +307,13 @@ class AddItem extends Component {
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
                         <Select value={this.state.curParentId}
                             onChange={this.selectParentTag}
-                            placeholder="一级标签"
+                            placeholder="标签一"
                             noResultsText="暂无数据"
                             options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
                         <Select
                             value={this.state.form.tagIds[1].id}
                             onChange={this.selectChildTag}
-                            placeholder="二级标签"
+                            placeholder="标签二"
                             noResultsText="暂无数据"
                             options={tags.filter(t => t.parentId === this.state.curParentId).map(item => ({label: item.tag, value: item.id}))} />
                         <Input className="default-tag" value={this.state.form.tag}

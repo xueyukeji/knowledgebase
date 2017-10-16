@@ -40,7 +40,10 @@ export default class Manage extends Component {
     showAddTagPop = (id) => {
         this.props.showAddTagPop();
         this.props.setCurLibId(id)
-        this.props.getTags(id)
+        this.props.getTags({
+            libraryId: id,
+            isCustom: 0
+        })
     }
 
     hideAddTagPop = () => {

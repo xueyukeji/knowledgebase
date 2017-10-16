@@ -31,7 +31,10 @@ class ListItem extends Component {
         }
     }
     componentWillMount() {
-        this.props.getTags(this.props.match.params.id)
+        // 返回所有标签只传libraryId即可
+        this.props.getTags({
+            libraryId: this.props.match.params.id
+        })
         this.getDatas(1)
     }
 
@@ -40,7 +43,9 @@ class ListItem extends Component {
             if (this.props.itemListobj) {
                 this.props.itemListobj.data.items.length = 0
             }
-            this.props.getTags(nextProps.match.params.id)
+            this.props.getTags({
+                libraryId: nextProps.match.params.id
+            })
             var tagIds = []
             this.props.setTagIds(tagIds)
             this.props.setSearchInput('')

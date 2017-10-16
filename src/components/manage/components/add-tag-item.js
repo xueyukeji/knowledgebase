@@ -56,7 +56,12 @@ export default class AddTagItem extends Component {
             return this.props.deleteTag({
                 id: tag.id
             });
-        }).then(() => { this.props.getTags(this.props.curLibId) });
+        }).then(() => {
+            this.props.getTags({
+                libraryId: this.props.curLibId,
+                isCustom: 0
+            })
+        });
         return false;
     }
 

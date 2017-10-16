@@ -23,10 +23,10 @@ class Store {
     @action setTags = list => {
         this.tags = list;
     }
-    @action getTags = (id) => {
+    @action getTags = (params) => {
         return createFetch({
             url: 'pub/tags',
-            params: { libraryId: id }
+            params
         }).then(data => {
             if (data.data && data.data.tags.length) {
                 this.setTags(data.data.tags);
@@ -56,7 +56,10 @@ class Store {
                 Message(res.msg)
                 return
             }
-            this.getTags(this.curLibId)
+            this.getTags({
+                libraryId: this.curLibId,
+                isCustom: 0
+            })
         });
     }
 

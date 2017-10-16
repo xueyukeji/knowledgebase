@@ -49,7 +49,10 @@ export default class AddTag extends Component {
                     id
                 });
             }).then(() => {
-                this.props.getTags(this.props.curLibId);
+                this.props.getTags({
+                    libraryId: this.props.curLibId,
+                    isCustom: 0
+                })
             });
         }
         return false;
