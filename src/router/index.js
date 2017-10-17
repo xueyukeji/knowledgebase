@@ -3,7 +3,7 @@ import Nav from '../components/nav';
 import Item from '../components/item/item.js';
 import AddItem from '../components/item/add-item.js';
 import ItemDetail from '../components/item/item-detail.js';
-// import MyContribution from '../components/my-contribution'
+import MyContribution from '../components/my-contribution'
 // import MyCheck from '../components/my-check'
 // import MyCheckDetail from '../components/check-detail'
 // import Professor from '../components/professor'
@@ -42,6 +42,7 @@ export default class AppRouter extends Component {
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
                         <Route path="/knowledge/:id" component={Item} />
+                        <Route path="/my-contribution" component={MyContribution} />
                         {/**
                         <Route path="/my-check" component={MyCheck} exact />
                         <Route path="/my-check/detail" component={MyCheckDetail} />

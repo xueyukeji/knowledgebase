@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import ListItem from './item/components/list-item'
+import ListItem from './item/list-item'
 
 @inject(stores => {
     stores

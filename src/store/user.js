@@ -3,15 +3,8 @@ import { createFetch } from '../utils/fetch-creator';
 import Cookies from 'js-cookie';
 
 class Store {
-    // todo
-    @observable userInfo = {
-        data: {
-            // userName: 'jeff',
-            // userId: 98,
-            // userType: 0,
-            // userIcon: ''
-        }
-    };
+    @observable userInfo = null;
+    @observable userList = null;
     @observable userFile = [];
     @observable curFileParents = [];
     @observable selected = [];
@@ -25,6 +18,18 @@ class Store {
             Cookies.set('ct', '');
             process.env.NODE_ENV !== 'development' && (window.location = '/login.html');
         });
+    }
+    @action getUserList = (params) => {
+        return createFetch({
+            url: 'users',
+            params
+        }).then(data => {
+            if (data && data.data.users.length > 0) {
+                this.userList = data.data.users;
+            } else {
+                this.userList = []
+            }
+        })
     }
     @action getUserFile = (fi = '') => {
         return createFetch({

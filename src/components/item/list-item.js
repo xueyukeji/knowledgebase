@@ -62,6 +62,9 @@ class ListItem extends Component {
       };
       this.props.getItemList(params);
   };
+  goEdit = (item, e) => {
+      e.preventDefault()
+  }
   render() {
       let { itemListobj } = this.props;
       if (!itemListobj) {
@@ -72,10 +75,15 @@ class ListItem extends Component {
               {itemListobj &&
           itemListobj.data.items.map(item => {
               return (
-                  <NavLink to={`/item-detail/${this.props.match.params.id}`} key="">
-                      <div className="list-item" key={item.id}>
+                  <NavLink to={`/item-detail/${item.id}`} key={item.id}>
+                      <div className="list-item" >
                           <div className="title">
                               <h5>{item.name}</h5>
+                              {
+                                  <i className="el-icon-edit" onClick={(e) => {
+                                      this.goEdit(item, e)
+                                  }}></i>
+                              }
                           </div>
                           <div className="tag-items">
                               <div className="tags">

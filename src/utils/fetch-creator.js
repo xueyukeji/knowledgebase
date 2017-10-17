@@ -21,7 +21,7 @@ function createQuery(method, body) {
             ct:
         process.env.NODE_ENV !== 'development'
             ? Cookies.get('ct')
-            : 'ljcesmwtz4yzcadf12dcda77aac1e797c81e03a052c039a12d22d6593cb8c3fb2684e42bf5fb0150815472579000000000000000000',
+            : 'g4lh0711xdto2c15097d24141225214066c486435b11a62e02871d9cd995cf97a736f21bb4850150820800779000000000000000000',
             cv: '3.5.0',
             Accept: 'application/json',
             'Content-type': 'application/json;charset=UTF-8',

@@ -107,7 +107,8 @@ export default class Manage extends Component {
                                 <li key={item.id}>
                                     <span className="title">{item.name}</span>
                                     <div className="op-btns">
-                                        <Button type="text" onClick={this.showSetPerDialog}>设置权限</Button>
+                                        {/*<Button type="text" onClick={this.showSetPerDialog}>设置权限</Button>*/}
+                                        <Button type="text" onClick={this.showSetExpertDialog}>设置用户</Button>
                                         <Button type="text" onClick={this.showSetExpertDialog}>设置专家</Button>
                                         <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
