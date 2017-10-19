@@ -71,7 +71,6 @@ export default class ItemDetail extends Component {
                 </div>
             );
         }
-        console.log('itemDetails:', itemDetails)
         return (
             <div className="mod-itemdetail">
                 <Breadcrumb separator="/">

@@ -6,15 +6,11 @@ import KnowledgeList from './knowledge-list.js';
 
 @inject(stores => {
     let {
-        isShowEditKnowledgeDialog,
-        showEditKnowledgeDialog,
-        hideEditKnowledgeDialog
+        setCurLibrary
     } = stores.manage;
     let { userInfo } = stores.user
     return {
-        isShowEditKnowledgeDialog,
-        showEditKnowledgeDialog,
-        hideEditKnowledgeDialog,
+        setCurLibrary,
         userInfo
     }
 })
@@ -23,12 +19,27 @@ export default class Manage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isShowEditKnowledgeDialog: false
         }
     }
 
-    showLibraryDialog = () => {
-        this.props.showEditKnowledgeDialog()
+    showEditKnowledgeDialog = (params) => {
+        if (params) {
+            this.props.setCurLibrary(params)
+        } else {
+            this.props.setCurLibrary({})
+        }
+        this.setState({
+            isShowEditKnowledgeDialog: true
+        })
     }
+
+    hideEditKnowledgeDialog = () => {
+        this.setState({
+            isShowEditKnowledgeDialog: false
+        })
+    }
+
 
     render() {
         const { userInfo } = this.props
@@ -45,13 +56,12 @@ export default class Manage extends Component {
                             知识库管理
                         </div>
                         <div className="tc">
-                            <Button type="primary" onClick={this.showLibraryDialog}>添加知识库</Button>
+                            <Button type="primary" onClick={this.showEditKnowledgeDialog}>添加知识库</Button>
                         </div>
-                        <KnowledgeList />
+                        <KnowledgeList showLibraryDialog={this.showEditKnowledgeDialog}/>
                     </div>
                 </Layout.Col>
-                {/* {isShowEditKnowledgeDialog ? <AddKnowLedge /> : null } */}
-                <AddKnowLedge />
+                { this.state.isShowEditKnowledgeDialog ? <AddKnowLedge visible={true} hideLibraryDialog={this.hideEditKnowledgeDialog} /> : null }
             </Layout.Row>
         )
     }

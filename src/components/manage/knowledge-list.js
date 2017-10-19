@@ -104,11 +104,10 @@ export default class Manage extends Component {
     }
 
     render() {
-        let { knowledgeObj, showEditKnowledgeDialog, isAddTagPopVisible } = this.props;
+        let { knowledgeObj, showLibraryDialog, isAddTagPopVisible } = this.props;
         if (!knowledgeObj) {
             return <div>正在加载页面...</div>
         }
-        console.log(knowledgeObj)
         return (
             <div>
                 <ul className="manage-list">
@@ -127,7 +126,7 @@ export default class Manage extends Component {
                                         }
                                         <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
-                                            showEditKnowledgeDialog(item)
+                                            showLibraryDialog(item)
                                         }}>编辑</Button>
                                         <Button type="text" onClick={() => {
                                             this.delKnowledge(item.id)

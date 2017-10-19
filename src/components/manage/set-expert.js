@@ -132,8 +132,6 @@ export default class SetExpert extends Component {
                             noChecked: '${total}',
                             hasChecked: '${checked}/${total}'
                         }}
-                        disableFilter={true}
-                        onKeyPress={(e) => {console.log('dadadsa', e.charCode)}}
                         onChange={this._handleChange}
                     />
                 </Dialog.Body>

@@ -5,20 +5,10 @@ class Store {
     @observable knowledgeObj = {librarys: []}
     @observable knowledgeInfo = {};
     @observable curKnowledge = {};
-    @observable isShowEditKnowledgeDialog = false;
     @observable isUserDialog = false;
 
-    @action showEditKnowledgeDialog = (params) => {
-        if (params) {
-            this.curKnowledge = params
-        } else {
-            this.curKnowledge = {}
-        }
-        this.isShowEditKnowledgeDialog = true
-    }
-
-    @action hideEditKnowledgeDialog = () => {
-        this.isShowEditKnowledgeDialog = false
+    @action setCurLibrary = (params) => {
+        this.curKnowledge = params
     }
 
     @action getKnowledgeList = (params) => {

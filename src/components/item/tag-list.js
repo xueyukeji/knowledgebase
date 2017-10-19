@@ -109,8 +109,6 @@ class TagList extends Component {
         }
         delete allTagsObj.null0
         delete allTagsObj.null1
-        // console.log(allTagsObj)
-        // console.log(parentTags)
         const {selTags, showThree} = this.state
         let { knowledgeObj, match } = this.props;
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {

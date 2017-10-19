@@ -11,16 +11,12 @@ import {
 
 @inject(stores => {
     let {
-        isShowEditKnowledgeDialog,
-        hideEditKnowledgeDialog,
         curKnowledge,
         creatKnowledge,
         modifyKnowledge,
         getAdminKnowledgeList
     } = stores.manage;
     return {
-        isShowEditKnowledgeDialog,
-        hideEditKnowledgeDialog,
         curKnowledge,
         creatKnowledge,
         modifyKnowledge,
@@ -38,129 +34,127 @@ export default class AddKnowledge extends Component {
             auditType: 0
         };
     }
-    componentDidMount() {}
-    componentWillReceiveProps(nextProps) {
+    componentDidMount() {
+        const {curKnowledge} = this.props
         this.setState({
-            title: nextProps.curKnowledge.id ? '修改知识库' : '新增知识库',
-            name: nextProps.curKnowledge.name,
-            userType: nextProps.curKnowledge.userType,
-            auditType: nextProps.curKnowledge.auditType
+            title: curKnowledge.id ? '修改知识库' : '新增知识库',
+            name: curKnowledge.name,
+            userType: curKnowledge.userType || 0,
+            auditType: curKnowledge.auditType || 0
         });
     }
-  onChangeStatus = value => {
-      this.setState({
-          userType: value
-      });
-  };
-  onChangeAudit = value => {
-      this.setState({
-          auditType: value
-      });
-  };
-  onChange = v => {
-      this.setState({
-          name: v
-      });
-  };
-  create() {
-      if (this.state.name.length === 0 || this.state.name.length > 8) {
-          MessageBox.alert('知识库名称长度必须在1到8个字符');
-          return;
-      }
-      const {curKnowledge, creatKnowledge} = this.props
-      var params = {
-          name: this.state.name,
-          userType: parseInt(this.state.userType),
-          auditType: parseInt(this.state.auditType)
-      };
-      if (curKnowledge.id) {
-          params.id = curKnowledge.id
-          this.props
-              .modifyKnowledge(params)
-              .then(res => {
-                  if (res.code !== 200) {
-                      Message(res.msg);
-                      return;
-                  }
-                  this.getData();
-              });
-      } else {
-          creatKnowledge(params).then(res => {
-              if (res.code !== 200) {
-                  Message(res.msg);
-                  return;
-              }
-              this.getData();
-          });
-      }
-  }
-  getData = () => {
-      const {curKnowledge, hideEditKnowledgeDialog, getAdminKnowledgeList} = this.props
-      const msg = curKnowledge.id ? '修改' : '新增';
-      Message.success(msg + '知识库成功！');
-      hideEditKnowledgeDialog();
-      getAdminKnowledgeList();
-  };
-  render() {
-      const {isShowEditKnowledgeDialog, hideEditKnowledgeDialog, } = this.props
-      return (
-          <Dialog
-              className="mod-addknowledge"
-              title={this.state.title}
-              size="small"
-              closeOnClickModal={false}
-              visible={isShowEditKnowledgeDialog}
-              onCancel={hideEditKnowledgeDialog}
-              lockScroll={false}
-          >
-              <Dialog.Body>
-                  <div className="name">
-                      <label className="attr">名称：</label>
-                      <Input
-                          value={this.state.name}
-                          onChange={this.onChange}
-                          placeholder="请输入内容"
-                      />
-                  </div>
-                  {
-                      <div className="status">
-                          <label className="attr">状态设置：</label>
-                          <div className="status-content">
-                              <div>
-                                  <span>状态：</span>
-                                  <Radio.Group
-                                      value={this.state.userType}
-                                      onChange={this.onChangeStatus}
-                                  >
-                                      <Radio value="0">开放</Radio>
-                                      <Radio value="1">指定</Radio>
-                                  </Radio.Group>
-                              </div>
-                              <div>
-                                  <span>审核：</span>
-                                  <Radio.Group
-                                      value={this.state.auditType}
-                                      onChange={this.onChangeAudit}
-                                  >
-                                      <Radio value="0">免审</Radio>
-                                      <Radio value="1">受审</Radio>
-                                  </Radio.Group>
-                              </div>
-                          </div>
-                      </div>
-                  }
-              </Dialog.Body>
-              <Dialog.Footer className="dialog-footer">
-                  <Button
-                      onClick={hideEditKnowledgeDialog}
-                  >
-            取消
-                  </Button>
-                  <Button type="info" onClick={this.create.bind(this)}>
-            确定
-                  </Button>
-              </Dialog.Footer>
-          </Dialog>
-      );
-  }
+
+    onChangeStatus = value => {
+        this.setState({
+            userType: value
+        });
+    };
+    onChangeAudit = value => {
+        this.setState({
+            auditType: value
+        });
+    };
+    onChange = v => {
+        this.setState({
+            name: v
+        });
+    };
+    create() {
+        if (this.state.name.length === 0 || this.state.name.length > 8) {
+            MessageBox.alert('知识库名称长度必须在1到8个字符');
+            return;
+        }
+        const {curKnowledge, modifyKnowledge, creatKnowledge} = this.props
+        var params = {
+            name: this.state.name,
+            userType: parseInt(this.state.userType),
+            auditType: parseInt(this.state.auditType)
+        };
+        if (curKnowledge.id) {
+            params.id = curKnowledge.id
+            modifyKnowledge(params).then(res => {
+                if (res.code !== 200) {
+                    Message(res.msg);
+                    return;
+                }
+                this.getData();
+            });
+        } else {
+            creatKnowledge(params).then(res => {
+                if (res.code !== 200) {
+                    Message(res.msg);
+                    return;
+                }
+                this.getData();
+            });
+        }
+    }
+    getData = () => {
+        const {curKnowledge, hideLibraryDialog, getAdminKnowledgeList} = this.props
+        Message.success(curKnowledge.id ? '修改' : '新增' + '知识库成功！');
+        hideLibraryDialog();
+        getAdminKnowledgeList();
+    };
+    render() {
+        const { visible, hideLibraryDialog } = this.props
+        return (
+            <Dialog
+                className="mod-addknowledge"
+                title={this.state.title}
+                size="small"
+                closeOnClickModal={false}
+                visible={visible}
+                onCancel={hideLibraryDialog}
+                lockScroll={false}
+            >
+                <Dialog.Body>
+                    <div className="name">
+                        <label className="attr">名称：</label>
+                        <Input
+                            value={this.state.name}
+                            onChange={this.onChange}
+                            placeholder="请输入内容"
+                        />
+                    </div>
+                    {
+                        <div className="status">
+                            <label className="attr">状态设置：</label>
+                            <div className="status-content">
+                                <div>
+                                    <span>状态：</span>
+                                    <Radio.Group
+                                        value={this.state.userType}
+                                        onChange={this.onChangeStatus}
+                                    >
+                                        <Radio value="0">开放</Radio>
+                                        <Radio value="1">指定</Radio>
+                                    </Radio.Group>
+                                </div>
+                                <div>
+                                    <span>审核：</span>
+                                    <Radio.Group
+                                        value={this.state.auditType}
+                                        onChange={this.onChangeAudit}
+                                    >
+                                        <Radio value="0">免审</Radio>
+                                        <Radio value="1">受审</Radio>
+                                    </Radio.Group>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                    <Button
+                        onClick={ hideLibraryDialog }
+                    >
+                取消
+                    </Button>
+                    <Button type="info" onClick={this.create.bind(this)}>
+                确定
+                    </Button>
+                </Dialog.Footer>
+            </Dialog>
+        );
+    }
 }
