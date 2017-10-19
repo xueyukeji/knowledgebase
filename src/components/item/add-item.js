@@ -8,7 +8,7 @@ import Select from 'react-select';
 
 @inject(stores => {
     let {
-        knowledgeList,
+        knowledgeObj,
         getKnowledgeList
     } = stores.manage
     let {
@@ -30,7 +30,7 @@ import Select from 'react-select';
     } = stores.user;
     return {
         tags,
-        knowledgeList,
+        knowledgeObj,
         getKnowledgeList,
         parentTags,
         getTags,
@@ -265,9 +265,9 @@ class AddItem extends Component {
         });
     }
     render() {
-        let { knowledgeList, parentTags, tags, userInfo } = this.props;
+        let { knowledgeObj, parentTags, tags, userInfo } = this.props;
         let { files, dialogVisible } = this.state;
-        const curLibrary = this.props.knowledgeList && this.props.knowledgeList.filter((k) => {
+        const curLibrary = this.props.knowledgeObj && this.props.knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
         })
         return (
@@ -296,7 +296,7 @@ class AddItem extends Component {
                             noResultsText="暂无数据"
                             onChange={this.selectKnowledge}
                             value={this.state.form.libraryId}
-                            options={knowledgeList.map(item => ({label: item.name, value: item.id}))}/>
+                            options={knowledgeObj.librarys.map(item => ({label: item.name, value: item.id}))}/>
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>

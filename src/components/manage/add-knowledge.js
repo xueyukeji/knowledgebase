@@ -16,7 +16,7 @@ import {
         curKnowledge,
         creatKnowledge,
         modifyKnowledge,
-        getKnowledgeList
+        getAdminKnowledgeList
     } = stores.manage;
     return {
         isShowEditKnowledgeDialog,
@@ -24,7 +24,7 @@ import {
         curKnowledge,
         creatKnowledge,
         modifyKnowledge,
-        getKnowledgeList
+        getAdminKnowledgeList
     };
 })
 @observer
@@ -97,7 +97,7 @@ export default class AddKnowledge extends Component {
       const msg = this.props.curKnowledge.id ? '修改' : '新增';
       Message.success(msg + '知识库成功！');
       this.props.hideEditKnowledgeDialog();
-      this.props.getKnowledgeList();
+      this.props.getAdminKnowledgeList();
   };
   render() {
       return (

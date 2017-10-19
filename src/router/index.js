@@ -13,7 +13,7 @@ import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
     let {
-        knowledgeList,
+        knowledgeObj,
         getKnowledgeList
     } = stores.manage;
     let {
@@ -22,24 +22,27 @@ import { inject, observer } from 'mobx-react';
     } = stores.user;
     return {
         userInfo,
-        knowledgeList,
+        knowledgeObj,
         getKnowledgeList,
         getUserInfo
     }
 })
 @observer
 export default class AppRouter extends Component {
-    componentDidMount() {
+    componentWillMount() {
         // TODO 根据用户查知识库
-        this.props.getKnowledgeList();
-        this.props.getUserInfo();
+        this.props.getUserInfo()
+        this.props.getKnowledgeList({userId: 97});
     }
 
     render() {
+        if (!this.props.userInfo) {
+            return <div>正在加载数据...</div>
+        }
         return (
             <Router>
                 <div className="wrap">
-                    <Nav list={this.props.knowledgeList} userInfo={this.props.userInfo} />
+                    <Nav userInfo={this.props.userInfo} list={this.props.knowledgeObj.librarys} />
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
                         <Route path="/knowledge/:id" component={Item} />

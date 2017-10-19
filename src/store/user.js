@@ -57,6 +57,15 @@ class Store {
     @action setSelected = data => {
         this.selected = data;
     }
+    @action viewFile = params => {
+        return createFetch({
+            url: 'view.html',
+            params: {
+                fc: 'personal',
+                fi: params.fileId
+            }
+        });
+    }
 }
 
 export default new Store()

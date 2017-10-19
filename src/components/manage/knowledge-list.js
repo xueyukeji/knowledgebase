@@ -8,8 +8,8 @@ import SetExpert from './set-expert.js';
 @inject(stores => {
     let {
         showEditKnowledgeDialog,
-        knowledgeList,
-        getKnowledgeList,
+        knowledgeObj,
+        getAdminKnowledgeList,
         removeKnowledge,
         setIsUserDiloag,
     } = stores.manage;
@@ -23,8 +23,8 @@ import SetExpert from './set-expert.js';
     } = stores.tag
     return {
         showEditKnowledgeDialog,
-        knowledgeList,
-        getKnowledgeList,
+        knowledgeObj,
+        getAdminKnowledgeList,
         removeKnowledge,
         isAddTagPopVisible,
         showAddTagPop,
@@ -45,7 +45,7 @@ export default class Manage extends Component {
     }
 
     componentWillMount() {
-        this.props.getKnowledgeList();
+        this.props.getAdminKnowledgeList();
     }
 
     showAddTagPop = (id) => {
@@ -71,7 +71,7 @@ export default class Manage extends Component {
                     type: 'success',
                     message: '删除成功!'
                 });
-                this.props.getKnowledgeList();
+                this.props.getAdminKnowledgeList();
             })
         }).catch(() => { });
     }
@@ -104,12 +104,16 @@ export default class Manage extends Component {
     }
 
     render() {
-        let { knowledgeList } = this.props;
+        let { knowledgeObj } = this.props;
+        if (!knowledgeObj) {
+            return <div>正在加载页面...</div>
+        }
+        console.log(knowledgeObj)
         return (
             <div>
                 <ul className="manage-list">
                     {
-                        knowledgeList.map(item => {
+                        knowledgeObj.librarys.map(item => {
                             return (
                                 <li key={item.id}>
                                     <span className="title">{item.name}</span>

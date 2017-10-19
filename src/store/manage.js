@@ -2,7 +2,7 @@ import { observable, action } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
 
 class Store {
-    @observable knowledgeList = [];
+    @observable knowledgeObj = null
     @observable knowledgeInfo = null;
     @observable curKnowledge = null;
     @observable isShowEditKnowledgeDialog = false;
@@ -21,20 +21,35 @@ class Store {
         this.isShowEditKnowledgeDialog = false
     }
 
-    @action setKnowledgeList = list => {
-        this.knowledgeList = list;
-    }
-
-    @action getKnowledgeList = () => {
+    @action getKnowledgeList = (params) => {
         createFetch({
-            url: 'pub/librarys/admin'
+            url: 'pub/librarys',
+            params
         }).then(data => {
-            if (data.data && data.data.librarys.length) {
-                this.setKnowledgeList(data.data.librarys);
+            if (data.data) {
+                this.setKnowledgeObj(data.data);
             } else {
-                this.setKnowledgeList([]);
+                this.setKnowledgeObj(null);
             }
         });
+    }
+
+
+    @action getAdminKnowledgeList = (params) => {
+        createFetch({
+            url: 'pub/librarys/admin',
+            params
+        }).then(data => {
+            if (data.data) {
+                this.setKnowledgeObj(data.data);
+            } else {
+                this.setKnowledgeObj(null);
+            }
+        });
+    }
+
+    @action setKnowledgeObj = obj => {
+        this.knowledgeObj = obj;
     }
 
     @action getKnowledgeInfo = params => {

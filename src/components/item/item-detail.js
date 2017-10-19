@@ -5,6 +5,7 @@ import {Button, Breadcrumb, Tag} from 'element-react-codish';
 import LightBox from 'react-images';
 
 @inject(stores => {
+    let { viewFile } = stores.user
     let {
         itemDetails,
         getItemDetail,
@@ -12,6 +13,7 @@ import LightBox from 'react-images';
     return {
         itemDetails,
         getItemDetail,
+        viewFile
     }
 })
 @observer
@@ -31,10 +33,14 @@ export default class ItemDetail extends Component {
         }
     }
 
-    handlePreviewClick = () => {
-        this.setState({
-            lightboxIsOpen: true
-        });
+    handlePreviewClick = (item) => {
+        console.log(item)
+        // this.setState({
+        //     lightboxIsOpen: true
+        // });
+        this.props.viewFile({
+            // fileId:
+        })
     }
 
     closeLightbox = () => {
@@ -129,7 +135,7 @@ export default class ItemDetail extends Component {
                                         <Button
                                             className="preview"
                                             type="primary"
-                                            onClick={this.handlePreviewClick}>预览</Button>
+                                            onClick={() => {this.handlePreviewClick(item)}}>预览</Button>
                                     </div>
                                 )
                             }) : <div>暂无附件</div>
