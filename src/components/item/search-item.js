@@ -67,7 +67,7 @@ class SearchItem extends Component {
                         onChange={this.logChange}/>
                 </Layout.Col> */}
                 <Layout.Col span="18">
-                    {<Input placeholder="请输入标签名字搜索" value={this.props.searchInput || ''}
+                    {<Input placeholder="请输入条目名称进行搜索" value={this.props.searchInput || ''}
                         onChange={this.onChangeInput}
                         onKeyPress={(e) => {
                             if (e.charCode === 13) { this.getData() }

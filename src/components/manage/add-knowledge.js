@@ -34,28 +34,30 @@ export default class AddKnowledge extends Component {
         this.state = {
             title: '新增知识库',
             name: '',
-            status: 1,
-            audit: 1
+            userType: 0,
+            auditType: 0
         };
     }
     componentDidMount() {}
     componentWillReceiveProps(nextProps) {
         this.setState({
             title: nextProps.curKnowledge.id ? '修改知识库' : '新增知识库',
-            name: nextProps.curKnowledge.name
+            name: nextProps.curKnowledge.name,
+            userType: nextProps.curKnowledge.userType,
+            auditType: nextProps.curKnowledge.auditType
         });
     }
-  onChangeStatus = (value) => {
+  onChangeStatus = value => {
       this.setState({
-          status: value
+          userType: value
       });
   };
-  onChangeAudit = (value) => {
+  onChangeAudit = value => {
       this.setState({
-          audit: value
+          auditType: value
       });
   };
-  onChange = (v) => {
+  onChange = v => {
       this.setState({
           name: v
       });
@@ -65,19 +67,24 @@ export default class AddKnowledge extends Component {
           MessageBox.alert('知识库名称长度必须在1到8个字符');
           return;
       }
+      var params = {
+          name: this.state.name,
+          userType: parseInt(this.state.userType),
+          auditType: parseInt(this.state.auditType)
+      };
       if (this.props.curKnowledge.id) {
-          this.props.modifyKnowledge({
-              name: this.state.name,
-              id: this.props.curKnowledge.id
-          }).then(res => {
-              if (res.code !== 200) {
-                  Message(res.msg);
-                  return;
-              }
-              this.getData();
-          });
+          params.id = this.props.curKnowledge.id
+          this.props
+              .modifyKnowledge(params)
+              .then(res => {
+                  if (res.code !== 200) {
+                      Message(res.msg);
+                      return;
+                  }
+                  this.getData();
+              });
       } else {
-          this.props.creatKnowledge({ name: this.state.name }).then(res => {
+          this.props.creatKnowledge(params).then(res => {
               if (res.code !== 200) {
                   Message(res.msg);
                   return;
@@ -120,16 +127,22 @@ export default class AddKnowledge extends Component {
                           <div className="status-content">
                               <div>
                                   <span>状态：</span>
-                                  <Radio.Group value={this.state.status} onChange={this.onChangeStatus}>
-                                      <Radio value="1">开放</Radio>
-                                      <Radio value="2">指定</Radio>
+                                  <Radio.Group
+                                      value={this.state.userType}
+                                      onChange={this.onChangeStatus}
+                                  >
+                                      <Radio value="0">开放</Radio>
+                                      <Radio value="1">指定</Radio>
                                   </Radio.Group>
                               </div>
                               <div>
                                   <span>审核：</span>
-                                  <Radio.Group value={this.state.audit} onChange={this.onChangeAudit}>
-                                      <Radio value="1">免审</Radio>
-                                      <Radio value="2">受审</Radio>
+                                  <Radio.Group
+                                      value={this.state.auditType}
+                                      onChange={this.onChangeAudit}
+                                  >
+                                      <Radio value="0">免审</Radio>
+                                      <Radio value="1">受审</Radio>
                                   </Radio.Group>
                               </div>
                           </div>

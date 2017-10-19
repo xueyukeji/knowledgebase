@@ -5,12 +5,13 @@ class Store {
     @observable knowledgeList = [];
     @observable curKnowledge = null;
     @observable isShowEditKnowledgeDialog = false;
+    @observable isUserDialog = false;
 
     @action showEditKnowledgeDialog = (params) => {
         if (params) {
-            this.curKnowledge = { name: params.name, id: params.id }
+            this.curKnowledge = params
         } else {
-            this.curKnowledge = { name: '', id: '' }
+            this.curKnowledge = {}
         }
         this.isShowEditKnowledgeDialog = true
     }
@@ -24,7 +25,7 @@ class Store {
     }
     @action getKnowledgeList = () => {
         createFetch({
-            url: 'pub/librarys'
+            url: 'pub/librarys/admin'
         }).then(data => {
             if (data.data && data.data.librarys.length) {
                 this.setKnowledgeList(data.data.librarys);
@@ -55,6 +56,30 @@ class Store {
             method: 'post',
             body: params
         });
+    }
+
+    @action setUsers = params => {
+        return createFetch({
+            url: 'pub/librarys/' + params.id + '/users',
+            method: 'post',
+            body: {
+                userIds: params.userIds
+            }
+        });
+    }
+
+    @action setExpert = params => {
+        return createFetch({
+            url: 'pub/librarys/' + params.id + '/professors',
+            method: 'post',
+            body: {
+                professorIds: params.professorIds
+            }
+        });
+    }
+
+    @action setIsUserDiloag = params => {
+        this.isUserDialog = params
     }
 }
 

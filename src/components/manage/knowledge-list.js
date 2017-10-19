@@ -11,6 +11,7 @@ import SetExpert from './set-expert.js';
         knowledgeList,
         getKnowledgeList,
         removeKnowledge,
+        setIsUserDiloag,
     } = stores.manage;
     let {
         isAddTagPopVisible,
@@ -30,14 +31,17 @@ import SetExpert from './set-expert.js';
         hideAddTagPop,
         setCurLibId,
         getTags,
-        setTags
+        setTags,
+        setIsUserDiloag
     };
 })
 @observer
 export default class Manage extends Component {
     state = {
         permissionDialog: false,
-        expertDialog: false
+        expertDialog: false,
+        selectUsers: [],
+        curLibrary: []
     }
 
     componentWillMount() {
@@ -84,9 +88,12 @@ export default class Manage extends Component {
         })
     }
 
-    showSetExpertDialog = () => {
+    showSetExpertDialog = (item, isCheckedUser) => {
+        this.props.setIsUserDiloag(isCheckedUser)
         this.setState({
-            expertDialog: true
+            expertDialog: true,
+            curLibrary: item,
+            selectUsers: [542011, 632011]
         })
     }
 
@@ -108,8 +115,12 @@ export default class Manage extends Component {
                                     <span className="title">{item.name}</span>
                                     <div className="op-btns">
                                         {/*<Button type="text" onClick={this.showSetPerDialog}>设置权限</Button>*/}
-                                        <Button type="text" onClick={this.showSetExpertDialog}>设置用户</Button>
-                                        <Button type="text" onClick={this.showSetExpertDialog}>设置专家</Button>
+                                        {
+                                            item.userType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, true)}}>设置用户</Button> : ''
+                                        }
+                                        {
+                                            item.auditType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, false)}}>设置专家</Button> : ''
+                                        }
                                         <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
                                             this.props.showEditKnowledgeDialog(item)
@@ -135,7 +146,7 @@ export default class Manage extends Component {
                 }
                 {
                     this.state.expertDialog ?
-                        <SetExpert visible={true} handleCancel={this.hideSetExpertDialog} />
+                        <SetExpert visible={true} curLibrary={this.state.curLibrary} selectedUsers={this.state.selectUsers} handleCancel={this.hideSetExpertDialog} />
                         : null
                 }
             </div>
