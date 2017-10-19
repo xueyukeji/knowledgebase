@@ -3,7 +3,14 @@ import { createFetch } from '../utils/fetch-creator';
 import Cookies from 'js-cookie';
 
 class Store {
-    @observable userInfo = null;
+    @observable userInfo = process.env.NODE_ENV === 'development' ? {
+        data: {
+            userId: 98,
+            userName: 'admin',
+            userIcon: '',
+            userType: 1
+        }
+    } : null;
     @observable userList = null;
     @observable userFile = [];
     @observable curFileParents = [];
