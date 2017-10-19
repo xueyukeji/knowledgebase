@@ -36,13 +36,14 @@ export default class AppRouter extends Component {
     }
 
     render() {
+        const { userInfo, knowledgeObj: { librarys = []} } = this.props;
         if (!this.props.userInfo) {
             return <div>正在加载数据...</div>
         }
         return (
             <Router>
                 <div className="wrap">
-                    <Nav userInfo={this.props.userInfo} list={this.props.knowledgeObj.librarys} />
+                    <Nav userInfo={userInfo} list={librarys} />
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
                         <Route path="/knowledge/:id" component={Item} />

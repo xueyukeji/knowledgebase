@@ -2,9 +2,9 @@ import { observable, action } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
 
 class Store {
-    @observable knowledgeObj = null
-    @observable knowledgeInfo = null;
-    @observable curKnowledge = null;
+    @observable knowledgeObj = {librarys: []}
+    @observable knowledgeInfo = {};
+    @observable curKnowledge = {};
     @observable isShowEditKnowledgeDialog = false;
     @observable isUserDialog = false;
 
