@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Button, Dialog, Transfer, Message } from 'element-react-codish';
+import { Dialog, Transfer, Message } from 'element-react-codish';
 @inject(stores => {
     let { userList, getUserList } = stores.user;
     let { setUsers, setExpert, isUserDialog, getAdminKnowledgeList } = stores.manage;
@@ -44,35 +44,19 @@ export default class SetExpert extends Component {
     // rightDefaultChecked user
     handleChange(value) {
         // TODO
-        const { curLibrary, isUserDialog, selectedUsers, setUsers, setExpert} = this.props
+        const { curLibrary, isUserDialog, setUsers, setExpert} = this.props
         let params = {
             id: curLibrary.id,
         };
         if (isUserDialog) {
-            params.userIds = selectedUsers.concat(value)
-            let tempArr = []
-            params.userIds.forEach((a) => {
-                if (tempArr.indexOf(a) === -1) {
-                    tempArr.push(a)
-                    return tempArr
-                }
-            })
-            params.userIds = tempArr
+            params.userIds = value
             setUsers(params).then(res => {
-                this.resSuccessInfo(res, value);
+                this.resSuccessInfo(isUserDialog, res, value);
             });
         } else {
-            params.professorIds = selectedUsers.concat(value)
-            let tempArr = []
-            params.professorIds.forEach((a) => {
-                if (tempArr.indexOf(a) === -1) {
-                    tempArr.push(a)
-                    return tempArr
-                }
-            })
-            params.professorIds = tempArr
+            params.professorIds = value
             setExpert(params).then(res => {
-                this.resSuccessInfo(res, value);
+                this.resSuccessInfo(isUserDialog, res, value);
             });
         }
     }
@@ -88,8 +72,9 @@ export default class SetExpert extends Component {
         })
     }
 
-    resSuccessInfo(res, value) {
+    resSuccessInfo(isUserDialog, res, value) {
         if (res.code === 200) {
+            Message(isUserDialog ? '设置用户成功' : '设置专家成功')
             this.setState({ value });
             this.props.getAdminKnowledgeList()
         } else {
@@ -135,9 +120,6 @@ export default class SetExpert extends Component {
                         onChange={this._handleChange}
                     />
                 </Dialog.Body>
-                <Dialog.Footer className="dialog-footer">
-                    <Button onClick={handleCancel}>取消</Button>
-                </Dialog.Footer>
             </Dialog>
         );
     }

@@ -93,7 +93,7 @@ export default class Manage extends Component {
         this.setState({
             expertDialog: true,
             curLibrary: item,
-            selectUsers: item.professorIds
+            selectUsers: isCheckedUser ? item.userIds : item.professorIds
         })
     }
 

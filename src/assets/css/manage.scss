@@ -40,5 +40,8 @@
   }
   .mod-setexpert {
       width: 500px;
+      .el-transfer-panel{
+          min-height: 350px;
+      }
   }
 }
