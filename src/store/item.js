@@ -4,7 +4,7 @@ import { createFetch } from '../utils/fetch-creator';
 class Store {
     @observable itemListobj = null;
     @observable userItemsObj = null;
-    @observable itemDetails = null; // 知识条目详情
+    @observable itemDetails = false; // 知识条目详情
     @observable searchInput = ''; // 知识条目搜索用到
     @observable tagIds = []; // 知识条目搜索用到
     @action setTagIds = arr => {
@@ -50,8 +50,8 @@ class Store {
         createFetch({
             url: 'pub/items/' + itemId
         }).then((data) => {
-            if (data.data && data.data.items) {
-                this.itemDetails = data.data.items;
+            if (data.data && data.data.item) {
+                this.itemDetails = data.data.item;
             }
         })
     }

@@ -59,10 +59,11 @@ class Store {
     }
     @action viewFile = params => {
         return createFetch({
-            url: 'view.html',
+            url: '/file/view',
             params: {
                 fc: 'personal',
-                fi: params.fileId
+                fi: params.fileid,
+                fv: params.fileversion
             }
         });
     }

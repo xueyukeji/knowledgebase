@@ -57,7 +57,7 @@ class AddItem extends Component {
                 libraryId: parseInt(this.props.match.params.id),
                 creatorId: '',
                 creatorName: '',
-                fileIds: [],
+                fileInfos: [],
                 tagIds: [{ id: '' }, { id: '' }],
                 tag: ''
             },
@@ -105,10 +105,10 @@ class AddItem extends Component {
                         trigger: 'change'
                     }
                 ],
-                fileIds: [
+                fileInfos: [
                     {
                         validator: (rule, value, callback) => {
-                            if (this.state.form.fileIds.length < 1) {
+                            if (this.state.form.fileInfos.length < 1) {
                                 callback(new Error('请选择文件'));
                                 return
                             }
@@ -170,7 +170,9 @@ class AddItem extends Component {
             isCustom: 0
         })
     }
-    selectParentTag = ({value: parentId} = {}) => {
+    selectParentTag = (parentTag) => {
+        if (!parentTag) return false;
+        let parentId = parentTag.value;
         if (!parentId) return false;
         let form = this.state.form;
         form.tagIds[0] = {
@@ -184,7 +186,9 @@ class AddItem extends Component {
             form
         });
     }
-    selectChildTag = ({value: cId} = {}) => {
+    selectChildTag = (childTag) => {
+        if (!childTag) return false;
+        let cId = childTag.value;
         if (!cId) return false;
         let form = this.state.form;
         form.tagIds[1] = {
@@ -229,8 +233,12 @@ class AddItem extends Component {
             return MessageBox.alert('文件个数不能超过30个！');
         }
         form = Object.assign(form, {
-            fileIds: files.map(item => {
-                return item.fileId;
+            fileInfos: files.map(item => {
+                return {
+                    fileid: item.fileId,
+                    fileversion: item.fileVersion,
+                    filename: item.fileName,
+                };
             })
         });
         this.setState({
@@ -243,8 +251,8 @@ class AddItem extends Component {
     deleteFile = data => {
         let { form, files } = this.state;
         form = Object.assign(form, {
-            fileIds: files.filter(item => {
-                return item !== data.fileId;
+            fileInfos: files.filter(item => {
+                return item.fileId !== data.fileId;
             })
         });
         this.setState({
@@ -267,7 +275,7 @@ class AddItem extends Component {
     render() {
         let { knowledgeObj, parentTags, tags, userInfo } = this.props;
         let { files, dialogVisible } = this.state;
-        const curLibrary = this.props.knowledgeObj && this.props.knowledgeObj.librarys.filter((k) => {
+        const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
         })
         return (
@@ -290,13 +298,7 @@ class AddItem extends Component {
                             placeholder="请输入标题"></Input>
                     </Form.Item>
                     <Form.Item label="知识库：" required>
-                        <Select
-                            name="name"
-                            placeholder="请选择知识库"
-                            noResultsText="暂无数据"
-                            onChange={this.selectKnowledge}
-                            value={this.state.form.libraryId}
-                            options={knowledgeObj.librarys.map(item => ({label: item.name, value: item.id}))}/>
+                        {curLibrary[0] && curLibrary[0].name}
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
@@ -320,7 +322,7 @@ class AddItem extends Component {
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>
                     </Form.Item>
-                    <Form.Item label="附件：" prop="fileIds" required>
+                    <Form.Item label="附件：" prop="fileInfos" required>
                         {
                             files.length ?
                                 this.getSelectedFile() : null

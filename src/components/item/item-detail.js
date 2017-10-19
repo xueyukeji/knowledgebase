@@ -19,7 +19,8 @@ import LightBox from 'react-images';
 @observer
 export default class ItemDetail extends Component {
     state = {
-        lightboxIsOpen: false
+        lightboxIsOpen: false,
+        image: ''
     }
 
     componentWillMount() {
@@ -34,13 +35,21 @@ export default class ItemDetail extends Component {
     }
 
     handlePreviewClick = (item) => {
-        console.log(item)
-        // this.setState({
-        //     lightboxIsOpen: true
-        // });
-        this.props.viewFile({
-            // fileId:
-        })
+        if (!item) return;
+        //"jpg", "jpeg", "png", "gif", "ico", "bpm", "psd", "pic", "svg", "eps", "cdr", "ai", "ps", "wmf"
+        if (/(\.jpg|\.jpeg|\.png|\.gif|\.ico|\.bpm|\.psd|\.pic|\.svg|\.eps|\.cdr|\.ai|\.ps|\.wmf)$/.test(item.filename)) {
+            this.props.viewFile(item).then(data => {
+                if (data.data) {
+                    this.setState({
+                        image: data.data.thumb,
+                        lightboxIsOpen: true
+                    });
+                }
+            });
+        } else {
+            let newWindow = window.open('about:blank');
+            newWindow.location = `/views.html?fc=personal&fi=${item.fileid}`;
+        }
     }
 
     closeLightbox = () => {
@@ -89,7 +98,7 @@ export default class ItemDetail extends Component {
                         知识库:
                     </div>
                     <div className="content">
-                        {itemDetails.libraryId}
+                        {itemDetails.libraryName}
                     </div>
                 </div>
                 <div className="item">
@@ -128,10 +137,10 @@ export default class ItemDetail extends Component {
                     </div>
                     <div className="content">
                         {
-                            itemDetails.fileIds ? itemDetails.fileIds.split(',').map(item => {
+                            itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
                                 return (
-                                    <div className="file-item" key={item}>
-                                        {item}
+                                    <div className="file-item" key={item.fileid}>
+                                        {item.filename}
                                         <Button
                                             className="preview"
                                             type="primary"
@@ -143,7 +152,7 @@ export default class ItemDetail extends Component {
                     </div>
                 </div>
                 <LightBox
-                    images={[{ src: 'https://images.unsplash.com/photo-1454991727061-be514eae86f7?dpr=2&auto=format&crop=faces&fit=crop&w=300&h=300' }]}
+                    images={[{src: this.state.image}]}
                     isOpen={this.state.lightboxIsOpen}
                     onClose={this.closeLightbox} />
             </div>
