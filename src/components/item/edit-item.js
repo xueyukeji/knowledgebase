@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish';
 import SelectFile from './select-file.js';
 import { MessageBox } from 'element-react-codish';
@@ -17,7 +17,9 @@ import Select from 'react-select';
         getTags
     } = stores.tag
     let {
-        createItem,
+        getItemDetail,
+        itemDetails,
+        modifyItem
     } = stores.item
     let {
         setUserFile,
@@ -34,7 +36,7 @@ import Select from 'react-select';
         getKnowledgeList,
         parentTags,
         getTags,
-        createItem,
+        modifyItem,
         userInfo,
         setUserFile,
         setCurFileParents,
@@ -42,110 +44,132 @@ import Select from 'react-select';
         getUserFile,
         selected,
         userFile,
+        getItemDetail,
+        itemDetails
     }
 })
 @observer
-class AddItem extends Component {
+export default class EditItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
             dialogVisible: false,
             curParentId: '',
-            form: {
-                name: '',
-                desc: '',
-                libraryId: parseInt(this.props.match.params.id),
-                creatorId: '',
-                creatorName: '',
-                fileInfos: [],
-                tagIds: [{ id: '' }, { id: '' }],
-                tag: ''
-            },
+            name: '',
+            desc: '',
+            libraryId: parseInt(this.props.match.params.id),
+            creatorId: '',
+            creatorName: '',
+            fileInfos: [],
+            tagIds: [{ id: '' }, { id: '' }],
+            tag: '',
             files: [],
-            rules: {
-                name: [
-                    { required: true, message: '请输入标题', trigger: 'change' },
-                    {
-                        validator: (rule, value, callback) => {
-                            if (value.length > 32) {
-                                callback(new Error('标题名称长度不能超过32个字符'));
-                                return
-                            }
-                            callback()
-                        },
-                        trigger: 'blur'
-                    }
-                ],
-                desc: [
-                    { required: true, message: '请输入描述', trigger: 'change' },
-                    {
-                        validator: (rule, value, callback) => {
-                            if (value.length > 500) {
-                                callback(new Error('标题描述长度不能超过500个字符'));
-                                return
-                            }
-                            callback()
-                        },
-                        trigger: 'blur'
-                    }
-                ],
-                tagIds: [
-                    {
-                        validator: (rule, value, callback) => {
-                            if (!this.state.form.tagIds[0].id) {
-                                callback(new Error('请选择一级标签'));
-                                return
-                            }
-                            if (this.state.form.tag.length > 8) {
-                                callback(new Error('请输入8个字符以内的标签'));
-                                return
-                            }
-                            callback()
-                        },
-                        trigger: 'change'
-                    }
-                ],
-                fileInfos: [
-                    {
-                        validator: (rule, value, callback) => {
-                            if (this.state.form.fileInfos.length < 1) {
-                                callback(new Error('请选择文件'));
-                                return
-                            }
-                            callback()
-                        },
-                        trigger: 'change'
-                    }
-                ]
-            }
+        };
+        this.rules = {
+            name: [
+                { required: true, message: '请输入标题', trigger: 'change' },
+                {
+                    validator: (rule, value, callback) => {
+                        if (value.length > 32) {
+                            callback(new Error('标题名称长度不能超过32个字符'));
+                            return
+                        }
+                        callback()
+                    },
+                    trigger: 'blur'
+                }
+            ],
+            desc: [
+                { required: true, message: '请输入描述', trigger: 'change' },
+                {
+                    validator: (rule, value, callback) => {
+                        if (value.length > 500) {
+                            callback(new Error('标题描述长度不能超过500个字符'));
+                            return
+                        }
+                        callback()
+                    },
+                    trigger: 'blur'
+                }
+            ],
+            tagIds: [
+                {
+                    validator: (rule, value, callback) => {
+                        if (!this.state.tagIds[0].id) {
+                            callback(new Error('请选择一级标签'));
+                            return
+                        }
+                        if (this.state.tag.length > 8) {
+                            callback(new Error('请输入8个字符以内的标签'));
+                            return
+                        }
+                        callback()
+                    },
+                    trigger: 'change'
+                }
+            ],
+            fileInfos: [
+                {
+                    validator: (rule, value, callback) => {
+                        if (this.state.fileInfos.length < 1) {
+                            callback(new Error('请选择文件'));
+                            return
+                        }
+                        callback()
+                    },
+                    trigger: 'change'
+                }
+            ]
         };
     }
 
     componentWillMount() {
-        this.props.getKnowledgeList()
-        this.props.getTags({
-            libraryId: this.props.match.params.id,
+        let {
+            getKnowledgeList,
+            getTags,
+            match,
+            getItemDetail
+        } = this.props;
+        let libId = match.params.id;
+        let itemId = match.params.itemId;
+        getKnowledgeList();
+        getTags({
+            libraryId: libId,
             isCustom: 0 // 不返回自定义标签
-        })
+        });
+        if (libId && itemId) {
+            getItemDetail(itemId).then(() => {
+                let {itemDetails} = this.props;
+                this.setState({
+                    name: itemDetails.name,
+                    desc: itemDetails.desc,
+                    tagIds: itemDetails.tagArr,
+                    tag: itemDetails.tagArr[2] ? itemDetails.tagArr[2].tag : '',
+                    files: itemDetails.fileInfos,
+                    fileInfos: itemDetails.fileInfos,
+                    curParentId: itemDetails.tagArr[0] && itemDetails.tagArr[0].id
+                });
+            });
+        }
     }
 
     onSubmit(e) {
         e.preventDefault();
     }
 
-    onChange(key, value) {
-        let form = this.state.form;
-        form[key] = value;
-        if (key === 'tag') {
-            let tags = this.state.form.tagIds;
-            tags[2] = {
-                id: '',
-                tag: value
-            };
-            form.tagIds = tags;
-        }
+    handleNameChange = name => {
+        this.setState({name});
+    }
+
+    handleDescChange = desc => {
+        this.setState({desc});
+    }
+
+    handleCustomTagChange = tag => {
+        let tags = this.state.tagIds;
+        tags[2] = tag;
         this.setState({
-            form
+            tagIds: tags
         });
     }
 
@@ -170,28 +194,20 @@ class AddItem extends Component {
         this.props.setSelected([]);
     }
 
-    selectKnowledge = ({value: libraryId}) => {
-        this.state.form.libraryId = libraryId
-        this.props.getTags({
-            libraryId,
-            isCustom: 0
-        })
-    }
-
     selectParentTag = (parentTag) => {
         if (!parentTag) return false;
         let parentId = parentTag.value;
         if (!parentId) return false;
-        let form = this.state.form;
-        form.tagIds[0] = {
+        let tagIds = this.state.tagIds;
+        tagIds[0] = {
             id: parentId
         };
-        form.tagIds[1] = {
+        tagIds[1] = {
             id: ''
         }
         this.setState({
             curParentId: parentId,
-            form
+            tagIds
         });
     }
 
@@ -199,23 +215,31 @@ class AddItem extends Component {
         if (!childTag) return false;
         let cId = childTag.value;
         if (!cId) return false;
-        let form = this.state.form;
-        form.tagIds[1] = {
+        let tagIds = this.state.tagIds;
+        tagIds[1] = {
             id: cId
         };
         this.setState({
-            form
+            tagIds
         });
     }
 
     confirmCreateItem() {
         this.refs.form.validate((valid) => {
             if (valid) {
-                const params = Object.assign(this.state.form, {
+                let state = this.state;
+                const params = {
+                    name: state.name,
+                    desc: state.desc,
+                    libraryId: state.libraryId,
+                    creatorId: this.props.userInfo.data.userId,
                     creatorName: this.props.userInfo.data.userName,
-                    creatorId: this.props.userInfo.data.userId
-                });
-                this.props.createItem(params).then((res) => {
+                    fileInfos: state.fileInfos,
+                    tagIds: state.tagIds,
+                    tag: state.tag,
+                    id: this.props.itemDetails.id
+                };
+                this.props.modifyItem(params).then((res) => {
                     if (res.code !== 200) {
                         Message(res.msg)
                         return
@@ -223,7 +247,7 @@ class AddItem extends Component {
                     this.props.history.go(-1)
                     Message({
                         type: 'success',
-                        message: '新增成功!'
+                        message: '修改成功!'
                     });
                 })
             } else {
@@ -233,7 +257,6 @@ class AddItem extends Component {
     }
 
     handleConfirm = () => {
-        let { form } = this.state;
         let files = this.props.selected.slice();
         if (files.some(item => {
             return item.folder;
@@ -243,33 +266,26 @@ class AddItem extends Component {
         if (files.length > 30) {
             return MessageBox.alert('文件个数不能超过30个！');
         }
-        form = Object.assign(form, {
-            fileInfos: files.map(item => {
-                return {
-                    fileid: item.fileId,
-                    fileversion: item.fileVersion,
-                    filename: item.fileName,
-                };
-            })
-        });
+        let fileInfos = files.map(item => {
+            return {
+                fileId: item.fileId,
+                fileVersion: item.fileVersion,
+                fileName: item.fileName,
+            };
+        })
         this.setState({
             files: files,
             dialogVisible: false,
-            form: form
+            fileInfos
         });
         this.clearUserFile();
     }
 
     deleteFile = data => {
-        let { form, files } = this.state;
-        form = Object.assign(form, {
-            fileInfos: files.filter(item => {
-                return item.fileId !== data.fileId;
-            })
-        });
+        let { files, fileInfos } = this.state;
         this.setState({
             files: files.filter(item => item.fileId !== data.fileId),
-            form: form
+            fileInfos: fileInfos.filter(item => item.fileId !== data.fileId),
         });
     }
 
@@ -292,14 +308,33 @@ class AddItem extends Component {
             parentTags,
             tags,
             userInfo,
+            itemDetails
         } = this.props;
         let {
             files,
             dialogVisible,
+            name,
+            desc,
+            tagIds,
+            tag,
+            curParentId
         } = this.state;
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
         })
+        if (!itemDetails) {
+            return (
+                <div className="mod-addknowledge-item">
+                    <p>正在获取条目详情...</p>
+                </div>
+            );
+        }
+        let formMod = {
+            name,
+            desc,
+            tagIds,
+            tag
+        };
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
@@ -308,41 +343,49 @@ class AddItem extends Component {
                             to={`/knowledge/${this.props.match.params.id}`}
                             activeClassName="active">
                             {
-                                curLibrary[0] && curLibrary[0].name
+                                curLibrary && curLibrary[0] && curLibrary[0].name
                             }
                         </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item>创建知识条目</Breadcrumb.Item>
+                    <Breadcrumb.Item>修改知识条目</Breadcrumb.Item>
                 </Breadcrumb>
-                <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
+                <Form ref="form" model={formMod} rules={this.rules} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
                     <Form.Item label="标题：" prop="name">
-                        <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}
-                            placeholder="请输入标题"></Input>
+                        <Input
+                            value={name}
+                            onChange={this.handleNameChange}
+                            placeholder="请输入标题" />
                     </Form.Item>
                     <Form.Item label="知识库：" required>
                         {curLibrary[0] && curLibrary[0].name}
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
-                        <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
+                        <Input
+                            type="textarea"
+                            placeholder="请输入描述"
+                            value={desc}
+                            onChange={this.handleDescChange} />
                     </Form.Item>
                     <Form.Item label="作者：" required>
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        <Select value={this.state.curParentId}
+                        <Select value={tagIds[0].id}
                             onChange={this.selectParentTag}
                             placeholder="标签一"
                             noResultsText="暂无数据"
                             options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
                         <Select
-                            value={this.state.form.tagIds[1].id}
+                            value={tagIds[1].id}
                             onChange={this.selectChildTag}
                             placeholder="标签二"
                             noResultsText="暂无数据"
-                            options={tags.filter(t => t.parentId === this.state.curParentId).map(item => ({label: item.tag, value: item.id}))} />
-                        <Input className="default-tag" value={this.state.form.tag}
-                            onChange={this.onChange.bind(this, 'tag')}
-                            placeholder="自定义标签"></Input>
+                            options={tags.filter(t => t.parentId === curParentId).map(item => ({label: item.tag, value: item.id}))} />
+                        <Input
+                            className="default-tag"
+                            value={tag}
+                            onChange={this.handleCustomTagChange}
+                            placeholder="自定义标签" />
                     </Form.Item>
                     <Form.Item label="附件：" prop="fileInfos" required>
                         {
@@ -370,4 +413,3 @@ class AddItem extends Component {
         )
     }
 }
-export default withRouter(AddItem)
