@@ -6,12 +6,13 @@ class Store {
     @observable userItemsObj = null;
     @observable itemDetails = false; // 知识条目详情
     @observable searchInput = ''; // 知识条目搜索用到
-    @observable tagIds = []; // 知识条目搜索用到
-    @action setTagIds = arr => {
-        this.tagIds = arr
-    }
+    @observable searchTagIds = []
+
     @action setSearchInput = str => {
         this.searchInput = str
+    }
+    @action setSearchTagIds = arr => {
+        this.searchTagIds = arr
     }
     @action setItemList = obj => {
         this.itemListobj = obj;

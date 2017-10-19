@@ -93,7 +93,7 @@ export default class Manage extends Component {
         this.setState({
             expertDialog: true,
             curLibrary: item,
-            selectUsers: [542011, 632011]
+            selectUsers: item.professorIds
         })
     }
 

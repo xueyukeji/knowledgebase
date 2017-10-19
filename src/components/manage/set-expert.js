@@ -3,13 +3,14 @@ import { inject, observer } from 'mobx-react';
 import { Button, Dialog, Transfer, Message } from 'element-react-codish';
 @inject(stores => {
     let { userList, getUserList } = stores.user;
-    let { setUsers, setExpert, isUserDialog } = stores.manage;
+    let { setUsers, setExpert, isUserDialog, getAdminKnowledgeList } = stores.manage;
     return {
         userList,
         getUserList,
         setUsers,
         setExpert,
-        isUserDialog
+        isUserDialog,
+        getAdminKnowledgeList
     };
 })
 @observer
@@ -42,25 +43,54 @@ export default class SetExpert extends Component {
 
     // rightDefaultChecked user
     handleChange(value) {
+        // TODO
         let params = {
             id: this.props.curLibrary.id,
         };
         if (this.props.isUserDialog) {
-            params.userIds = value
+            params.userIds = this.props.selectedUsers.concat(value)
+            let tempArr = []
+            params.userIds.forEach((a) => {
+                if (tempArr.indexOf(a) === -1) {
+                    tempArr.push(a)
+                    return tempArr
+                }
+            })
+            params.userIds = tempArr
             this.props.setUsers(params).then(res => {
                 this.resSuccessInfo(res, value);
             });
         } else {
-            params.professorIds = value
+            params.professorIds = this.props.selectedUsers.concat(value)
+            let tempArr = []
+            params.professorIds.forEach((a) => {
+                if (tempArr.indexOf(a) === -1) {
+                    tempArr.push(a)
+                    return tempArr
+                }
+            })
+            params.professorIds = tempArr
             this.props.setExpert(params).then(res => {
                 this.resSuccessInfo(res, value);
             });
         }
     }
 
+    // TODO去重
+    dealArray(items) {
+        let temp = []
+        items.forEach((a) => {
+            if (temp.indexOf(a) === -1) {
+                temp.push(a)
+                return temp
+            }
+        })
+    }
+
     resSuccessInfo(res, value) {
         if (res.code === 200) {
             this.setState({ value });
+            this.props.getAdminKnowledgeList()
         } else {
             Message(res.message);
         }
@@ -73,7 +103,7 @@ export default class SetExpert extends Component {
     render() {
         const { value } = this.state;
         let { userList } = this.props;
-        console.log('selectedUsers--->', this.props.selectedUsers)
+        console.log('selectedUsers--->', typeof(this.props.selectedUsers), this.props.selectedUsers)
         if (!userList) {
             return <div />;
         }
@@ -94,8 +124,8 @@ export default class SetExpert extends Component {
                         filterable
                         disableFilter={true}
                         onKeyPress={this.onSeachUser}
-                        leftDefaultChecked={this.props.selectedUsers}
-                        rightDefaultChecked={this.props.selectedUsers}
+                        leftDefaultChecked={[]}
+                        rightDefaultChecked={[this.props.selectedUsers]}
                         renderContent={this.renderFunc}
                         titles={['添加', '已添加']}
                         footerFormat={{

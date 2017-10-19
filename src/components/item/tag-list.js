@@ -5,23 +5,20 @@ import { Tag, Button } from 'element-react-codish';
 import groupBy from 'lodash/groupBy';
 
 @inject(stores => {
+    let { tags, parentTags } = stores.tag
+    let { knowledgeObj } = stores.manage
     let {
-        tags,
-        parentTags,
-    } = stores.tag
-    let {
+        searchInput,
         setSearchInput,
-        setTagIds,
+        setSearchTagIds,
         getItemList,
     } = stores.item
-    let {
-        knowledgeObj,
-    } = stores.manage
     return {
         tags,
         parentTags,
+        searchInput,
         setSearchInput,
-        setTagIds,
+        setSearchTagIds,
         getItemList,
         knowledgeObj,
     }
@@ -44,7 +41,6 @@ class TagList extends Component {
         // })
         var tagsIds = []
         tagsIds[0] = childTag.id
-        this.props.setTagIds(tagsIds)
         const { selTags } = this.state
         selTags.push({
             id: childTag.id,
@@ -53,15 +49,16 @@ class TagList extends Component {
         this.setState({
             selTags
         })
-        this.getData(selTags.map(item => item.id))
+        this.props.setSearchTagIds(tagsIds)
+        this.getData(selTags.map(item => item.id), this.props.searchInput)
     }
-    getData(tagsIds) {
+    getData(tagsIds, name) {
         const params = {
             libraryId: parseInt(this.props.match.params.id),
-            start: 1,
+            start: 0,
             limit: 10,
             tagIds: tagsIds,
-            tag: ''
+            name: name
         }
         this.props.getItemList(params)
     }
@@ -72,13 +69,14 @@ class TagList extends Component {
         this.setState({
             selTags
         });
-        this.getData(selTags.map(item => item.id))
+        this.getData(selTags.map(item => item.id), this.props.searchInput)
     }
     handleClear() {
         this.setState({
             selTags: []
         })
-        this.getData([])
+        this.props.setSearchInput('')
+        this.getData([], '')
     }
     toggleShowMore () {
         const { showThree } = this.state;

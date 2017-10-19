@@ -6,14 +6,14 @@ import { inject, observer } from 'mobx-react';
 @inject(stores => {
     let {
         searchInput,
+        searchTagIds,
         setSearchInput,
-        getSearchInput,
         getItemList,
     } = stores.item
     return {
         searchInput,
+        searchTagIds,
         setSearchInput,
-        getSearchInput,
         getItemList
     }
 })
@@ -44,10 +44,10 @@ class SearchItem extends Component {
     getData() {
         const params = {
             libraryId: parseInt(this.props.match.params.id),
-            start: 1,
+            start: 0,
             limit: 10,
-            tagIds: [],
-            tag: this.props.searchInput
+            tagIds: this.props.searchTagIds || [],
+            name: this.props.searchInput
         }
         this.props.getItemList(params)
     }
@@ -67,11 +67,11 @@ class SearchItem extends Component {
                         onChange={this.logChange}/>
                 </Layout.Col> */}
                 <Layout.Col span="18">
-                    {<Input placeholder="请输入条目名称进行搜索" value={this.props.searchInput || ''}
+                    <Input placeholder="请输入条目名称进行搜索" value={this.props.searchInput || ''}
                         onChange={this.onChangeInput}
                         onKeyPress={(e) => {
                             if (e.charCode === 13) { this.getData() }
-                        }} />}
+                        }} />
                 </Layout.Col>
                 <Layout.Col span="3">
                     <Button type="default" onClick={this.onSearch}>搜索</Button>

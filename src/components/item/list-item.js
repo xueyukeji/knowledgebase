@@ -8,16 +8,18 @@ import * as constants from '../../utils/constants';
     let {
         getItemList,
         itemListobj,
-        tagIds,
-        setTagIds,
+        searchInput,
+        searchTagIds,
+        setSearchTagIds,
         setSearchInput
     } = stores.item;
     let { getTags } = stores.tag;
     return {
         getItemList,
         itemListobj,
-        tagIds,
-        setTagIds,
+        searchInput,
+        searchTagIds,
+        setSearchTagIds,
         setSearchInput,
         getTags,
     };
@@ -45,7 +47,7 @@ class ListItem extends Component {
                 libraryId: nextProps.match.params.id
             });
             var tagIds = [];
-            this.props.setTagIds(tagIds);
+            this.props.setSearchTagIds(tagIds);
             this.props.setSearchInput('');
             this.getDatas(0, nextProps);
         }
@@ -57,8 +59,8 @@ class ListItem extends Component {
               : parseInt(this.props.match.params.id),
           start: currentPage,
           limit: 10,
-          tagIds: this.props.tagIds,
-          tag: ''
+          tagIds: this.props.searchTagIds,
+          name: this.props.searchInput
       };
       this.props.getItemList(params);
   };

@@ -4,7 +4,7 @@ import Item from '../components/item/item.js';
 import AddItem from '../components/item/add-item.js';
 import EditItem from '../components/item/edit-item';
 import ItemDetail from '../components/item/item-detail.js';
-import MyContribution from '../components/mycontribution/my-contribution'
+import MyContribution from '../components/mycontribution/my-contribution';
 // import MyCheck from '../components/my-check'
 // import MyCheckDetail from '../components/check-detail'
 // import Professor from '../components/professor'
@@ -13,37 +13,42 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
-    let {
-        knowledgeObj,
-        getKnowledgeList
-    } = stores.manage;
-    let {
-        userInfo,
-        getUserInfo
-    } = stores.user;
+    let { knowledgeObj, getKnowledgeList, getAdminKnowledgeList } = stores.manage;
+    let { userInfo, getUserInfo } = stores.user;
     return {
         userInfo,
+        getUserInfo,
         knowledgeObj,
         getKnowledgeList,
-        getUserInfo
-    }
+        getAdminKnowledgeList
+    };
 })
 @observer
 export default class AppRouter extends Component {
     componentWillMount() {
-        // TODO 根据用户查知识库
-        this.props.getUserInfo()
-        this.props.getKnowledgeList({userId: 97});
+        const {getUserInfo, userInfo, getKnowledgeList, getAdminKnowledgeList} = this.props;
+        getUserInfo().then(() => {
+            if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
+                getAdminKnowledgeList()
+            } else {
+                getKnowledgeList({ userId: this.props.userInfo.data.userId });
+            }
+        })
     }
 
     render() {
-        if (!this.props.userInfo) {
-            return <div>正在加载数据...</div>
+        const { userInfo, knowledgeObj } = this.props
+        console.log('userInfo:', userInfo, 'knowledgeObj:', knowledgeObj)
+        if (!userInfo) {
+            return <div>正在加载数据...</div>;
         }
         return (
             <Router>
                 <div className="wrap">
-                    <Nav userInfo={this.props.userInfo} list={this.props.knowledgeObj.librarys} />
+                    <Nav
+                        userInfo={userInfo}
+                        list={knowledgeObj.librarys}
+                    />
                     <div className="wrap-right">
                         <Route path="/" component={Item} exact />
                         <Route path="/knowledge/:id" component={Item} />
@@ -59,6 +64,6 @@ export default class AppRouter extends Component {
                     </div>
                 </div>
             </Router>
-        )
+        );
     }
 }
