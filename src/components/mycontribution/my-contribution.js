@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import ListItem from './item/list-item'
+import ListUserItem from './list-user-item'
 
 @inject(stores => {
     stores
@@ -11,7 +11,7 @@ export default class Knowledge extends Component {
         return (
             <div className="mod-homepage">
                 <h4>知识条目</h4>
-                <ListItem />
+                <ListUserItem />
             </div>
         )
     }

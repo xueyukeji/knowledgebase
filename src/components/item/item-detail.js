@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import {Redirect} from 'react-router-dom';
-import {Button} from 'element-react-codish';
+import {Redirect, NavLink} from 'react-router-dom';
+import {Button, Breadcrumb, Tag} from 'element-react-codish';
 import LightBox from 'react-images';
 
 @inject(stores => {
@@ -27,7 +27,7 @@ export default class ItemDetail extends Component {
     handleRefresh = () => {
         let id = this.props.match.params.id;
         if (id) {
-            this.props.getItemDetail(id);
+            this.props.getItemDetail(id)
         }
     }
 
@@ -48,7 +48,7 @@ export default class ItemDetail extends Component {
         if (!id) {
             return <Redirect to="/knowledge" />;
         }
-        let {itemDetails} = this.props;
+        let {itemDetails, knowledgeInfo} = this.props;
         if (!itemDetails) {
             return (
                 <div className="mod-itemdetail">
@@ -58,6 +58,18 @@ export default class ItemDetail extends Component {
         }
         return (
             <div className="mod-itemdetail">
+                <Breadcrumb separator="/">
+                    <Breadcrumb.Item>
+                        <NavLink
+                            to={`/knowledge/${itemDetails.libraryId}`}
+                            activeClassName="active">
+                            {
+                                knowledgeInfo && knowledgeInfo.name || '知识库'
+                            }
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>知识条目详情</Breadcrumb.Item>
+                </Breadcrumb>
                 <div className="item">
                     <div className="title">
                         标题:
@@ -98,7 +110,7 @@ export default class ItemDetail extends Component {
                         {
                             itemDetails.tagArr.map(item => {
                                 return (
-                                    <span className="tag-item" key={item.id}>{item.tag}</span>
+                                    <Tag type="success" key={item.id}>{item.tag}</Tag>
                                 )
                             })
                         }
@@ -110,7 +122,7 @@ export default class ItemDetail extends Component {
                     </div>
                     <div className="content">
                         {
-                            itemDetails.fileIds && itemDetails.fileIds.split(',').map(item => {
+                            itemDetails.fileIds ? itemDetails.fileIds.split(',').map(item => {
                                 return (
                                     <div className="file-item" key={item}>
                                         {item}
@@ -120,12 +132,9 @@ export default class ItemDetail extends Component {
                                             onClick={this.handlePreviewClick}>预览</Button>
                                     </div>
                                 )
-                            })
+                            }) : <div>暂无附件</div>
                         }
                     </div>
-                </div>
-                <div className="back">
-                    <Button type="">返回</Button>
                 </div>
                 <LightBox
                     images={[{ src: 'https://images.unsplash.com/photo-1454991727061-be514eae86f7?dpr=2&auto=format&crop=faces&fit=crop&w=300&h=300' }]}

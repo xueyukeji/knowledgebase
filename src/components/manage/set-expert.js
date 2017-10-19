@@ -48,13 +48,11 @@ export default class SetExpert extends Component {
         if (this.props.isUserDialog) {
             params.userIds = value
             this.props.setUsers(params).then(res => {
-                console.log('setUsers--->', res);
                 this.resSuccessInfo(res, value);
             });
         } else {
             params.professorIds = value
             this.props.setExpert(params).then(res => {
-                console.log('setExpert--->', res);
                 this.resSuccessInfo(res, value);
             });
         }

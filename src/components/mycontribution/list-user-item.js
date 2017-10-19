@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
-import { withRouter, NavLink} from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Tag, Layout, Pagination } from 'element-react-codish';
 import * as constants from '../../utils/constants';
 
 @inject(stores => {
-    let {
-        getItemList,
-        itemListobj,
-        tagIds,
-        setTagIds,
-        setSearchInput
-    } = stores.item;
-    let { getTags } = stores.tag;
+    let { getUserItems, userItemsObj } = stores.item;
+    let { userInfo, getUserInfo } = stores.user;
     return {
-        getItemList,
-        itemListobj,
-        tagIds,
-        setTagIds,
-        setSearchInput,
-        getTags,
+        getUserItems,
+        userItemsObj,
+        userInfo,
+        getUserInfo
     };
 })
 @observer
@@ -29,53 +21,45 @@ class ListItem extends Component {
         this.state = {};
     }
     componentWillMount() {
-    // 返回所有标签只传libraryId即可
-        this.props.getTags({
-            libraryId: this.props.match.params.id
+        this.props.getUserInfo().then(() => {
+            this.getDatas(0);
         });
-        this.getDatas(0);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.match.params.id !== nextProps.match.params.id) {
-            if (this.props.itemListobj) {
-                this.props.itemListobj.data.items.length = 0;
-            }
-            this.props.getTags({
-                libraryId: nextProps.match.params.id
-            });
-            var tagIds = [];
-            this.props.setTagIds(tagIds);
-            this.props.setSearchInput('');
-            this.getDatas(0, nextProps);
-        }
-    }
-  getDatas = (currentPage, nextProps) => {
+  getDatas = currentPage => {
+      console.log(currentPage)
       const params = {
-          libraryId: nextProps
-              ? parseInt(nextProps.match.params.id)
-              : parseInt(this.props.match.params.id),
           start: currentPage,
           limit: 10,
-          tagIds: this.props.tagIds,
-          tag: ''
+          userId: this.props.userInfo.data.userId
       };
-      this.props.getItemList(params);
+      this.props.getUserItems(params);
+  };
+  goEdit = (item, e) => {
+      e.preventDefault();
   };
   render() {
-      let { itemListobj } = this.props;
-      if (!itemListobj) {
+      let { userItemsObj } = this.props;
+      if (!userItemsObj) {
           return <div className="search-tips">暂无知识条目</div>;
       }
       return (
           <div className="mod-listitem">
-              {itemListobj &&
-          itemListobj.data.items.map(item => {
+              {userItemsObj &&
+          userItemsObj.data.items.map(item => {
               return (
                   <NavLink to={`/item-detail/${item.id}`} key={item.id}>
-                      <div className="list-item" >
+                      <div className="list-item">
                           <div className="title">
                               <h5>{item.name}</h5>
+                              {
+                                  <i
+                                      className="el-icon-edit"
+                                      onClick={e => {
+                                          this.goEdit(item, e);
+                                      }}
+                                  />
+                              }
                           </div>
                           <div className="tag-items">
                               <div className="tags">
@@ -105,14 +89,14 @@ class ListItem extends Component {
                   </NavLink>
               );
           })}
-              {itemListobj &&
-          itemListobj.count > 10 && (
+              {userItemsObj &&
+          userItemsObj.count > 10 && (
                       <Pagination
                           className="pagination"
                           currentPage={1}
                           layout="prev, pager, next"
                           onCurrentChange={this.getDatas}
-                          total={itemListobj.count}
+                          total={userItemsObj.count}
                       />
                   )}
           </div>

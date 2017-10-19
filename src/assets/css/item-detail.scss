@@ -1,4 +1,7 @@
 .mod-itemdetail {
+    .el-breadcrumb{
+        margin-bottom: 20px;
+    }
     .empty-tips {
         text-align: center;
         padding: 10px;
@@ -26,6 +29,9 @@
     }
     .content {
         padding-left: 80px;
+        .el-tag{
+            margin-right: 10px;
+        }
     }
     .file-item {
         position: relative;
@@ -44,9 +50,5 @@
         vertical-align: top;
         padding: 0 10px;
         border: 1px solid $primary;
-    }
-    .back {
-        text-align: right;
-        padding: 10px 0;
     }
 }

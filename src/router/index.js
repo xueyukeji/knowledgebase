@@ -3,7 +3,7 @@ import Nav from '../components/nav';
 import Item from '../components/item/item.js';
 import AddItem from '../components/item/add-item.js';
 import ItemDetail from '../components/item/item-detail.js';
-import MyContribution from '../components/my-contribution'
+import MyContribution from '../components/mycontribution/my-contribution'
 // import MyCheck from '../components/my-check'
 // import MyCheckDetail from '../components/check-detail'
 // import Professor from '../components/professor'
@@ -30,6 +30,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 export default class AppRouter extends Component {
     componentDidMount() {
+        // TODO 根据用户查知识库
         this.props.getKnowledgeList();
         this.props.getUserInfo();
     }

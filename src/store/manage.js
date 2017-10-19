@@ -3,6 +3,7 @@ import { createFetch } from '../utils/fetch-creator';
 
 class Store {
     @observable knowledgeList = [];
+    @observable knowledgeInfo = null;
     @observable curKnowledge = null;
     @observable isShowEditKnowledgeDialog = false;
     @observable isUserDialog = false;
@@ -23,6 +24,7 @@ class Store {
     @action setKnowledgeList = list => {
         this.knowledgeList = list;
     }
+
     @action getKnowledgeList = () => {
         createFetch({
             url: 'pub/librarys/admin'
@@ -33,6 +35,23 @@ class Store {
                 this.setKnowledgeList([]);
             }
         });
+    }
+
+    @action getKnowledgeInfo = params => {
+        createFetch({
+            url: 'pub/librarys',
+            params: params
+        }).then(data => {
+            if (data.data && data.data.items.length) {
+                this.setKnowledgeInfo(data.data.items);
+            } else {
+                this.setKnowledgeInfo(null);
+            }
+        });
+    }
+
+    @action setKnowledgeInfo = knowledge => {
+        this.knowledgeInfo = knowledge
     }
 
     @action creatKnowledge = params => {
