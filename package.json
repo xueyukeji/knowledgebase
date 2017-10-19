@@ -58,7 +58,8 @@
         "start": "REACT_PROXY=http://111.231.198.240 node scripts/start.js",
         "build": "node scripts/build.js",
         "test": "node scripts/test.js --env=jsdom",
-        "dev": "NODE_ENV=development REACT_APP_PROXY=http://127.0.0.1:3000 concurrently -r \"node ./server/app.js\" \"node scripts/start.js\""
+        "dev": "NODE_ENV=development REACT_APP_PROXY=http://127.0.0.1:3000 concurrently -r \"node ./server/app.js\" \"node scripts/start.js\"",
+        "scp": "scp ./build.zip root@111.231.198.240:/opt/yliyun/work/nginx"
     },
     "jest": {
         "collectCoverageFrom": [

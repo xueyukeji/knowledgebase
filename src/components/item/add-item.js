@@ -122,8 +122,9 @@ class AddItem extends Component {
     }
 
     componentWillMount() {
-        this.props.getKnowledgeList()
-        this.props.getTags({
+        const { getKnowledgeList, getTags } = this.props
+        getKnowledgeList()
+        getTags({
             libraryId: this.props.match.params.id,
             isCustom: 0 // 不返回自定义标签
         })
@@ -209,18 +210,19 @@ class AddItem extends Component {
     }
 
     confirmCreateItem() {
+        const { userInfo, createItem, history } = this.props
         this.refs.form.validate((valid) => {
             if (valid) {
                 const params = Object.assign(this.state.form, {
-                    creatorName: this.props.userInfo.data.userName,
-                    creatorId: this.props.userInfo.data.userId
+                    creatorName: userInfo.data.userName,
+                    creatorId: userInfo.data.userId
                 });
-                this.props.createItem(params).then((res) => {
+                createItem(params).then((res) => {
                     if (res.code !== 200) {
                         Message(res.msg)
                         return
                     }
-                    this.props.history.go(-1)
+                    history.go(-1)
                     Message({
                         type: 'success',
                         message: '新增成功!'
@@ -292,20 +294,21 @@ class AddItem extends Component {
             parentTags,
             tags,
             userInfo,
+            match
         } = this.props;
         let {
             files,
             dialogVisible,
         } = this.state;
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
-            return k.id === parseInt(this.props.match.params.id)
+            return k.id === parseInt(match.params.id)
         })
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
                     <Breadcrumb.Item>
                         <NavLink
-                            to={`/knowledge/${this.props.match.params.id}`}
+                            to={`/knowledge/${match.params.id}`}
                             activeClassName="active">
                             {
                                 curLibrary[0] && curLibrary[0].name

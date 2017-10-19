@@ -104,7 +104,7 @@ export default class Manage extends Component {
     }
 
     render() {
-        let { knowledgeObj } = this.props;
+        let { knowledgeObj, showEditKnowledgeDialog, isAddTagPopVisible } = this.props;
         if (!knowledgeObj) {
             return <div>正在加载页面...</div>
         }
@@ -127,7 +127,7 @@ export default class Manage extends Component {
                                         }
                                         <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
-                                            this.props.showEditKnowledgeDialog(item)
+                                            showEditKnowledgeDialog(item)
                                         }}>编辑</Button>
                                         <Button type="text" onClick={() => {
                                             this.delKnowledge(item.id)
@@ -139,7 +139,7 @@ export default class Manage extends Component {
                     }
                 </ul>
                 {
-                    this.props.isAddTagPopVisible ?
+                    isAddTagPopVisible ?
                         <AddTag visible={true} handleCancel={this.hideAddTagPop} />
                         : null
                 }

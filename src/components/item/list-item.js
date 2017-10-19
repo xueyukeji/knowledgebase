@@ -7,7 +7,7 @@ import * as constants from '../../utils/constants';
 @inject(stores => {
     let {
         getItemList,
-        itemListobj,
+        itemListObj,
         searchInput,
         searchTagIds,
         setSearchTagIds,
@@ -16,7 +16,7 @@ import * as constants from '../../utils/constants';
     let { getTags } = stores.tag;
     return {
         getItemList,
-        itemListobj,
+        itemListObj,
         searchInput,
         searchTagIds,
         setSearchTagIds,
@@ -39,87 +39,91 @@ class ListItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.match.params.id !== nextProps.match.params.id) {
-            if (this.props.itemListobj) {
-                this.props.itemListobj.data.items.length = 0;
+        const {match, itemListObj, getTags, setSearchTagIds, setSearchInput } = this.props
+        if (match.params.id !== nextProps.match.params.id) {
+            if (itemListObj) {
+                itemListObj.items.length = 0;
             }
-            this.props.getTags({
+            getTags({
                 libraryId: nextProps.match.params.id
             });
             var tagIds = [];
-            this.props.setSearchTagIds(tagIds);
-            this.props.setSearchInput('');
+            setSearchTagIds(tagIds);
+            setSearchInput('');
             this.getDatas(0, nextProps);
         }
     }
-  getDatas = (currentPage, nextProps) => {
-      const params = {
-          libraryId: nextProps
-              ? parseInt(nextProps.match.params.id)
-              : parseInt(this.props.match.params.id),
-          start: currentPage,
-          limit: 10,
-          tagIds: this.props.searchTagIds,
-          name: this.props.searchInput
-      };
-      this.props.getItemList(params);
-  };
-  render() {
-      let { itemListobj } = this.props;
-      if (!itemListobj) {
-          return <div className="search-tips">暂无知识条目</div>;
-      }
-      return (
-          <div className="mod-listitem">
-              {itemListobj &&
-          itemListobj.data.items.map(item => {
-              return (
-                  <NavLink to={`/item-detail/${item.id}`} key={item.id}>
-                      <div className="list-item" >
-                          <div className="title">
-                              <h5>{item.name}</h5>
-                          </div>
-                          <div className="tag-items">
-                              <div className="tags">
-                                  {item.tagArr.map(t => {
-                                      return (
-                                          <Tag key={t.id} type="success">
-                                              {t.tag ? t.tag : null}
-                                          </Tag>
-                                      );
-                                  })}
-                              </div>
-                              <p className="p-tips">
-                                  {constants.getDateStr(item.createTime, 4)}
-                              </p>
-                          </div>
-                          <div className="content">{item.desc}</div>
-                          <div className="info">
-                              <Layout.Row gutter="20">
-                                  <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
-                                  {/* <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
+    getDatas = (currentPage, nextProps) => {
+        if (currentPage > 0) {
+            currentPage  = currentPage - 1
+        }
+        const {match, searchTagIds, searchInput, getItemList} = this.props
+        const params = {
+            libraryId: nextProps
+                ? parseInt(nextProps.match.params.id)
+                : parseInt(match.params.id),
+            start: currentPage,
+            limit: 10,
+            tagIds: searchTagIds,
+            name: searchInput
+        };
+        getItemList(params);
+    }
+    render() {
+        let { itemListObj } = this.props;
+        if (itemListObj.items.length === 0) {
+            return <div className="search-tips">暂无知识条目</div>;
+        }
+        return (
+            <div className="mod-listitem">
+                {itemListObj.items.map(item => {
+                    return (
+                        <NavLink to={`/item-detail/${item.id}`} key={item.id}>
+                            <div className="list-item" >
+                                <div className="title">
+                                    <h5>{item.name}</h5>
+                                </div>
+                                <div className="tag-items">
+                                    <div className="tags">
+                                        {item.tagArr.map(t => {
+                                            return (
+                                                <Tag key={t.id} type="success">
+                                                    {t.tag ? t.tag : null}
+                                                </Tag>
+                                            );
+                                        })}
+                                    </div>
+                                    <p className="p-tips">
+                                        {constants.getDateStr(item.createTime, 4)}
+                                    </p>
+                                </div>
+                                <div className="content">{item.desc}</div>
+                                <div className="info">
+                                    <Layout.Row gutter="20">
+                                        <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
+                                        {/* <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
                                         <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
                                         <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
                                         <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col> */}
-                              </Layout.Row>
-                          </div>
-                      </div>
-                  </NavLink>
-              );
-          })}
-              {itemListobj &&
-          itemListobj.count > 10 && (
-                      <Pagination
-                          className="pagination"
-                          currentPage={1}
-                          layout="prev, pager, next"
-                          onCurrentChange={this.getDatas}
-                          total={itemListobj.count}
-                      />
-                  )}
-          </div>
-      );
-  }
+                                    </Layout.Row>
+                                </div>
+                            </div>
+                        </NavLink>
+                    );
+                })}
+                {itemListObj &&
+          itemListObj.count > 10 && (
+                        <Pagination
+                            className="pagination"
+                            currentPage={0}
+                            layout="prev, pager, next"
+                            onCurrentChange={this.getDatas}
+                            total={itemListObj.count}
+                        />
+                    )}
+            </div>
+        );
+    }
 }
 
 export default withRouter(ListItem);

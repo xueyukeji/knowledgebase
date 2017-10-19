@@ -48,17 +48,18 @@ export default class AddTagItem extends Component {
     }
 
     handleClose = (tag) => {
+        const {deleteTag, getTags, curLibId} = this.props
         MessageBox.confirm(`确定删除标签: ${tag.tag}吗？对应知识条目里面的标签也会删除`, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
         }).then(() => {
-            return this.props.deleteTag({
+            return deleteTag({
                 id: tag.id
             });
         }).then(() => {
-            this.props.getTags({
-                libraryId: this.props.curLibId,
+            getTags({
+                libraryId: curLibId,
                 isCustom: 0
             })
         });
@@ -81,10 +82,11 @@ export default class AddTagItem extends Component {
     }
 
     render() {
+        const { tags } = this.props
         return (
             <div className="mod-addtagitem">
                 {
-                    this.props.tags.map(item => {
+                    tags.map(item => {
                         return (
                             <Tag
                                 key={item.id}

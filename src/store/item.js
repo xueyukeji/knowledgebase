@@ -2,8 +2,8 @@ import { observable, action } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
 
 class Store {
-    @observable itemListobj = null;
-    @observable userItemsObj = null;
+    @observable itemListObj = {items: []};
+    @observable myConItemObj = {items: []};
     @observable itemDetails = false; // 知识条目详情
     @observable searchInput = ''; // 知识条目搜索用到
     @observable searchTagIds = []
@@ -15,17 +15,17 @@ class Store {
         this.searchTagIds = arr
     }
     @action setItemList = obj => {
-        this.itemListobj = obj;
+        this.itemListObj = obj;
     }
     @action getItemList = params => {
         createFetch({
             url: 'pub/items',
             params: params
         }).then(data => {
-            if (data.data && data.data.items.length) {
-                this.setItemList(data);
+            if (data && data.data) {
+                this.setItemList(data.data);
             } else {
-                this.setItemList(null);
+                this.setItemList({items: []});
             }
         });
     }
@@ -35,16 +35,16 @@ class Store {
             url: 'pub/users/items',
             params: params
         }).then(data => {
-            if (data.data && data.data.items.length) {
-                this.setUserItemList(data);
+            if (data && data.data) {
+                this.setUserItemList(data.data);
             } else {
-                this.setUserItemList(null);
+                this.setUserItemList({items: []});
             }
         });
     }
 
     @action setUserItemList = obj => {
-        this.userItemsObj = obj;
+        this.myConItemObj = obj;
     }
 
     @action getItemDetail = (itemId) => {

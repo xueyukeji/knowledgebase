@@ -5,11 +5,11 @@ import { Tag, Layout, Pagination } from 'element-react-codish';
 import * as constants from '../../utils/constants';
 
 @inject(stores => {
-    let { getUserItems, userItemsObj } = stores.item;
+    let { getUserItems, myConItemObj } = stores.item;
     let { userInfo, getUserInfo } = stores.user;
     return {
         getUserItems,
-        userItemsObj,
+        myConItemObj,
         userInfo,
         getUserInfo
     };
@@ -27,6 +27,9 @@ class ListItem extends Component {
     }
 
     getDatas = currentPage => {
+        if (currentPage > 0) {
+            currentPage  = currentPage - 1
+        }
         const params = {
             start: currentPage,
             limit: 10,
@@ -38,14 +41,14 @@ class ListItem extends Component {
         e.preventDefault();
     };
     render() {
-        let { userItemsObj } = this.props;
-        if (!userItemsObj) {
+        let { myConItemObj } = this.props;
+        if (myConItemObj.items.length === 0) {
             return <div className="search-tips">暂无知识条目</div>;
         }
         return (
             <div className="mod-listitem">
                 {
-                    userItemsObj && userItemsObj.data.items.map(item => {
+                    myConItemObj && myConItemObj.items.map(item => {
                         return (
                             <div className="list-item" key={item.id}>
                                 <div className="title">
@@ -82,13 +85,13 @@ class ListItem extends Component {
                     })
                 }
                 {
-                    userItemsObj && userItemsObj.count > 10 && (
+                    myConItemObj && myConItemObj.count > 10 && (
                         <Pagination
                             className="pagination"
                             currentPage={1}
                             layout="prev, pager, next"
                             onCurrentChange={this.getDatas}
-                            total={userItemsObj.count}
+                            total={myConItemObj.count}
                         />
                     )
                 }

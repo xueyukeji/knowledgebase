@@ -63,7 +63,7 @@ export default class ItemDetail extends Component {
         if (!id) {
             return <Redirect to="/knowledge" />;
         }
-        let {itemDetails, knowledgeInfo} = this.props;
+        let {itemDetails} = this.props;
         if (!itemDetails) {
             return (
                 <div className="mod-itemdetail">
@@ -71,6 +71,7 @@ export default class ItemDetail extends Component {
                 </div>
             );
         }
+        console.log('itemDetails:', itemDetails)
         return (
             <div className="mod-itemdetail">
                 <Breadcrumb separator="/">
@@ -78,9 +79,7 @@ export default class ItemDetail extends Component {
                         <NavLink
                             to={`/knowledge/${itemDetails.libraryId}`}
                             activeClassName="active">
-                            {
-                                knowledgeInfo && knowledgeInfo.name || '知识库'
-                            }
+                            {itemDetails.libraryName}
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>知识条目详情</Breadcrumb.Item>

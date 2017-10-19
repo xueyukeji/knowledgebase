@@ -67,13 +67,14 @@ export default class AddKnowledge extends Component {
           MessageBox.alert('知识库名称长度必须在1到8个字符');
           return;
       }
+      const {curKnowledge, creatKnowledge} = this.props
       var params = {
           name: this.state.name,
           userType: parseInt(this.state.userType),
           auditType: parseInt(this.state.auditType)
       };
-      if (this.props.curKnowledge.id) {
-          params.id = this.props.curKnowledge.id
+      if (curKnowledge.id) {
+          params.id = curKnowledge.id
           this.props
               .modifyKnowledge(params)
               .then(res => {
@@ -84,7 +85,7 @@ export default class AddKnowledge extends Component {
                   this.getData();
               });
       } else {
-          this.props.creatKnowledge(params).then(res => {
+          creatKnowledge(params).then(res => {
               if (res.code !== 200) {
                   Message(res.msg);
                   return;
@@ -94,22 +95,22 @@ export default class AddKnowledge extends Component {
       }
   }
   getData = () => {
-      const msg = this.props.curKnowledge.id ? '修改' : '新增';
+      const {curKnowledge, hideEditKnowledgeDialog, getAdminKnowledgeList} = this.props
+      const msg = curKnowledge.id ? '修改' : '新增';
       Message.success(msg + '知识库成功！');
-      this.props.hideEditKnowledgeDialog();
-      this.props.getAdminKnowledgeList();
+      hideEditKnowledgeDialog();
+      getAdminKnowledgeList();
   };
   render() {
+      const {isShowEditKnowledgeDialog, hideEditKnowledgeDialog, } = this.props
       return (
           <Dialog
               className="mod-addknowledge"
               title={this.state.title}
               size="small"
               closeOnClickModal={false}
-              visible={this.props.isShowEditKnowledgeDialog}
-              onCancel={() => {
-                  this.props.hideEditKnowledgeDialog();
-              }}
+              visible={isShowEditKnowledgeDialog}
+              onCancel={hideEditKnowledgeDialog}
               lockScroll={false}
           >
               <Dialog.Body>
@@ -151,9 +152,7 @@ export default class AddKnowledge extends Component {
               </Dialog.Body>
               <Dialog.Footer className="dialog-footer">
                   <Button
-                      onClick={() => {
-                          this.props.hideEditKnowledgeDialog();
-                      }}
+                      onClick={hideEditKnowledgeDialog}
                   >
             取消
                   </Button>

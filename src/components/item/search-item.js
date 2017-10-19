@@ -42,20 +42,22 @@ class SearchItem extends Component {
         this.getData()
     }
     getData() {
+        const { match, searchInput, searchTagIds, getItemList } = this.props
         const params = {
-            libraryId: parseInt(this.props.match.params.id),
+            libraryId: parseInt(match.params.id),
             start: 0,
             limit: 10,
-            tagIds: this.props.searchTagIds || [],
-            name: this.props.searchInput
+            tagIds: searchTagIds || [],
+            name: searchInput
         }
-        this.props.getItemList(params)
+        getItemList(params)
     }
     logChange(val) {
         // TODO
         console.log('Selected: ' + JSON.stringify(val))
     }
     render() {
+        const {searchInput, match} = this.props
         return (
             <Layout.Row className="search-item" gutter="20">
                 {/* <Layout.Col span="3">
@@ -67,7 +69,7 @@ class SearchItem extends Component {
                         onChange={this.logChange}/>
                 </Layout.Col> */}
                 <Layout.Col span="18">
-                    <Input placeholder="请输入条目名称进行搜索" value={this.props.searchInput || ''}
+                    <Input placeholder="请输入条目名称进行搜索" value={searchInput || ''}
                         onChange={this.onChangeInput}
                         onKeyPress={(e) => {
                             if (e.charCode === 13) { this.getData() }
@@ -77,7 +79,7 @@ class SearchItem extends Component {
                     <Button type="default" onClick={this.onSearch}>搜索</Button>
                 </Layout.Col>
                 <Layout.Col span="3" className="add-itembtn">
-                    <NavLink to={`/add-item/${this.props.match.params.id}`}><Button type="primary">新增知识条目</Button></NavLink>
+                    <NavLink to={`/add-item/${match.params.id}`}><Button type="primary">新增知识条目</Button></NavLink>
                 </Layout.Col>
             </Layout.Row>
         );

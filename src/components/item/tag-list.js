@@ -112,16 +112,16 @@ class TagList extends Component {
         // console.log(allTagsObj)
         // console.log(parentTags)
         const {selTags, showThree} = this.state
-        let { knowledgeObj } = this.props;
+        let { knowledgeObj, match } = this.props;
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
-            return k.id === parseInt(this.props.match.params.id)
+            return k.id === parseInt(match.params.id)
         })
         return (
             <div className="mod-taglist">
                 <div className="filter-wrap">
                     <span className="lib-name">
                         <NavLink
-                            to={`/knowledge/${this.props.match.params.id}`}
+                            to={`/knowledge/${match.params.id}`}
                             activeClassName="active">
                             {
                                 curLibrary[0] && curLibrary[0].name

@@ -6,11 +6,13 @@ import KnowledgeList from './knowledge-list.js';
 
 @inject(stores => {
     let {
+        isShowEditKnowledgeDialog,
         showEditKnowledgeDialog,
         hideEditKnowledgeDialog
     } = stores.manage;
     let { userInfo } = stores.user
     return {
+        isShowEditKnowledgeDialog,
         showEditKnowledgeDialog,
         hideEditKnowledgeDialog,
         userInfo
@@ -24,13 +26,14 @@ export default class Manage extends Component {
         }
     }
 
-    show = () => {
+    showLibraryDialog = () => {
         this.props.showEditKnowledgeDialog()
     }
 
     render() {
-        if (this.props.userInfo) {
-            if (!this.props.userInfo.data || this.props.userInfo.data && this.props.userInfo.data.userType !== 0 && this.props.userInfo.data.userType !== 1 ) {
+        const { userInfo } = this.props
+        if (userInfo) {
+            if (userInfo.data.userType !== 0 && userInfo.data.userType !== 1 ) {
                 return <div> 您没有权限访问此页面！！！ </div>
             }
         }
@@ -42,11 +45,12 @@ export default class Manage extends Component {
                             知识库管理
                         </div>
                         <div className="tc">
-                            <Button type="primary" onClick={this.show}>添加知识库</Button>
+                            <Button type="primary" onClick={this.showLibraryDialog}>添加知识库</Button>
                         </div>
                         <KnowledgeList />
                     </div>
                 </Layout.Col>
+                {/* {isShowEditKnowledgeDialog ? <AddKnowLedge /> : null } */}
                 <AddKnowLedge />
             </Layout.Row>
         )

@@ -44,11 +44,12 @@ export default class SetExpert extends Component {
     // rightDefaultChecked user
     handleChange(value) {
         // TODO
+        const { curLibrary, isUserDialog, selectedUsers, setUsers, setExpert} = this.props
         let params = {
-            id: this.props.curLibrary.id,
+            id: curLibrary.id,
         };
-        if (this.props.isUserDialog) {
-            params.userIds = this.props.selectedUsers.concat(value)
+        if (isUserDialog) {
+            params.userIds = selectedUsers.concat(value)
             let tempArr = []
             params.userIds.forEach((a) => {
                 if (tempArr.indexOf(a) === -1) {
@@ -57,11 +58,11 @@ export default class SetExpert extends Component {
                 }
             })
             params.userIds = tempArr
-            this.props.setUsers(params).then(res => {
+            setUsers(params).then(res => {
                 this.resSuccessInfo(res, value);
             });
         } else {
-            params.professorIds = this.props.selectedUsers.concat(value)
+            params.professorIds = selectedUsers.concat(value)
             let tempArr = []
             params.professorIds.forEach((a) => {
                 if (tempArr.indexOf(a) === -1) {
@@ -70,7 +71,7 @@ export default class SetExpert extends Component {
                 }
             })
             params.professorIds = tempArr
-            this.props.setExpert(params).then(res => {
+            setExpert(params).then(res => {
                 this.resSuccessInfo(res, value);
             });
         }
@@ -102,7 +103,7 @@ export default class SetExpert extends Component {
 
     render() {
         const { value } = this.state;
-        let { userList } = this.props;
+        let { userList, visible, handleCancel } = this.props;
         if (!userList) {
             return <div />;
         }
@@ -112,8 +113,8 @@ export default class SetExpert extends Component {
                 title="设置专家"
                 size="small"
                 closeOnClickModal={false}
-                visible={this.props.visible}
-                onCancel={this.props.handleCancel}
+                visible={visible}
+                onCancel={handleCancel}
                 lockScroll={false}
             >
                 <Dialog.Body>
@@ -124,7 +125,7 @@ export default class SetExpert extends Component {
                         disableFilter={true}
                         onKeyPress={this.onSeachUser}
                         leftDefaultChecked={[]}
-                        rightDefaultChecked={[this.props.selectedUsers]}
+                        rightDefaultChecked={[]}
                         renderContent={this.renderFunc}
                         titles={['添加', '已添加']}
                         footerFormat={{
@@ -137,7 +138,7 @@ export default class SetExpert extends Component {
                     />
                 </Dialog.Body>
                 <Dialog.Footer className="dialog-footer">
-                    <Button onClick={this.props.handleCancel}>取消</Button>
+                    <Button onClick={handleCancel}>取消</Button>
                 </Dialog.Footer>
             </Dialog>
         );
