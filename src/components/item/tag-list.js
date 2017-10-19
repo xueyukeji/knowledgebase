@@ -15,7 +15,7 @@ import groupBy from 'lodash/groupBy';
         getItemList,
     } = stores.item
     let {
-        knowledgeList,
+        knowledgeObj,
     } = stores.manage
     return {
         tags,
@@ -23,7 +23,7 @@ import groupBy from 'lodash/groupBy';
         setSearchInput,
         setTagIds,
         getItemList,
-        knowledgeList,
+        knowledgeObj,
     }
 })
 @observer
@@ -111,11 +111,11 @@ class TagList extends Component {
         }
         delete allTagsObj.null0
         delete allTagsObj.null1
-        console.log(allTagsObj)
-        console.log(parentTags)
+        // console.log(allTagsObj)
+        // console.log(parentTags)
         const {selTags, showThree} = this.state
-        let { knowledgeList } = this.props;
-        const curLibrary = knowledgeList && knowledgeList.filter((k) => {
+        let { knowledgeObj } = this.props;
+        const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
         })
         return (

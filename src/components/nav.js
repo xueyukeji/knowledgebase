@@ -44,9 +44,7 @@ export default class Nav extends Component {
                 </div>**/}
                 {userType === 0 || userType === 1 ? (
                     <div className="nav-item nav-manage">
-                        <NavLink to="/manage" activeClassName="active">
-              知识管理
-                        </NavLink>
+                        <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
                     </div>
                 ) : null}
                 <div className="user-info">

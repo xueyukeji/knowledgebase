@@ -8,9 +8,10 @@ import SetExpert from './set-expert.js';
 @inject(stores => {
     let {
         showEditKnowledgeDialog,
-        knowledgeList,
-        getKnowledgeList,
+        knowledgeObj,
+        getAdminKnowledgeList,
         removeKnowledge,
+        setIsUserDiloag,
     } = stores.manage;
     let {
         isAddTagPopVisible,
@@ -22,26 +23,29 @@ import SetExpert from './set-expert.js';
     } = stores.tag
     return {
         showEditKnowledgeDialog,
-        knowledgeList,
-        getKnowledgeList,
+        knowledgeObj,
+        getAdminKnowledgeList,
         removeKnowledge,
         isAddTagPopVisible,
         showAddTagPop,
         hideAddTagPop,
         setCurLibId,
         getTags,
-        setTags
+        setTags,
+        setIsUserDiloag
     };
 })
 @observer
 export default class Manage extends Component {
     state = {
         permissionDialog: false,
-        expertDialog: false
+        expertDialog: false,
+        selectUsers: [],
+        curLibrary: []
     }
 
     componentWillMount() {
-        this.props.getKnowledgeList();
+        this.props.getAdminKnowledgeList();
     }
 
     showAddTagPop = (id) => {
@@ -67,7 +71,7 @@ export default class Manage extends Component {
                     type: 'success',
                     message: '删除成功!'
                 });
-                this.props.getKnowledgeList();
+                this.props.getAdminKnowledgeList();
             })
         }).catch(() => { });
     }
@@ -84,9 +88,12 @@ export default class Manage extends Component {
         })
     }
 
-    showSetExpertDialog = () => {
+    showSetExpertDialog = (item, isCheckedUser) => {
+        this.props.setIsUserDiloag(isCheckedUser)
         this.setState({
-            expertDialog: true
+            expertDialog: true,
+            curLibrary: item,
+            selectUsers: [542011, 632011]
         })
     }
 
@@ -97,19 +104,27 @@ export default class Manage extends Component {
     }
 
     render() {
-        let { knowledgeList } = this.props;
+        let { knowledgeObj } = this.props;
+        if (!knowledgeObj) {
+            return <div>正在加载页面...</div>
+        }
+        console.log(knowledgeObj)
         return (
             <div>
                 <ul className="manage-list">
                     {
-                        knowledgeList.map(item => {
+                        knowledgeObj.librarys.map(item => {
                             return (
                                 <li key={item.id}>
                                     <span className="title">{item.name}</span>
                                     <div className="op-btns">
                                         {/*<Button type="text" onClick={this.showSetPerDialog}>设置权限</Button>*/}
-                                        <Button type="text" onClick={this.showSetExpertDialog}>设置用户</Button>
-                                        <Button type="text" onClick={this.showSetExpertDialog}>设置专家</Button>
+                                        {
+                                            item.userType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, true)}}>设置用户</Button> : ''
+                                        }
+                                        {
+                                            item.auditType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, false)}}>设置专家</Button> : ''
+                                        }
                                         <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
                                             this.props.showEditKnowledgeDialog(item)
@@ -135,7 +150,7 @@ export default class Manage extends Component {
                 }
                 {
                     this.state.expertDialog ?
-                        <SetExpert visible={true} handleCancel={this.hideSetExpertDialog} />
+                        <SetExpert visible={true} curLibrary={this.state.curLibrary} selectedUsers={this.state.selectUsers} handleCancel={this.hideSetExpertDialog} />
                         : null
                 }
             </div>

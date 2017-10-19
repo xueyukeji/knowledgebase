@@ -64,6 +64,16 @@ class Store {
     @action setSelected = data => {
         this.selected = data;
     }
+    @action viewFile = params => {
+        return createFetch({
+            url: '/file/view',
+            params: {
+                fc: 'personal',
+                fi: params.fileid,
+                fv: params.fileversion
+            }
+        });
+    }
 }
 
 export default new Store()

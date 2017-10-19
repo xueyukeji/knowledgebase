@@ -13,7 +13,10 @@ const checkStatus = response => {
         throw response;
     }
 };
-
+// a10 普通用户
+// knkivoek71yia3f28ee81b4495339cc794f20cb55939608df36c5edd3dbdecdb5f1731b9229d0150840695411024500000000000000
+// admin
+// g4lh0711xdto2c15097d24141225214066c486435b11a62e02871d9cd995cf97a736f21bb4850150820800779000000000000000000
 function createQuery(method, body) {
     const query = {
         method: method,
@@ -21,7 +24,7 @@ function createQuery(method, body) {
             ct:
         process.env.NODE_ENV !== 'development'
             ? Cookies.get('ct')
-            : 'g4lh0711xdto2c15097d24141225214066c486435b11a62e02871d9cd995cf97a736f21bb4850150820800779000000000000000000',
+            : '37e97bjnc1n90a54d7ad6250cc321436e428b17a093ca099b5a7320d9afaa3cffda0d42a26f10150841185379000000000000000000',
             cv: '3.5.0',
             Accept: 'application/json',
             'Content-type': 'application/json;charset=UTF-8',

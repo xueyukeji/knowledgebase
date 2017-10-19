@@ -3,7 +3,8 @@ import { createFetch } from '../utils/fetch-creator';
 
 class Store {
     @observable itemListobj = null;
-    @observable itemDetails = null; // 知识条目详情
+    @observable userItemsObj = null;
+    @observable itemDetails = false; // 知识条目详情
     @observable searchInput = ''; // 知识条目搜索用到
     @observable tagIds = []; // 知识条目搜索用到
     @action setTagIds = arr => {
@@ -15,11 +16,10 @@ class Store {
     @action setItemList = obj => {
         this.itemListobj = obj;
     }
-    @action getItemList = (params) => {
+    @action getItemList = params => {
         createFetch({
-            url: 'pub/getItem',
-            method: 'post',
-            body: params
+            url: 'pub/items',
+            params: params
         }).then(data => {
             if (data.data && data.data.items.length) {
                 this.setItemList(data);
@@ -29,19 +29,36 @@ class Store {
         });
     }
 
+    @action getUserItems = params => {
+        createFetch({
+            url: 'pub/users/items',
+            params: params
+        }).then(data => {
+            if (data.data && data.data.items.length) {
+                this.setUserItemList(data);
+            } else {
+                this.setUserItemList(null);
+            }
+        });
+    }
+
+    @action setUserItemList = obj => {
+        this.userItemsObj = obj;
+    }
+
     @action getItemDetail = (itemId) => {
         createFetch({
-            url: 'pub/item/' + itemId
+            url: 'pub/items/' + itemId
         }).then((data) => {
-            if (data.data && data.data.items) {
-                this.itemDetails = data.data.items;
+            if (data.data && data.data.item) {
+                this.itemDetails = data.data.item;
             }
         })
     }
 
     @action createItem = params => {
         return createFetch({
-            url: 'pub/item',
+            url: 'pub/items',
             method: 'post',
             body: params
         });

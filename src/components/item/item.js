@@ -10,25 +10,25 @@ import ListItem from './list-item.js';
         userInfo
     } = stores.user
     let {
-        knowledgeList,
+        knowledgeObj,
     } = stores.manage;
     return {
-        knowledgeList,
+        knowledgeObj,
         userInfo
     }
 })
 @observer
 export default class Knowledge extends Component {
     render() {
-        if (!this.props.match.params.id && this.props.knowledgeList[0]) {
-            return <Redirect to={`/knowledge/${this.props.knowledgeList[0].id}`} />;
+        if (!this.props.match.params.id && this.props.knowledgeObj.librarys[0]) {
+            return <Redirect to={`/knowledge/${this.props.knowledgeObj.librarys[0].id}`} />;
         }
         if (!this.props.match.params.id && this.props.userInfo && this.props.userInfo.data) {
             if (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) {
                 return <Redirect to='/manage' />;
             }
         }
-        if (this.props.knowledgeList.length === 0) {
+        if (this.props.knowledgeObj.librarys.length === 0) {
             return <div className="search-tips">尚未创建知识库</div>
         }
         return (
