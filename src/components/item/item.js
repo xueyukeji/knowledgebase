@@ -20,15 +20,16 @@ import ListItem from './list-item.js';
 @observer
 export default class Knowledge extends Component {
     render() {
-        if (!this.props.match.params.id && this.props.knowledgeObj.librarys[0]) {
-            return <Redirect to={`/knowledge/${this.props.knowledgeObj.librarys[0].id}`} />;
+        const { match, userInfo, knowledgeObj: { librarys = []} } = this.props;
+        if (!match.params.id && librarys[0]) {
+            return <Redirect to={`/knowledge/${librarys[0].id}`} />;
         }
-        if (!this.props.match.params.id && this.props.userInfo && this.props.userInfo.data) {
-            if (this.props.userInfo.data.userType === 0 || this.props.userInfo.data.userType === 1) {
+        if (!match.params.id && userInfo && userInfo.data) {
+            if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
                 return <Redirect to='/manage' />;
             }
         }
-        if (this.props.knowledgeObj.librarys.length === 0) {
+        if (librarys.length === 0) {
             return <div className="search-tips">尚未创建知识库</div>
         }
         return (

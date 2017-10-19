@@ -23,7 +23,7 @@ export default class SetExpert extends Component {
             limit: 50
         };
         this.state = {
-            value: []
+            value: this.props.selectedUsers.slice()
         };
 
         this._handleChange = this.handleChange.bind(this);
@@ -103,7 +103,6 @@ export default class SetExpert extends Component {
     render() {
         const { value } = this.state;
         let { userList } = this.props;
-        console.log('selectedUsers--->', typeof(this.props.selectedUsers), this.props.selectedUsers)
         if (!userList) {
             return <div />;
         }
