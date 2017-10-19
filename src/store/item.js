@@ -47,7 +47,7 @@ class Store {
     }
 
     @action getItemDetail = (itemId) => {
-        createFetch({
+        return createFetch({
             url: 'pub/items/' + itemId
         }).then((data) => {
             if (data.data && data.data.item) {
@@ -73,7 +73,7 @@ class Store {
 
     @action modifyItem = params => {
         return createFetch({
-            url: `pub/item/${params.id}`,
+            url: `pub/items/${params.id}`,
             method: 'post',
             body: params
         });
