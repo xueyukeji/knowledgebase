@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import 'element-theme-default/lib/index.css';
+import 'antd/dist/antd.css';
 import 'react-select/dist/react-select.css';
 import './assets/css/index.scss';
 import App from './app';

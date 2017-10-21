@@ -4,7 +4,8 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish';
 import SelectFile from './select-file.js';
 import { MessageBox } from 'element-react-codish';
-import Select from 'react-select';
+import { Cascader } from 'antd'
+import { listToTree } from '../../utils/constants'
 
 @inject(stores => {
     let {
@@ -50,7 +51,8 @@ class AddItem extends Component {
         super(props)
         this.state = {
             dialogVisible: false,
-            curParentId: '',
+            tagId1: '', // 标签1的id
+            tagId2: '', // 标签2的id
             form: {
                 name: '',
                 desc: '',
@@ -171,7 +173,7 @@ class AddItem extends Component {
         this.props.setSelected([]);
     }
 
-    selectKnowledge = ({value: libraryId}) => {
+    selectKnowledge = ({ value: libraryId }) => {
         this.state.form.libraryId = libraryId
         this.props.getTags({
             libraryId,
@@ -179,34 +181,34 @@ class AddItem extends Component {
         })
     }
 
-    selectParentTag = (parentTag) => {
-        if (!parentTag) return false;
-        let parentId = parentTag.value;
-        if (!parentId) return false;
-        let form = this.state.form;
-        form.tagIds[0] = {
-            id: parentId
-        };
-        form.tagIds[1] = {
-            id: ''
+    onChangeTag1 = (value, selectedOptions) => {
+        console.log(value, selectedOptions)
+        const id1 = value[1]
+        if (id1) {
+            let form = this.state.form;
+            form.tagIds[0] = {
+                id: id1
+            };
+            this.setState({
+                form,
+                tagId1: id1
+            });
         }
-        this.setState({
-            curParentId: parentId,
-            form
-        });
     }
 
-    selectChildTag = (childTag) => {
-        if (!childTag) return false;
-        let cId = childTag.value;
-        if (!cId) return false;
-        let form = this.state.form;
-        form.tagIds[1] = {
-            id: cId
-        };
-        this.setState({
-            form
-        });
+    onChangeTag2 = (value, selectedOptions) => {
+        console.log(value, selectedOptions)
+        const id2 = value[1]
+        if (id2) {
+            let form = this.state.form;
+            form.tagIds[1] = {
+                id: id2
+            };
+            this.setState({
+                form,
+                tagId2: id2
+            });
+        }
     }
 
     confirmCreateItem() {
@@ -291,7 +293,7 @@ class AddItem extends Component {
     render() {
         let {
             knowledgeObj,
-            parentTags,
+            // parentTags,
             tags,
             userInfo,
             match
@@ -299,7 +301,39 @@ class AddItem extends Component {
         let {
             files,
             dialogVisible,
+            tagId1,
+            tagId2
         } = this.state;
+
+        let options1 = []
+        let options2 = []
+        if (tags.length > 0) {
+            const cloneTags1 = []
+            const cloneTags2 = []
+            console.log('tagId1, tagid2:', tagId1, tagId2)
+            tags.forEach(function(item) {
+                item.value = item.id
+                item.label = item.tag
+                if (tagId1 !== item.id) {
+                    cloneTags2.push(Object.assign({}, item))
+                }
+                if (tagId2 !== item.id) {
+                    cloneTags1.push(Object.assign({}, item))
+                }
+            });
+            options1 = listToTree(cloneTags1, {
+                idKey: 'id',
+                parentKey: 'parentId',
+                childrenKey: 'children'
+            }, true)
+            options2 = listToTree(cloneTags2, {
+                idKey: 'id',
+                parentKey: 'parentId',
+                childrenKey: 'children'
+            }, true)
+            console.log('options1', options1)
+            console.log('options2', options2)
+        }
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(match.params.id)
         })
@@ -332,17 +366,22 @@ class AddItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
-                        <Select value={this.state.curParentId}
-                            onChange={this.selectParentTag}
-                            placeholder="标签一"
-                            noResultsText="暂无数据"
-                            options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
-                        <Select
-                            value={this.state.form.tagIds[1].id}
-                            onChange={this.selectChildTag}
-                            placeholder="标签二"
-                            noResultsText="暂无数据"
-                            options={tags.filter(t => t.parentId === this.state.curParentId).map(item => ({label: item.tag, value: item.id}))} />
+                        <Cascader
+                            options={options1}
+                            onChange={this.onChangeTag1}
+                            placeholder="请选择标签一"
+                            showSearch
+                            size="large"
+                            style={{ width: 180 }}
+                        />
+                        <Cascader
+                            options={options2}
+                            onChange={this.onChangeTag2}
+                            placeholder="请选择标签二"
+                            showSearch
+                            size="large"
+                            style={{ width: 180 }}
+                        />
                         <Input className="default-tag" value={this.state.form.tag}
                             onChange={this.onChange.bind(this, 'tag')}
                             placeholder="自定义标签"></Input>

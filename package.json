@@ -4,6 +4,7 @@
     "private": true,
     "proxy": "http://111.231.198.240",
     "dependencies": {
+        "antd": "^2.13.6",
         "autoprefixer": "7.1.2",
         "babel-core": "6.25.0",
         "babel-eslint": "7.2.3",
