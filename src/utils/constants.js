@@ -81,14 +81,15 @@ export function listToTree(data, options, deleteEmptyChildren) {
             tree.push(item);
         }
     }
+    // add by liuchang
     if (deleteEmptyChildren) {
-        for (var j = 0, jLen = data.length; j < jLen; j++) {
-            item = data[j];
-            if (!item[CHILDREN_KEY].length) {
-                delete item[CHILDREN_KEY]
+        for (var j = tree.length - 1; j >= 0; j--) {
+            item = tree[j];
+            if (!item[CHILDREN_KEY].length && item[PARENT_KEY] === null) {
+                // 没有二级标签不展示一级标签
+                tree.splice(j, 1)
             }
         }
     }
-
     return tree;
 }

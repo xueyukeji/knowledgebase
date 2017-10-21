@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish';
 import SelectFile from './select-file.js';
 import { MessageBox } from 'element-react-codish';
-import Select from 'react-select';
+import { Cascader } from 'antd'
+import { listToTree } from '../../utils/constants'
 
 @inject(stores => {
     let {
@@ -53,8 +54,9 @@ export default class EditItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            tagId1: -1, // 标签1的一级id
+            tagId2: -1, // 标签2的一级id
             dialogVisible: false,
-            curParentId: '',
             name: '',
             desc: '',
             libraryId: parseInt(this.props.match.params.id),
@@ -96,7 +98,11 @@ export default class EditItem extends Component {
                 {
                     validator: (rule, value, callback) => {
                         if (!this.state.tagIds[0].id) {
-                            callback(new Error('请选择一级标签'));
+                            callback(new Error('请选择标签一'));
+                            return
+                        }
+                        if (!this.state.tagIds[1].id) {
+                            callback(new Error('请选择标签二'));
                             return
                         }
                         if (this.state.tag.length > 8) {
@@ -146,7 +152,9 @@ export default class EditItem extends Component {
         });
         if (libId && itemId) {
             getItemDetail(itemId).then(() => {
-                let {itemDetails} = this.props;
+                let { itemDetails } = this.props;
+                const tagId1 = itemDetails.tagArr[0] ? itemDetails.tagArr[0].parentId : -1
+                const tagId2 = itemDetails.tagArr[1] ? itemDetails.tagArr[1].parentId : -1
                 this.setState({
                     name: itemDetails.name,
                     desc: itemDetails.desc,
@@ -154,7 +162,8 @@ export default class EditItem extends Component {
                     tag: itemDetails.tagArr[2] ? itemDetails.tagArr[2].tag : '',
                     files: itemDetails.fileInfos,
                     fileInfos: itemDetails.fileInfos,
-                    curParentId: itemDetails.tagArr[0] && itemDetails.tagArr[0].id
+                    tagId1,
+                    tagId2
                 });
             });
         }
@@ -165,18 +174,45 @@ export default class EditItem extends Component {
     }
 
     handleNameChange = name => {
-        this.setState({name});
+        this.setState({ name });
     }
 
     handleDescChange = desc => {
-        this.setState({desc});
+        this.setState({ desc });
     }
 
     handleCustomTagChange = tag => {
         let tags = this.state.tagIds;
-        tags[2] = tag;
+        tags[2].tag = tag
         this.setState({
-            tagIds: tags
+            tagIds: tags,
+            tag
+        })
+    }
+
+    onChangeTag1 = (value, selectedOptions) => {
+        console.log(value, selectedOptions)
+        const id1 = value[1]
+        const tagIds = this.state.tagIds;
+        tagIds[0] = {
+            id: id1
+        };
+        this.setState({
+            tagIds,
+            tagId1: value[0]
+        });
+    }
+
+    onChangeTag2 = (value, selectedOptions) => {
+        console.log(value, selectedOptions)
+        const id2 = value[1]
+        const tagIds = this.state.tagIds;
+        tagIds[0] = {
+            id: id2
+        };
+        this.setState({
+            tagIds,
+            tagId2: value[0]
         });
     }
 
@@ -199,36 +235,6 @@ export default class EditItem extends Component {
         this.props.setUserFile([]);
         this.props.setCurFileParents([]);
         this.props.setSelected([]);
-    }
-
-    selectParentTag = (parentTag) => {
-        if (!parentTag) return false;
-        let parentId = parentTag.value;
-        if (!parentId) return false;
-        let tagIds = this.state.tagIds;
-        tagIds[0] = {
-            id: parentId
-        };
-        tagIds[1] = {
-            id: ''
-        }
-        this.setState({
-            curParentId: parentId,
-            tagIds
-        });
-    }
-
-    selectChildTag = (childTag) => {
-        if (!childTag) return false;
-        let cId = childTag.value;
-        if (!cId) return false;
-        let tagIds = this.state.tagIds;
-        tagIds[1] = {
-            id: cId
-        };
-        this.setState({
-            tagIds
-        });
     }
 
     confirmCreateItem() {
@@ -312,7 +318,6 @@ export default class EditItem extends Component {
     render() {
         let {
             knowledgeObj,
-            parentTags,
             tags,
             userInfo,
             itemDetails
@@ -324,8 +329,10 @@ export default class EditItem extends Component {
             desc,
             tagIds,
             tag,
-            curParentId
+            tagId1,
+            tagId2
         } = this.state;
+        console.log(tagId1)
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
         })
@@ -342,6 +349,48 @@ export default class EditItem extends Component {
             tagIds,
             tag
         };
+
+        let options1 = []
+        let options2 = []
+        const value1 = [],
+            value2 = []
+        if (tags.length > 0) {
+            const cloneTags1 = [],
+                cloneTags2 = []
+            tags.forEach(function(item) {
+                const itemId = item.id
+                item.value = itemId
+                item.label = item.tag
+                if (tagId1 !== itemId && tagId1 !== item.parentId) {
+                    cloneTags2.push(Object.assign({}, item))
+                }
+                if (tagId2 !== itemId && tagId2 !== item.parentId) {
+                    cloneTags1.push(Object.assign({}, item))
+                }
+                if (item.parentId) {
+                    if (tagIds[0] && tagIds[0].id === itemId) {
+                        value1.push(item.parentId)
+                        value1.push(itemId)
+                    }
+                    if (tagIds[1] && tagIds[1].id === itemId) {
+                        value2.push(item.parentId)
+                        value2.push(itemId)
+                    }
+                }
+            });
+            options1 = listToTree(cloneTags1, {
+                idKey: 'id',
+                parentKey: 'parentId',
+                childrenKey: 'children'
+            }, true)
+            options2 = listToTree(cloneTags2, {
+                idKey: 'id',
+                parentKey: 'parentId',
+                childrenKey: 'children'
+            }, true)
+            console.log('options1', options1)
+            console.log('options2', options2)
+        }
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
@@ -377,22 +426,42 @@ export default class EditItem extends Component {
                         {userInfo && userInfo.data && userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
+                        <Cascader
+                            options={options1}
+                            onChange={this.onChangeTag1}
+                            placeholder="请选择标签一"
+                            showSearch
+                            size="large"
+                            style={{ width: 180 }}
+                            value={value1}
+                        />
+                        <Cascader
+                            options={options2}
+                            onChange={this.onChangeTag2}
+                            placeholder="请选择标签二"
+                            showSearch
+                            size="large"
+                            style={{ width: 180 }}
+                            value={value2}
+                        />
+                        <Input
+                            className="default-tag" value={this.state.tag}
+                            onChange={this.handleCustomTagChange}
+                            placeholder="自定义标签" />
+
+                        {/*
                         <Select value={tagIds[0].id}
                             onChange={this.selectParentTag}
                             placeholder="标签一"
                             noResultsText="暂无数据"
-                            options={parentTags.map(item => ({label: item.tag, value: item.id}))}/>
+                            options={parentTags.map(item => ({ label: item.tag, value: item.id }))} />
                         <Select
                             value={tagIds[1].id}
                             onChange={this.selectChildTag}
                             placeholder="标签二"
                             noResultsText="暂无数据"
-                            options={tags.filter(t => t.parentId === curParentId).map(item => ({label: item.tag, value: item.id}))} />
-                        <Input
-                            className="default-tag"
-                            value={tag}
-                            onChange={this.handleCustomTagChange}
-                            placeholder="自定义标签" />
+                            options={tags.filter(t => t.parentId === curParentId).map(item => ({ label: item.tag, value: item.id }))} /> */}
+
                     </Form.Item>
                     <Form.Item label="附件：" prop="fileInfos" required>
                         {

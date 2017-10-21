@@ -13,7 +13,7 @@ class Store {
 
     @action getKnowledgeList = (params) => {
         createFetch({
-            url: 'pub/librarys',
+            url: '/pub/librarys/v2',
             params
         }).then(data => {
             if (data.data) {

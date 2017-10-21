@@ -51,8 +51,8 @@ class AddItem extends Component {
         super(props)
         this.state = {
             dialogVisible: false,
-            tagId1: '', // 标签1的id
-            tagId2: '', // 标签2的id
+            tagId1: '', // 标签1的一级id
+            tagId2: '', // 标签2的一级id
             form: {
                 name: '',
                 desc: '',
@@ -95,9 +95,14 @@ class AddItem extends Component {
                     {
                         validator: (rule, value, callback) => {
                             if (!this.state.form.tagIds[0].id) {
-                                callback(new Error('请选择一级标签'));
+                                callback(new Error('请选择标签一'));
                                 return
                             }
+                            if (!this.state.form.tagIds[1].id) {
+                                callback(new Error('请选择标签二'));
+                                return
+                            }
+
                             if (this.state.form.tag.length > 8) {
                                 callback(new Error('请输入8个字符以内的标签'));
                                 return
@@ -124,14 +129,15 @@ class AddItem extends Component {
     }
 
     componentWillMount() {
-        const { getKnowledgeList, getTags, userInfo } = this.props
-        let type = 'user'
-        if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
-            type = 'admin'
-        }
-        getKnowledgeList({
-            type
-        });
+        const { getTags } = this.props
+        // const { getKnowledgeList, getTags, userInfo } = this.props
+        // let type = 'user'
+        // if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
+        //     type = 'admin'
+        // }
+        // getKnowledgeList({
+        //     type
+        // });
         getTags({
             libraryId: this.props.match.params.id,
             isCustom: 0 // 不返回自定义标签
@@ -190,31 +196,27 @@ class AddItem extends Component {
     onChangeTag1 = (value, selectedOptions) => {
         console.log(value, selectedOptions)
         const id1 = value[1]
-        if (id1) {
-            let form = this.state.form;
-            form.tagIds[0] = {
-                id: id1
-            };
-            this.setState({
-                form,
-                tagId1: id1
-            });
-        }
+        let form = this.state.form;
+        form.tagIds[0] = {
+            id: id1
+        };
+        this.setState({
+            form,
+            tagId1: value[0]
+        });
     }
 
     onChangeTag2 = (value, selectedOptions) => {
         console.log(value, selectedOptions)
         const id2 = value[1]
-        if (id2) {
-            let form = this.state.form;
-            form.tagIds[1] = {
-                id: id2
-            };
-            this.setState({
-                form,
-                tagId2: id2
-            });
-        }
+        let form = this.state.form;
+        form.tagIds[1] = {
+            id: id2
+        };
+        this.setState({
+            form,
+            tagId2: value[0]
+        });
     }
 
     confirmCreateItem() {
@@ -320,10 +322,10 @@ class AddItem extends Component {
             tags.forEach(function(item) {
                 item.value = item.id
                 item.label = item.tag
-                if (tagId1 !== item.id) {
+                if (tagId1 !== item.id && tagId1 !== item.parentId) {
                     cloneTags2.push(Object.assign({}, item))
                 }
-                if (tagId2 !== item.id) {
+                if (tagId2 !== item.id && tagId2 !== item.parentId) {
                     cloneTags1.push(Object.assign({}, item))
                 }
             });
