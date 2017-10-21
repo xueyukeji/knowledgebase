@@ -125,14 +125,13 @@ class TagList extends Component {
             <div className="mod-taglist">
                 <div className="filter-wrap">
                     <span className="lib-name">
-                        {curLibrary[0] && curLibrary[0].name}
-                        {/* <NavLink
+                        <NavLink
                             to={`/knowledge/${match.params.id}`}
                             activeClassName="active">
                             {
                                 curLibrary[0] && curLibrary[0].name
                             }
-                        </NavLink> */}
+                        </NavLink>
                         <span>></span>
                     </span>
                     {
