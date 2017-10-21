@@ -41,7 +41,8 @@ export default class Manage extends Component {
         permissionDialog: false,
         expertDialog: false,
         selectUsers: [],
-        curLibrary: []
+        curLibrary: [],
+        dialogTitle: ''
     }
 
     componentWillMount() {
@@ -93,6 +94,7 @@ export default class Manage extends Component {
         this.setState({
             expertDialog: true,
             curLibrary: item,
+            dialogTitle: isCheckedUser ? '设置用户' : '设置专家',
             selectUsers: isCheckedUser ? item.userIds : item.professorIds
         })
     }
@@ -105,6 +107,9 @@ export default class Manage extends Component {
 
     render() {
         let { knowledgeObj, showLibraryDialog, isAddTagPopVisible } = this.props;
+        const {
+            dialogTitle
+        } = this.state
         if (!knowledgeObj) {
             return <div>正在加载页面...</div>
         }
@@ -149,7 +154,7 @@ export default class Manage extends Component {
                 }
                 {
                     this.state.expertDialog ?
-                        <SetExpert visible={true} curLibrary={this.state.curLibrary} selectedUsers={this.state.selectUsers} handleCancel={this.hideSetExpertDialog} />
+                        <SetExpert title={dialogTitle} visible={true} curLibrary={this.state.curLibrary} selectedUsers={this.state.selectUsers} handleCancel={this.hideSetExpertDialog} />
                         : null
                 }
             </div>

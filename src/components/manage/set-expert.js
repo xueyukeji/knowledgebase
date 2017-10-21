@@ -88,14 +88,14 @@ export default class SetExpert extends Component {
 
     render() {
         const { value } = this.state;
-        let { userList, visible, handleCancel } = this.props;
+        let { userList, visible, handleCancel, title } = this.props;
         if (!userList) {
             return <div />;
         }
         return (
             <Dialog
                 className="mod-setexpert"
-                title="设置专家"
+                title={title}
                 size="small"
                 closeOnClickModal={false}
                 visible={visible}

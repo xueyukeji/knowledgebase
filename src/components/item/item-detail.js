@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import {Redirect, NavLink} from 'react-router-dom';
 import {Button, Breadcrumb, Tag} from 'element-react-codish';
 import LightBox from 'react-images';
+import Cookies from 'js-cookie';
+import AES from 'crypto-js/aes'
 
 @inject(stores => {
     let { viewFile } = stores.user
@@ -47,6 +49,21 @@ export default class ItemDetail extends Component {
                 }
             });
         } else {
+            this.props.viewFile(item).then(res => {
+                var view = null;
+                if (res.file) {
+                    view = res.file;
+                } else {
+                    view = res.view ? res.view : res.fileUri;
+                }
+                var encrypt = function (str) {
+                    return AES.encrypt(str, 'yliyun123').toString();
+                };
+                var en = encrypt(view);
+                Cookies.set('url', en);
+                Cookies.set('doc-viewer-Title', item.filename);
+            });
+
             let newWindow = window.open('about:blank');
             newWindow.location = `/views.html?fc=personal&fi=${item.fileid}`;
         }
