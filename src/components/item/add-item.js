@@ -124,8 +124,14 @@ class AddItem extends Component {
     }
 
     componentWillMount() {
-        const { getKnowledgeList, getTags } = this.props
-        getKnowledgeList()
+        const { getKnowledgeList, getTags, userInfo } = this.props
+        let type = 'user'
+        if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
+            type = 'admin'
+        }
+        getKnowledgeList({
+            type
+        });
         getTags({
             libraryId: this.props.match.params.id,
             isCustom: 0 // 不返回自定义标签

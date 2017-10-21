@@ -128,11 +128,18 @@ export default class EditItem extends Component {
             getKnowledgeList,
             getTags,
             match,
-            getItemDetail
+            getItemDetail,
+            userInfo
         } = this.props;
         let libId = match.params.id;
         let itemId = match.params.itemId;
-        getKnowledgeList();
+        let type = 'user'
+        if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
+            type = 'admin'
+        }
+        getKnowledgeList({
+            type
+        });
         getTags({
             libraryId: libId,
             isCustom: 0 // 不返回自定义标签

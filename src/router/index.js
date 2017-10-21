@@ -13,26 +13,28 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
-    let { knowledgeObj, getKnowledgeList, getAdminKnowledgeList } = stores.manage;
+    let { knowledgeObj, getKnowledgeList } = stores.manage;
     let { userInfo, getUserInfo } = stores.user;
     return {
         userInfo,
         getUserInfo,
         knowledgeObj,
-        getKnowledgeList,
-        getAdminKnowledgeList
+        getKnowledgeList
     };
 })
 @observer
 export default class AppRouter extends Component {
     componentWillMount() {
-        const {getUserInfo, userInfo, getKnowledgeList, getAdminKnowledgeList} = this.props;
+        const {getUserInfo, userInfo, getKnowledgeList} = this.props;
         getUserInfo().then(() => {
+            let type = 'user'
             if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
-                getAdminKnowledgeList()
-            } else {
-                getKnowledgeList({ userId: this.props.userInfo.data.userId });
+                type = 'admin'
             }
+            getKnowledgeList({
+                userId: this.props.userInfo.data.userId,
+                type
+            });
         })
     }
 
