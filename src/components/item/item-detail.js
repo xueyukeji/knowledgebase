@@ -50,6 +50,11 @@ export default class ItemDetail extends Component {
             });
         } else {
             this.props.viewFile(item).then(res => {
+                if (res.status !== 'ok') {
+                    console.error('文件预览出错');
+                    return
+                }
+                res = res.data
                 var view = null;
                 if (res.file) {
                     view = res.file;
