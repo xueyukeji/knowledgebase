@@ -23,7 +23,7 @@ export default class SetExpert extends Component {
             limit: 50
         };
         this.state = {
-            value: this.props.selectedUsers.slice()
+            value: this.props.selectedUsers.slice(0)
         };
 
         this._handleChange = this.handleChange.bind(this);
@@ -39,6 +39,10 @@ export default class SetExpert extends Component {
             this.params.key = e.target.value
             this.props.getUserList(this.params);
         }
+    }
+
+    filterMethod = (query, item) => {
+        return item.label.indexOf(query) > -1;
     }
 
     // rightDefaultChecked user
@@ -107,7 +111,7 @@ export default class SetExpert extends Component {
                         data={userList.map(u => ({ key: u.userId, label: u.userName }))}
                         value={value}
                         filterable
-                        disableFilter={true}
+                        filterMethod={this.filterMethod}
                         onKeyPress={this.onSeachUser}
                         leftDefaultChecked={[]}
                         rightDefaultChecked={[]}
