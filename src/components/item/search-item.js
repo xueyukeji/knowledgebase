@@ -8,13 +8,11 @@ import { inject, observer } from 'mobx-react';
         searchInput,
         searchTagIds,
         setSearchInput,
-        getItemList,
     } = stores.item
     return {
         searchInput,
         searchTagIds,
         setSearchInput,
-        getItemList
     }
 })
 
@@ -42,7 +40,7 @@ class SearchItem extends Component {
         this.getData()
     }
     getData() {
-        const { match, searchInput, searchTagIds, getItemList } = this.props
+        const { match, searchInput, searchTagIds } = this.props
         const params = {
             libraryId: parseInt(match.params.id),
             start: 0,
@@ -50,7 +48,7 @@ class SearchItem extends Component {
             tagIds: searchTagIds || [],
             name: searchInput
         }
-        getItemList(params)
+        this.props.getItemData(params)
     }
     logChange(val) {
         // TODO

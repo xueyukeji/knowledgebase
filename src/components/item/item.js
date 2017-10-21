@@ -12,13 +12,61 @@ import ListItem from './list-item.js';
     let {
         knowledgeObj,
     } = stores.manage;
+    let {
+        getItemList,
+        setSearchInput
+    } = stores.item;
+    let {
+        getTags
+    } = stores.tag
     return {
         knowledgeObj,
-        userInfo
+        userInfo,
+        getItemList,
+        setSearchInput,
+        getTags
     }
 })
 @observer
 export default class Knowledge extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            clearTag: false
+        }
+    }
+    getItemData = (params) => {
+        this.props.getItemList(params);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.id !== nextProps.match.params.id) {
+            console.log(this.props.match.params.id)
+            console.log(nextProps.match.params.id)
+            // 清空搜索区、清空tag选择区、重新加载tag、重新加载items
+            const { setSearchInput, getTags, match } = this.props
+            setSearchInput('');
+            this.setState({
+                clearTag: true
+            })
+            getTags({
+                libraryId: nextProps.match.params.id
+            });
+            const params = {
+                libraryId: nextProps
+                    ? parseInt(nextProps.match.params.id)
+                    : parseInt(match.params.id),
+                start: 0,
+                limit: 10
+            };
+            this.getItemData(params)
+        }
+    }
+
+    componentWillMount() {
+        console.log()
+    }
+
     render() {
         const { match, userInfo, knowledgeObj: { librarys = []} } = this.props;
         if (!match.params.id && librarys[0]) {
@@ -34,9 +82,9 @@ export default class Knowledge extends Component {
         }
         return (
             <div className="mod-homepage">
-                <SearchItem />
-                <TagList />
-                <ListItem />
+                <SearchItem getItemData={this.getItemData} />
+                <TagList getItemData={this.getItemData} clearTag={this.state.clearTag} />
+                <ListItem getItemData={this.getItemData} />
             </div>
         )
     }

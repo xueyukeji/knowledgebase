@@ -9,17 +9,13 @@ import groupBy from 'lodash/groupBy';
     let { knowledgeObj } = stores.manage
     let {
         searchInput,
-        setSearchInput,
         setSearchTagIds,
-        getItemList,
     } = stores.item
     return {
         tags,
         parentTags,
         searchInput,
-        setSearchInput,
         setSearchTagIds,
-        getItemList,
         knowledgeObj,
     }
 })
@@ -60,7 +56,7 @@ class TagList extends Component {
             tagIds: tagsIds,
             name: name
         }
-        this.props.getItemList(params)
+        this.props.getItemData(params)
     }
 
     handleClose(tag) {
@@ -71,11 +67,15 @@ class TagList extends Component {
         });
         this.getData(selTags.map(item => item.id), this.props.searchInput)
     }
-    handleClear() {
+
+    clearSelect() {
         this.setState({
             selTags: []
         })
-        this.props.setSearchInput('')
+    }
+
+    handleClear() {
+        this.clearSelect()
         this.getData([], '')
     }
     toggleShowMore () {
@@ -84,6 +84,13 @@ class TagList extends Component {
             showThree: !showThree
         });
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.clearTag) {
+            this.clearSelect()
+        }
+    }
+
     render() {
         let { tags, parentTags } = this.props
         const allTagsObj = groupBy(tags, function({parentId, isCustom}) {
