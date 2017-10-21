@@ -83,6 +83,13 @@ export function listToTree(data, options, deleteEmptyChildren) {
     }
     // add by liuchang
     if (deleteEmptyChildren) {
+        for (var k = data.length - 1; k >= 0; k--) {
+            item = data[k];
+            if (!item[CHILDREN_KEY].length && item[PARENT_KEY]) {
+                // 不展示空的三级
+                delete item[CHILDREN_KEY]
+            }
+        }
         for (var j = tree.length - 1; j >= 0; j--) {
             item = tree[j];
             if (!item[CHILDREN_KEY].length && item[PARENT_KEY] === null) {
