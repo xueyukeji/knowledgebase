@@ -376,7 +376,6 @@ export default class EditItem extends Component {
                 parentKey: 'parentId',
                 childrenKey: 'children'
             }, true)
-            console.log("render: value1: ", value1, ", value2: ", value2);
         }
         return (
             <div className="mod-addknowledge-item">
