@@ -6,6 +6,7 @@ import SelectFile from './select-file.js';
 import { MessageBox } from 'element-react-codish';
 import { Cascader } from 'antd'
 import { listToTree } from '../../utils/constants'
+import uniqBy from 'lodash/uniqBy'
 
 @inject(stores => {
     let {
@@ -260,26 +261,24 @@ export default class EditItem extends Component {
     }
 
     handleConfirm = () => {
-        let files = this.props.selected.slice();
-        if (files.some(item => {
+        let selFiles = this.props.selected.slice();
+        if (selFiles.some(item => {
             return item.folder;
         })) {
             return MessageBox.alert('选择的附件不能为文件夹！');
         }
-        if (files.length > 30) {
+        if (selFiles.length > 30) {
             return MessageBox.alert('文件个数不能超过30个！');
         }
-        let fileInfos = files.map(item => {
-            return {
-                fileId: item.fileId,
-                fileVersion: item.fileVersion,
-                fileName: item.fileName,
-            };
+        const { files } = this.state
+        files.forEach(function(item){
+            item.fileId ? selFiles.unshift(item) : ''
         })
+        const newFiles = uniqBy(selFiles, 'fileId');
         this.setState({
-            files: files,
+            files: newFiles,
             dialogVisible: false,
-            fileInfos
+            fileInfos: newFiles
         });
         this.clearUserFile();
     }
@@ -295,8 +294,8 @@ export default class EditItem extends Component {
     getSelectedFile = () => {
         return this.state.files.map(item => {
             return (
-                <div key={item.fileid || item.fileId}>
-                    {item.filename || item.fileName}
+                <div key={item.fileId}>
+                    {item.fileName}
                     <span className="delete-file" onClick={() => {
                         this.deleteFile(item);
                     }}>删除</span>

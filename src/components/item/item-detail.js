@@ -39,7 +39,7 @@ export default class ItemDetail extends Component {
     handlePreviewClick = (item) => {
         if (!item) return;
         //"jpg", "jpeg", "png", "gif", "ico", "bpm", "psd", "pic", "svg", "eps", "cdr", "ai", "ps", "wmf"
-        if (/(\.jpg|\.jpeg|\.png|\.gif|\.ico|\.bpm|\.psd|\.pic|\.svg|\.eps|\.cdr|\.ai|\.ps|\.wmf)$/.test(item.filename)) {
+        if (/(\.jpg|\.jpeg|\.png|\.gif|\.ico|\.bpm|\.psd|\.pic|\.svg|\.eps|\.cdr|\.ai|\.ps|\.wmf)$/.test(item.fileName)) {
             this.props.viewFile(item).then(data => {
                 if (data.data) {
                     this.setState({
@@ -66,11 +66,11 @@ export default class ItemDetail extends Component {
                 };
                 var en = encrypt(view);
                 Cookies.set('url', en);
-                Cookies.set('doc-viewer-Title', item.filename);
+                Cookies.set('doc-viewer-Title', item.fileName);
             });
 
             let newWindow = window.open('about:blank');
-            newWindow.location = `/views.html?fc=personal&fi=${item.fileid}`;
+            newWindow.location = `/views.html?fc=personal&fi=${item.fileId}`;
         }
     }
 
@@ -159,8 +159,8 @@ export default class ItemDetail extends Component {
                         {
                             itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
                                 return (
-                                    <div className="file-item" key={item.fileid}>
-                                        {item.filename}
+                                    <div className="file-item" key={item.fileId}>
+                                        {item.fileName}
                                         <Button
                                             className="preview"
                                             type="primary"

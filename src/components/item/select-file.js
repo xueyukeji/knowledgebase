@@ -48,7 +48,7 @@ export default class Knowledge extends Component {
             },
             {
                 label: '类型',
-                prop: 'filename',
+                prop: 'fileName',
                 width: 180,
                 render: data => {
                     return (

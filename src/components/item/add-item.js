@@ -248,9 +248,9 @@ class AddItem extends Component {
         form = Object.assign(form, {
             fileInfos: files.map(item => {
                 return {
-                    fileid: item.fileId,
-                    fileversion: item.fileVersion,
-                    filename: item.fileName,
+                    fileId: item.fileId,
+                    fileVersion: item.fileVersion,
+                    fileName: item.fileName,
                 };
             })
         });

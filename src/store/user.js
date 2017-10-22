@@ -71,8 +71,8 @@ class Store {
             url: '/file/view',
             params: {
                 fc: 'personal',
-                fi: params.fileid,
-                fv: params.fileversion
+                fi: params.fileId,
+                fv: params.fileVersion
             }
         });
     };
