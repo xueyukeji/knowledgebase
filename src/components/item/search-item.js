@@ -57,7 +57,7 @@ class SearchItem extends Component {
     render() {
         const {searchInput, match} = this.props
         return (
-            <Layout.Row className="search-item" gutter="20">
+            <Layout.Row className="search-item">
                 {/* <Layout.Col span="3">
                     <Select
                         name="form-field-name"
@@ -73,8 +73,8 @@ class SearchItem extends Component {
                             if (e.charCode === 13) { this.getData() }
                         }} />
                 </Layout.Col>
-                <Layout.Col span="3">
-                    <Button type="default" onClick={this.onSearch}>搜索</Button>
+                <Layout.Col span="3" className="btn-search">
+                    <Button type="primary" onClick={this.onSearch}>搜索</Button>
                 </Layout.Col>
                 <Layout.Col span="3" className="add-itembtn">
                     <NavLink to={`/add-item/${match.params.id}`}><Button type="primary">新增知识条目</Button></NavLink>

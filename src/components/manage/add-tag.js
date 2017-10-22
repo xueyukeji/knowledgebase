@@ -25,8 +25,8 @@ import AddTagItem from './add-tag-item';
 export default class AddTag extends Component {
     addParentTag = () => {
         MessageBox.prompt('请输入您要创建的一级标签名称', '', {
-            inputPattern: /^.{0,8}$/,
-            inputErrorMessage: '标签长度在不能超过8个字符'
+            inputPattern: /^.{0,42}$/,
+            inputErrorMessage: '标签长度在不能超过42个字符'
         }).then(({ value }) => {
             this.props.creatTag({
                 libraryId: this.props.curLibId,

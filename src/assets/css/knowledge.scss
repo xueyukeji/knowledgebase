@@ -26,19 +26,28 @@
 			.el-select {
 				height: 30px;
 			}
-        }
-        .el-button--default {
-            background: #daf7e8;
-            border: none;
-            border-radius: 0;
-            height: 35px;
-            width: 100%;
-            display: inline-block;
-        }
-		.add-itembtn {
-			.el-button:last-child {
+		}
+		.btn-search{
+			button{
+				height: 36px;
 				border-radius: 0;
 				width: 100%;
+			}
+		}
+        // .el-button--default {
+        //     background: #daf7e8;
+        //     border: none;
+        //     border-radius: 0;
+        //     height: 35px;
+        //     width: 100%;
+        //     display: inline-block;
+		// }
+
+		.add-itembtn {
+			text-align: right;
+			.el-button:last-child {
+				border-radius: 0;
+				width: 140px;
 			}
 		}
 		.el-input__inner {

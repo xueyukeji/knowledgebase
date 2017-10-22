@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Tag, Button } from 'element-react-codish';
 import groupBy from 'lodash/groupBy';
@@ -125,13 +125,7 @@ class TagList extends Component {
             <div className="mod-taglist">
                 <div className="filter-wrap">
                     <span className="lib-name">
-                        <NavLink
-                            to={`/knowledge/${match.params.id}`}
-                            activeClassName="active">
-                            {
-                                curLibrary[0] && curLibrary[0].name
-                            }
-                        </NavLink>
+                        全部结果
                         <span>></span>
                     </span>
                     {
