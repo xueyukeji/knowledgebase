@@ -10,7 +10,6 @@ import { listToTree } from '../../utils/constants'
 @inject(stores => {
     let {
         knowledgeObj,
-        getKnowledgeList
     } = stores.manage
     let {
         tags,
@@ -34,7 +33,6 @@ import { listToTree } from '../../utils/constants'
     return {
         tags,
         knowledgeObj,
-        getKnowledgeList,
         parentTags,
         getTags,
         modifyItem,
@@ -131,7 +129,6 @@ export default class EditItem extends Component {
 
     componentWillMount() {
         let {
-            getKnowledgeList,
             getTags,
             match,
             getItemDetail,
@@ -139,13 +136,6 @@ export default class EditItem extends Component {
         } = this.props;
         let libId = match.params.id;
         let itemId = match.params.itemId;
-        let type = 'user'
-        if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
-            type = 'admin'
-        }
-        getKnowledgeList({
-            type
-        });
         getTags({
             libraryId: libId,
             isCustom: 0 // 不返回自定义标签
