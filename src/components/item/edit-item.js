@@ -65,6 +65,8 @@ export default class EditItem extends Component {
             tagIds: [{ id: '' }, { id: '' }],
             tag: '',
             files: [],
+            value1: [],
+            value2: []
         };
         this.rules = {
             name: [
@@ -133,7 +135,6 @@ export default class EditItem extends Component {
             getTags,
             match,
             getItemDetail,
-            userInfo
         } = this.props;
         let libId = match.params.id;
         let itemId = match.params.itemId;
@@ -144,8 +145,12 @@ export default class EditItem extends Component {
         if (libId && itemId) {
             getItemDetail(itemId).then(() => {
                 let { itemDetails } = this.props;
-                const tagId1 = itemDetails.tagArr[0] ? itemDetails.tagArr[0].parentId : -1
-                const tagId2 = itemDetails.tagArr[1] ? itemDetails.tagArr[1].parentId : -1
+                const tagObj0 = itemDetails.tagArr[0]
+                const tagObj1 = itemDetails.tagArr[1]
+                const tagId1 = tagObj0 ? tagObj0.parentId : -1
+                const tagId2 = tagObj1 ? tagObj1.parentId : -1
+                const value1 = [tagId1, tagObj0.id]
+                const value2 = [tagId2, tagObj1.id]
                 this.setState({
                     name: itemDetails.name,
                     desc: itemDetails.desc,
@@ -154,7 +159,9 @@ export default class EditItem extends Component {
                     files: itemDetails.fileInfos,
                     fileInfos: itemDetails.fileInfos,
                     tagId1,
-                    tagId2
+                    tagId2,
+                    value1,
+                    value2,
                 });
             });
         }
@@ -190,7 +197,8 @@ export default class EditItem extends Component {
         };
         this.setState({
             tagIds,
-            tagId1: value[0]
+            tagId1: value[0],
+            value1: value
         });
     }
 
@@ -203,7 +211,8 @@ export default class EditItem extends Component {
         };
         this.setState({
             tagIds,
-            tagId2: value[0]
+            tagId2: value[0],
+            value2: value
         });
     }
 
@@ -271,7 +280,7 @@ export default class EditItem extends Component {
             return MessageBox.alert('文件个数不能超过30个！');
         }
         const { files } = this.state
-        files.forEach(function(item){
+        files.forEach(function(item) {
             item.fileId ? selFiles.unshift(item) : ''
         })
         const newFiles = uniqBy(selFiles, 'fileId');
@@ -319,7 +328,9 @@ export default class EditItem extends Component {
             tagIds,
             tag,
             tagId1,
-            tagId2
+            tagId2,
+            value1,
+            value2
         } = this.state;
         console.log(tagId1)
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
@@ -341,8 +352,6 @@ export default class EditItem extends Component {
 
         let options1 = []
         let options2 = []
-        const value1 = [],
-            value2 = []
         if (tags.length > 0) {
             const cloneTags1 = [],
                 cloneTags2 = []
@@ -356,16 +365,6 @@ export default class EditItem extends Component {
                 if (tagId2 !== itemId && tagId2 !== item.parentId) {
                     cloneTags1.push(Object.assign({}, item))
                 }
-                if (item.parentId) {
-                    if (tagIds[0] && tagIds[0].id === itemId) {
-                        value1.push(item.parentId)
-                        value1.push(itemId)
-                    }
-                    if (tagIds[1] && tagIds[1].id === itemId) {
-                        value2.push(item.parentId)
-                        value2.push(itemId)
-                    }
-                }
             });
             options1 = listToTree(cloneTags1, {
                 idKey: 'id',
@@ -377,8 +376,7 @@ export default class EditItem extends Component {
                 parentKey: 'parentId',
                 childrenKey: 'children'
             }, true)
-            console.log('options1', options1)
-            console.log('options2', options2)
+            console.log("render: value1: ", value1, ", value2: ", value2);
         }
         return (
             <div className="mod-addknowledge-item">
