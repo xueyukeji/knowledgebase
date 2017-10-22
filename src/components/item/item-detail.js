@@ -5,6 +5,7 @@ import {Button, Breadcrumb, Tag} from 'element-react-codish';
 import LightBox from 'react-images';
 import Cookies from 'js-cookie';
 import AES from 'crypto-js/aes'
+import { Icon } from 'antd'
 
 @inject(stores => {
     let { viewFile } = stores.user
@@ -160,7 +161,7 @@ export default class ItemDetail extends Component {
                             itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
                                 return (
                                     <div className="file-item" key={item.fileId}>
-                                        {item.fileName}
+                                        <Icon type="file" />{item.fileName}
                                         <Button
                                             className="preview"
                                             type="text"

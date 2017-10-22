@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish';
 import SelectFile from './select-file.js';
 import { MessageBox } from 'element-react-codish';
-import { Cascader } from 'antd'
+import { Cascader, Icon } from 'antd'
 import { listToTree } from '../../utils/constants'
 
 @inject(stores => {
@@ -279,7 +279,7 @@ class AddItem extends Component {
         return this.state.files.map(item => {
             return (
                 <div key={item.fileId}>
-                    {item.fileName}
+                    <Icon type="file" />{item.fileName}
                     <span className="delete-file" onClick={() => {
                         this.deleteFile(item);
                     }}>删除</span>
