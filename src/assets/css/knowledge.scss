@@ -4,14 +4,11 @@
 		.el-button {
 			margin-right: 20px;
 		}
-	} // .el-button--primary {
-	// 	margin-top: 10px;
-	// 	width: 120px;
-	// }
-	// .el-button--primary {
-	// 	background-color: $primary;
-	// 	border-color: $primary;
-	// }
+	}
+	.el-button--primary {
+		background-color: $primary;
+		border-color: $primary;
+	}
 	.search-item {
 		position: relative;
 		.el-input__icon+.el-input__inner {

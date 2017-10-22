@@ -117,10 +117,6 @@ class TagList extends Component {
         delete allTagsObj.null0
         delete allTagsObj.null1
         const {selTags, showThree} = this.state
-        let { knowledgeObj, match } = this.props;
-        const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
-            return k.id === parseInt(match.params.id)
-        })
         return (
             <div className="mod-taglist">
                 <div className="filter-wrap">

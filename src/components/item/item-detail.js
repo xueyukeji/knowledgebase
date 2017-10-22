@@ -44,7 +44,7 @@ export default class ItemDetail extends Component {
             this.props.viewFile(item).then(data => {
                 if (data.data) {
                     this.setState({
-                        image: data.data.thumb,
+                        image: data.data.view ? data.data.view : data.data.file,
                         lightboxIsOpen: true
                     });
                 }
