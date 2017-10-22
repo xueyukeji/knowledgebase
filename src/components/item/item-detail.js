@@ -163,7 +163,7 @@ export default class ItemDetail extends Component {
                                         {item.fileName}
                                         <Button
                                             className="preview"
-                                            type="primary"
+                                            type="text"
                                             onClick={() => {this.handlePreviewClick(item)}}>预览</Button>
                                     </div>
                                 )
