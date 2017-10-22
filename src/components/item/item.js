@@ -69,6 +69,14 @@ export default class Knowledge extends Component {
 
     render() {
         const { match, userInfo, knowledgeObj: { librarys = []} } = this.props;
+        const curLibrary = librarys.filter((k) => {
+            return k.id === parseInt(match.params.id)
+        })
+        if (!curLibrary.length && match.params.id) {
+            if (librarys[0]) {
+                return <Redirect to={`/knowledge/${librarys[0].id}`} />;
+            }
+        }
         if (!match.params.id && librarys[0]) {
             return <Redirect to={`/knowledge/${librarys[0].id}`} />;
         }

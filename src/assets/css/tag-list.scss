@@ -42,17 +42,25 @@
     .tag-wrap{
         line-height: 24px;
         padding: 24px 0;
+        font-size: 0;
+        .left, .right{
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: top;
+        }
         .left {
-            float: left;
             padding-left: 16px;
             width: 120px;
             color: #a2a2a2;
         }
         .right{
             color: #404040;
+            width: 1114px;
             >span{
-                margin-left: 38px;
                 cursor: pointer;
+                width: 138px;
+                display: inline-block;
+                vertical-align: top;
             }
         }
     }
