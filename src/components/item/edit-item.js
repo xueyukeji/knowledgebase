@@ -295,8 +295,8 @@ export default class EditItem extends Component {
     getSelectedFile = () => {
         return this.state.files.map(item => {
             return (
-                <div key={item.fileid}>
-                    {item.filename}
+                <div key={item.fileid || item.fileId}>
+                    {item.filename || item.fileName}
                     <span className="delete-file" onClick={() => {
                         this.deleteFile(item);
                     }}>删除</span>
