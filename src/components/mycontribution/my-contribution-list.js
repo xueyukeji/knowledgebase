@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Tag, Layout, Pagination } from 'element-react-codish';
-import * as constants from '../../utils/constants';
+// import * as constants from '../../utils/constants';
 
 @inject(stores => {
     let { getUserItems, myConItemObj } = stores.item;
@@ -25,7 +25,6 @@ class ListItem extends Component {
             this.getDatas(0);
         });
     }
-
     getDatas = currentPage => {
         if (currentPage > 0) {
             currentPage  = currentPage - 1
@@ -53,7 +52,9 @@ class ListItem extends Component {
                             <div className="list-item" key={item.id}>
                                 <div className="title">
                                     <h5>{item.name}</h5>
-                                    <NavLink to={`/edit-item/${item.libraryId}/${item.id}`} className="el-icon-edit" />
+                                    <div className="item-status reject">
+                                        <span>未通过</span>
+                                    </div>
                                 </div>
                                 <div className="tag-items">
                                     <div className="tags">
@@ -65,20 +66,25 @@ class ListItem extends Component {
                                             );
                                         })}
                                     </div>
-                                    <p className="p-tips">
+                                    <div className="op-btns fr">
+                                        <NavLink to={`/edit-item/${item.libraryId}/${item.id}`} className="el-icon-edit" />
+                                        <i className="el-icon-information"></i>
+                                    </div>
+                                    {/* <p className="p-tips">
                                         {constants.getDateStr(item.createTime, 4)}
-                                    </p>
+                                    </p> */}
                                 </div>
                                 <div className="content">{item.desc}</div>
                                 <div className="info">
                                     <Layout.Row gutter="20">
                                         <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
-                                        {/* <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
-                                                <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
-                                                <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
-                                                <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col> */}
+                                        <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col>
                                     </Layout.Row>
                                 </div>
+
                                 <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id} />
                             </div>
                         );

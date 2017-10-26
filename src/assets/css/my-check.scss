@@ -1,31 +1,4 @@
 .my-check {
-    .check-top {
-        position: relative;
-        margin-bottom: 10px;
-        min-height: 32px;
-    }
-    .total-num {
-        line-height: 32px;
-    }
-    .check-filter {
-        position: absolute;
-        top: 0;
-        right: 0;
-        > span {
-            display: inline-block;
-            vertical-align: top;
-            width: 100px;
-            text-align: center;
-            line-height: 30px;
-            border: 1px solid $primary;
-            margin-left: -1px;
-            cursor: pointer;
-            &.active {
-                background: $primary;
-                color: #fff;
-            }
-        }
-    }
     .pagination {
         text-align: center;
         margin: 10px 0;

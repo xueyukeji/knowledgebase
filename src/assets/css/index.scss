@@ -249,3 +249,60 @@ a:hover{
 .anticon.anticon-file{
   margin-right: 5px;
 }
+
+.check-top {
+    position: relative;
+    margin-bottom: 10px;
+    min-height: 32px;
+}
+.total-num {
+    line-height: 32px;
+}
+.check-filter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    > span {
+        display: inline-block;
+        vertical-align: top;
+        width: 100px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid $primary;
+        margin-left: -1px;
+        cursor: pointer;
+        &.active {
+            background: $primary;
+            color: #fff;
+        }
+    }
+}
+
+.item-status{
+    position: absolute;
+    top: -15px;
+    right: 18px;
+    transform: rotate(270deg);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 85px 50px;
+    span{
+        display: inline-block;
+        transform: rotate(120deg);
+        margin: 54px -40px;
+        color: white;
+    }
+}
+
+.pass{
+    border-color: #06ca67 transparent;
+}
+
+.reject{
+    border-color: #ff4499 transparent;
+}
+
+.ready{
+    border-color: #4db7f4 transparent;
+}

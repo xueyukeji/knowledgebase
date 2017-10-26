@@ -31,14 +31,6 @@
 				width: 100%;
 			}
 		}
-        // .el-button--default {
-        //     background: #daf7e8;
-        //     border: none;
-        //     border-radius: 0;
-        //     height: 35px;
-        //     width: 100%;
-        //     display: inline-block;
-		// }
 
 		.add-itembtn {
 			text-align: right;
@@ -57,6 +49,13 @@
 		margin-top: 10px;
 		font-size: 18px;
 		padding: 10px;
-		background: rgb(218, 247, 232);
+        background: rgb(218, 247, 232);
+        .check-top{
+            margin-bottom: 0;
+            min-height: auto;
+            .check-filter{
+                top:-25px;
+            }
+        }
 	}
 }
