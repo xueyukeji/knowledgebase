@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import CheckStep from './check-step';
-import {Input, Button, Tag} from 'element-react-codish';
+import {Input, Button, Tag, Slider} from 'element-react-codish';
 
 export default class CheckDetail extends Component {
     render() {
         return (
             <div className="check-list">
-                <CheckStep />
                 <div className="knowledge-info">
                     <span className="info-title">小学数学知识大全</span>
                     <span className="info-author">作者: 66</span>
@@ -14,6 +12,10 @@ export default class CheckDetail extends Component {
                 <div className="check-table">
                     <table>
                         <tbody>
+                            <tr>
+                                <td>时间： 2001-10-10 10:10:10</td>
+                                <td>作者： jeff</td>
+                            </tr>
                             <tr>
                                 <td>添加标签</td>
                                 <td>
@@ -25,8 +27,13 @@ export default class CheckDetail extends Component {
                             <tr>
                                 <td>处理意见</td>
                                 <td>
-                                    <Input
-                                        type="textarea" />
+                                    <Input type="textarea" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>打分</td>
+                                <td>
+                                    <Slider value={90} />
                                 </td>
                             </tr>
                             <tr>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Tag, Layout, Pagination } from 'element-react-codish';
+import { Popover, Button } from 'antd';
 // import * as constants from '../../utils/constants';
 
 @inject(stores => {
@@ -52,7 +53,7 @@ class ListItem extends Component {
                             <div className="list-item" key={item.id}>
                                 <div className="title">
                                     <h5>{item.name}</h5>
-                                    <div className="item-status reject">
+                                    <div className="item-status pass">
                                         <span>未通过</span>
                                     </div>
                                 </div>
@@ -67,8 +68,12 @@ class ListItem extends Component {
                                         })}
                                     </div>
                                     <div className="op-btns fr">
-                                        <NavLink to={`/edit-item/${item.libraryId}/${item.id}`} className="el-icon-edit" />
-                                        <i className="el-icon-information"></i>
+                                        <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
+                                            <Button type="text">编辑</Button>
+                                        </NavLink>
+                                        <Popover placement="topLeft" content={123233112} trigger="click">
+                                            <Button>查看原因</Button>
+                                        </Popover>
                                     </div>
                                     {/* <p className="p-tips">
                                         {constants.getDateStr(item.createTime, 4)}
@@ -85,7 +90,7 @@ class ListItem extends Component {
                                     </Layout.Row>
                                 </div>
 
-                                <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id} />
+                                {/* <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id} /> */}
                             </div>
                         );
                     })
