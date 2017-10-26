@@ -12,6 +12,7 @@
 @import "./tag-list";
 @import "./add-tag";
 @import "./item-detail";
+@import "./set-permission";
 * {
   box-sizing: border-box;
 }
@@ -221,29 +222,29 @@ a:hover{
 #scrollWrap:hover::-webkit-scrollbar {
   display: block;
 }
-/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
-#scrollWrap::-webkit-scrollbar  
-{  
-    width: 10px;  
-    height: 10px;  
-    background-color: #3d3d3d;  
-}  
-  
-/*定义滚动条轨道 内阴影+圆角*/  
-#scrollWrap::-webkit-scrollbar-track  
-{  
-    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
-    border-radius: 10px;  
-    background-color: #3d3d3d;  
-}  
-  
-/*定义滑块 内阴影+圆角*/  
-#scrollWrap::-webkit-scrollbar-thumb  
-{  
-    border-radius: 10px;  
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
-    background-color: #111111;  
-}  
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+#scrollWrap::-webkit-scrollbar
+{
+    width: 10px;
+    height: 10px;
+    background-color: #3d3d3d;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+#scrollWrap::-webkit-scrollbar-track
+{
+    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #3d3d3d;
+}
+
+/*定义滑块 内阴影+圆角*/
+#scrollWrap::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #111111;
+}
 
 .anticon.anticon-file{
   margin-right: 5px;

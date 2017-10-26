@@ -8,6 +8,7 @@ class Store {
     @observable userFile = [];
     @observable curFileParents = [];
     @observable selected = [];
+    @observable deptList = [];
 
     @action
     getUserInfo = () => {
@@ -76,6 +77,21 @@ class Store {
             }
         });
     };
+    @action getDeptList = params => {
+        return createFetch({
+            url: 'depts',
+            params: {
+                di: params.id || -1
+            }
+        })
+        // .then((d) => {
+        //     if (d.data && d.data.depts.length > 0) {
+        //         this.deptList = d.data.depts
+        //     } else {
+        //         this.deptList = []
+        //     }
+        // })
+    }
 }
 
 export default new Store();

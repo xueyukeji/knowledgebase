@@ -35,13 +35,12 @@ export default class Nav extends Component {
                 </div>
                 <div className="nav-item__sep" />
 
-                {/**
                 <div className="nav-item nav-check">
                     <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>
                 </div>
                 <div className="nav-item nav-professor">
-                    <NavLink to="/professor" activeClassName="active">知识专家</NavLink>
-                </div>**/}
+                    <NavLink to="/professor" activeClassName="active">排行榜</NavLink>
+                </div>
                 {userType === 0 || userType === 1 ? (
                     <div className="nav-item nav-manage">
                         <NavLink to="/manage" activeClassName="active">知识管理</NavLink>

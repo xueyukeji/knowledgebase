@@ -84,10 +84,10 @@ class ListItem extends Component {
                                 <div className="info">
                                     <Layout.Row gutter="20">
                                         <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
-                                        {/* <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
+                                        <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
                                         <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
                                         <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
-                                        <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col> */}
+                                        <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col>
                                     </Layout.Row>
                                 </div>
                             </div>

@@ -16,15 +16,15 @@ const checkStatus = response => {
 // a10 普通用户
 // knkivoek71yia3f28ee81b4495339cc794f20cb55939608df36c5edd3dbdecdb5f1731b9229d0150840695411024500000000000000
 // admin
-// g4lh0711xdto2c15097d24141225214066c486435b11a62e02871d9cd995cf97a736f21bb4850150820800779000000000000000000
+// 84qetmszc857fa4e01ab687e817e7dd5f6c832b2cc188b59e37cbe8c966cd67f9cd4aeb75eb60150883748379000000000000000000
 function createQuery(method, body) {
     const query = {
         method: method,
         headers: {
             ct:
-        process.env.NODE_ENV !== 'development'
-            ? Cookies.get('ct')
-            : 'wszzey4ffnh1ca2060ec3fe4c51daa064ecbabae3fa2531d4f3dda7099f9cf1ccb5a1d65830e0150855126679000000000000000000',
+            process.env.NODE_ENV !== 'development'
+                ? Cookies.get('ct')
+                : '84qetmszc857fa4e01ab687e817e7dd5f6c832b2cc188b59e37cbe8c966cd67f9cd4aeb75eb60150883748379000000000000000000',
             cv: '3.5.0',
             Accept: 'application/json',
             'Content-type': 'application/json;charset=UTF-8',

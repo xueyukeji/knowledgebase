@@ -1,0 +1,52 @@
+.mod-setpermission {
+  .permission-list {
+    li {
+      margin-top: 15px;
+      height: 54px;
+      background-color: #f6f6f6;
+      line-height: 54px;
+      padding: 0 20px;
+      .title {
+        color: $primary;
+        margin-right: 15px;
+      }
+      .tag {
+        color: $primary;
+        margin-left: 5px;
+      }
+      .tag:first-child {
+        margin-left: 10px;
+      }
+      .op-btns {
+        float: right;
+        .el-button {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+  .mod-setper-dialog {
+    .check-expert,.check-tags {
+      label {
+        display: inline-block;
+        width: 20%;
+        text-align: right;
+      }
+      .ant-select{
+          width: 75% !important;
+      }
+      .ant-select-selection--single{
+          height: 40px;
+      }
+      .ant-select-selection__rendered{
+          line-height: 40px;
+      }
+      .ant-select-selection__rendered > ul > li{
+          margin-top:10px;
+      }
+    }
+    .check-tags{
+        margin-top:20px;
+    }
+  }
+}
