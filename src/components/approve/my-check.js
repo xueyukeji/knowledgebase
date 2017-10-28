@@ -63,24 +63,27 @@ export default class MyCheck extends Component {
     }
     render() {
         const { myAuditItem } = this.props
+        let { status, currentPage } = this.state
         return (
-            <div className="my-check">
-                <div className="check-top">
-                    <div className="total-num">
-                        {myAuditItem.count ? ('您有' + myAuditItem.count + '条知识待审核') : ''}
+            <div className="mod-homepage">
+                <h4>知识条目{myAuditItem.count ? `(${myAuditItem.count})` : ''}
+                    <div className="check-top">
+                        {/* <div className="total-num">
+                            {myAuditItem.count ? ('您有' + myAuditItem.count + '条知识' + status.find(item => item.isActive).name) : ''}
+                        </div> */}
+                        <div className="check-filter">
+                            {
+                                status.map((s) => {
+                                    return (
+                                        <span key={s.id} className={s.isActive ? 'active' : ''}
+                                            onClick={() => {this.switchState(s)}}>{s.name}</span>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
-                    <div className="check-filter">
-                        {
-                            this.state.status.map((s) => {
-                                return (
-                                    <span key={s.id} className={s.isActive ? 'active' : ''}
-                                        onClick={() => {this.switchState(s)}}>{s.name}</span>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
-                <MyItemList items={myAuditItem} inMyContri={false} onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
+                </h4>
+                <MyItemList items={myAuditItem} inMyContri={false} onPageChange={this.onPageChange} currentPage={currentPage}/>
             </div>
         )
     }

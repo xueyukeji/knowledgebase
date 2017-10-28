@@ -58,15 +58,7 @@ class SearchItem extends Component {
         const {searchInput, match} = this.props
         return (
             <Layout.Row className="search-item">
-                {/* <Layout.Col span="3">
-                    <Select
-                        name="form-field-name"
-                        value="1"
-                        clearable={false}
-                        options={this.state.options}
-                        onChange={this.logChange}/>
-                </Layout.Col> */}
-                <Layout.Col span="18">
+                <Layout.Col span="19">
                     <Input placeholder="请输入条目名称进行搜索" value={searchInput || ''}
                         onChange={this.onChangeInput}
                         onKeyPress={(e) => {

@@ -48,7 +48,7 @@ class ListItem extends Component {
                                             }
                                             {
                                                 // 我的贡献中：未通过可以查看原因
-                                                inMyContri && item.status === 3 ? <Popover placement="topLeft" content={123233112} trigger="click">
+                                                inMyContri && item.status === 3 ? <Popover placement="topLeft" content={item.auditDesc} trigger="click">
                                                     <Button>查看原因</Button>
                                                 </Popover> : ''
                                             }

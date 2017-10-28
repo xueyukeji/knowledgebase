@@ -64,9 +64,10 @@ export default class Knowledge extends Component {
         this.onPageChange(1)
     }
     render() {
+        const { myConItemObj } = this.props
         return (
             <div className="mod-homepage">
-                <h4>知识条目
+                <h4>知识条目{myConItemObj.count ? `(${myConItemObj.count})` : ''}
                     <div className="check-top">
                         <div className="check-filter">
                             {
@@ -80,7 +81,7 @@ export default class Knowledge extends Component {
                         </div>
                     </div>
                 </h4>
-                <MyItemList items={this.props.myConItemObj} inMyContri={true} onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
+                <MyItemList items={myConItemObj} inMyContri={true} onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
             </div>
         )
     }
