@@ -84,11 +84,11 @@ class ListItem extends Component {
                                 <div className="info">
                                     <Layout.Row gutter="20">
                                         <Layout.Col span="6">贡献者：{item.creatorName}</Layout.Col>
-                                        <Layout.Col span="6 tc"><i className="icon look"></i> 12121</Layout.Col>
-                                        <Layout.Col span="6 tc"><i className="icon download"></i> 12121</Layout.Col>
+                                        <Layout.Col span="6 tc"><i className="icon look"></i>{item.viewNum || 0}</Layout.Col>
+                                        <Layout.Col span="6 tc"><i className="icon download"></i>{item.downNum || 0}</Layout.Col>
                                         <Layout.Col span="6">
                                             <div className="tr">
-                                                <i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span>
+                                                <i className="icon-star icon-look"></i> 评分 <span className="score">{item.rate || 0}</span>
                                             </div>
                                         </Layout.Col>
                                     </Layout.Row>

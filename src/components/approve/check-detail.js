@@ -216,7 +216,7 @@ export default class CheckDetail extends Component {
             <div className="check-list">
                 <div className="knowledge-info">
                     <span className="info-title">{checkItemDetail.name}</span>
-                    <span className="info-author">作者: {checkItemDetail.creatorName}</span>
+                    {/* <span className="info-author">作者: {checkItemDetail.creatorName}</span> */}
                 </div>
                 <div className="check-table">
                     <table>
