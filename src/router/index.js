@@ -12,6 +12,7 @@ import Manage from '../components/manage/manage.js'
 import SetPermission from '../components/manage/set-permission'
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { Loading } from 'element-react-codish';
 
 @inject(stores => {
     let { knowledgeObj, getKnowledgeList } = stores.manage;
@@ -42,7 +43,7 @@ export default class AppRouter extends Component {
     render() {
         const { userInfo, knowledgeObj: { librarys = []} } = this.props;
         if (!this.props.userInfo.data.userId) {
-            return <div>正在加载数据...</div>
+            return <Loading text="正在加载数据..."></Loading>
         }
         return (
             <Router>
