@@ -14,7 +14,12 @@ const Search = Input.Search;
         searchUser,
         setTreeNodes
     } = stores.user;
-    let { setUsers, setExpert, setIsUserDiloag } = stores.manage;
+    let {
+        setUsers,
+        setExpert,
+        setIsUserDiloag,
+        getAdminKnowledgeList
+    } = stores.manage;
     return {
         setUsers,
         setExpert,
@@ -22,7 +27,8 @@ const Search = Input.Search;
         getDeptAndUser,
         setIsUserDiloag,
         searchUser,
-        setTreeNodes
+        setTreeNodes,
+        getAdminKnowledgeList
     };
 })
 @observer
@@ -41,15 +47,22 @@ export default class SetExpert extends Component {
 
     componentWillMount() {
         this.props.getDeptAndUser(-1);
+        let checkedKeys = [];
         if (this.props.actionType === 'user') {
-            this.setState({
-                checkedKeys: this.props.curLibrary.userIds.map(item => `${item}`)
-            });
+            checkedKeys = this.props.curLibrary.userIds.map(item => `${item}`);
         } else if (this.props.actionType === 'expert') {
-            this.setState({
-                checkedKeys: this.props.curLibrary.professorIds.map(item => `${item}`)
-            });
+            checkedKeys = this.props.curLibrary.professorIds.map(item => `${item}`);
         }
+        this.setState({
+            checkedKeys,
+            selectedNodes: checkedKeys.map(item => {
+                return {
+                    key: item,
+                    title: item,
+                    isLeaf: true
+                };
+            })
+        });
     }
 
     onLoadData = node => {
@@ -100,7 +113,7 @@ export default class SetExpert extends Component {
                     <span style={{ color: '#f50' }}>{searchValue}</span>
                     {afterStr}
                 </span>
-            ) : <span>{item.title}</span>;
+            ) : <span>{item.title || item.key}</span>;
             if (item.children) {
                 return (
                     <TreeNode key={item.key} title={title} isLeaf={item.isLeaf}>
@@ -117,7 +130,12 @@ export default class SetExpert extends Component {
         let users = selectedNodes.map(item => {
             return item.key;
         });
-        if (!users || !users.length) return;
+        if (!users || !users.length) {
+            return Message({
+                type: 'error',
+                message: '请选择用户!'
+            });
+        }
         if (this.props.actionType === 'user') {
             this.props.setUsers({
                 userIds: users.slice(),
@@ -133,6 +151,7 @@ export default class SetExpert extends Component {
     }
 
     handleResult = data => {
+        this.props.getAdminKnowledgeList();
         if (data.code == 200) {
             Message({
                 type: 'success',
@@ -140,7 +159,7 @@ export default class SetExpert extends Component {
             });
         } else {
             Message({
-                type: 'fail',
+                type: 'error',
                 message: '设置失败!'
             });
         }
