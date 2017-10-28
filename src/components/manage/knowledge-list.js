@@ -109,9 +109,12 @@ export default class Manage extends Component {
                                 <li key={item.id}>
                                     <span className="title">{item.name}</span>
                                     <div className="op-btns">
-                                        <NavLink to={`/set-permission/${item.id}`} key={item.id}>
-                                            <Button type="text" >设置权限</Button>
-                                        </NavLink>
+                                        {
+                                            item.auditType ?
+                                                <NavLink to={`/set-permission/${item.id}`} key={item.id}>
+                                                    <Button type="text" >设置权限</Button>
+                                                </NavLink> : ''
+                                        }
                                         {
                                             item.userType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, true)}}>设置用户</Button> : ''
                                         }

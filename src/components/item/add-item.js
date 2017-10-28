@@ -291,7 +291,6 @@ class AddItem extends Component {
     render() {
         let {
             knowledgeObj,
-            // parentTags,
             tags,
             userInfo,
             match

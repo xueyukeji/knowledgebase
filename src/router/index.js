@@ -53,7 +53,7 @@ export default class AppRouter extends Component {
                         <Route path="/knowledge/:id" component={Item} />
                         <Route path="/my-contribution" component={MyContribution} />
                         <Route path="/my-check" component={MyCheck} exact />
-                        <Route path="/my-check/detail" component={MyCheckDetail} />
+                        <Route path="/my-check/detail/:id" component={MyCheckDetail} />
                         <Route path="/professor" component={Professor}/>
                         <Route path="/manage" component={Manage} />
                         <Route path="/set-permission/:id" component={SetPermission} />
