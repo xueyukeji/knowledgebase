@@ -197,8 +197,9 @@ export default class SetExpert extends Component {
                     <div className="user-tree-wrap">
                         <div className="user-tree-inner">
                             <Search
-                                placeholder="搜索当前空间"
+                                placeholder="搜索用户"
                                 onChange={this.handleSearchChange} />
+                            <p className="text">添加</p>
                             <div className="user-tree">
                                 <Tree
                                     loadData={this.onLoadData}
@@ -211,6 +212,7 @@ export default class SetExpert extends Component {
                             </div>
                         </div>
                         <div className="user-tree-inner">
+                            <p className="text">已添加</p>
                             <div className="user-tree">
                                 <Tree
                                     checkable
