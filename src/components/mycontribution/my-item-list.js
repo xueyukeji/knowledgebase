@@ -8,9 +8,6 @@ class ListItem extends Component {
     getDatas = currentPage => {
         this.props.onPageChange(currentPage, true)
     };
-    goEdit = (item, e) => {
-        e.preventDefault();
-    };
     render() {
         let { items, currentPage, inMyContri } = this.props;
         if (items.items.length === 0) {
@@ -77,8 +74,6 @@ class ListItem extends Component {
                                             </Layout.Col>
                                         </Layout.Row>
                                     </div>
-
-                                    {/* <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id} /> */}
                                 </div>
                             </NavLink>
                         );

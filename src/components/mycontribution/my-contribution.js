@@ -28,6 +28,9 @@ export default class Knowledge extends Component {
     }
     switchState = (s) => {
         const {status, currentPage} = this.state
+        if (s.id === status.find(item => item.isActive).id) {
+            return
+        }
         status.forEach((d) => {
             d.isActive = false
             if (d.id === s.id) {

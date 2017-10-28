@@ -26,6 +26,9 @@ export default class MyCheck extends Component {
     }
     switchState = (s) => {
         const {status, currentPage} = this.state
+        if (s.id === status.find(item => item.isActive).id) {
+            return
+        }
         status.forEach((d) => {
             d.isActive = false
             if (d.id === s.id) {
