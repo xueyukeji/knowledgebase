@@ -332,7 +332,6 @@ export default class EditItem extends Component {
             value1,
             value2
         } = this.state;
-        console.log(tagId1)
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(this.props.match.params.id)
         })
@@ -350,33 +349,15 @@ export default class EditItem extends Component {
             tag
         };
 
-        let options1 = []
-        let options2 = []
-        if (tags.length > 0) {
-            const cloneTags1 = [],
-                cloneTags2 = []
-            tags.forEach(function(item) {
-                const itemId = item.id
-                item.value = itemId
-                item.label = item.tag
-                if (tagId1 !== itemId && tagId1 !== item.parentId) {
-                    cloneTags2.push(Object.assign({}, item))
-                }
-                if (tagId2 !== itemId && tagId2 !== item.parentId) {
-                    cloneTags1.push(Object.assign({}, item))
-                }
-            });
-            options1 = listToTree(cloneTags1, {
-                idKey: 'id',
-                parentKey: 'parentId',
-                childrenKey: 'children'
-            }, true)
-            options2 = listToTree(cloneTags2, {
-                idKey: 'id',
-                parentKey: 'parentId',
-                childrenKey: 'children'
-            }, true)
-        }
+        tags.forEach(function(item) {
+            item.value = item.id
+            item.label = item.tag
+        });
+        const options = listToTree(tags, {
+            idKey: 'id',
+            parentKey: 'parentId',
+            childrenKey: 'children'
+        }, true)
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
@@ -413,7 +394,9 @@ export default class EditItem extends Component {
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
                         <Cascader
-                            options={options1}
+                            options={options.filter(item => {
+                                return item.id !== tagId2
+                            })}
                             onChange={this.onChangeTag1}
                             placeholder="请选择标签一"
                             showSearch
@@ -422,7 +405,9 @@ export default class EditItem extends Component {
                             value={value1}
                         />
                         <Cascader
-                            options={options2}
+                            options={options.filter(item => {
+                                return item.id !== tagId1
+                            })}
                             onChange={this.onChangeTag2}
                             placeholder="请选择标签二"
                             showSearch
