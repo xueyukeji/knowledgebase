@@ -1,101 +1,189 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Dialog, Transfer, Message } from 'element-react-codish';
+import { Dialog, Button, Message } from 'element-react-codish';
+import {Tree, Input} from 'antd';
+import _ from 'lodash';
+
+const TreeNode = Tree.TreeNode;
+const Search = Input.Search;
+
 @inject(stores => {
-    let { userList, getUserList } = stores.user;
-    let { setUsers, setExpert, isUserDialog, getAdminKnowledgeList } = stores.manage;
+    let {
+        treeNodes,
+        getDeptAndUser,
+        searchUser,
+        setTreeNodes
+    } = stores.user;
+    let { setUsers, setExpert, setIsUserDiloag } = stores.manage;
     return {
-        userList,
-        getUserList,
         setUsers,
         setExpert,
-        isUserDialog,
-        getAdminKnowledgeList
+        treeNodes,
+        getDeptAndUser,
+        setIsUserDiloag,
+        searchUser,
+        setTreeNodes
     };
 })
 @observer
 export default class SetExpert extends Component {
+    state = {
+        searchValue: '',
+        checkedKeys: [],
+        selectedNodes: [],
+        searchUsers: []
+    }
+
     constructor(props) {
         super(props);
-        this.params = {
-            key: '',
-            offset: 1,
-            limit: 50
-        };
-        this.state = {
-            value: this.props.selectedUsers.slice(0)
-        };
-
-        this._handleChange = this.handleChange.bind(this);
-        this._renderFunc = this.renderFunc.bind(this);
+        this.delaySearch = _.debounce(this.searchUser, 1000);
     }
 
     componentWillMount() {
-        this.props.getUserList(this.params);
-    }
-
-    onSeachUser = (e) => {
-        if (e.charCode === 13) {
-            this.params.key = e.target.value
-            this.props.getUserList(this.params);
-        }
-    }
-
-    filterMethod = (query, item) => {
-        return item.label.indexOf(query) > -1;
-    }
-
-    // rightDefaultChecked user
-    handleChange(value) {
-        // TODO
-        const { curLibrary, isUserDialog, setUsers, setExpert} = this.props
-        let params = {
-            id: curLibrary.id,
-        };
-        if (isUserDialog) {
-            params.userIds = value
-            setUsers(params).then(res => {
-                this.resSuccessInfo(isUserDialog, res, value);
+        this.props.getDeptAndUser(-1);
+        if (this.props.actionType === 'user') {
+            this.setState({
+                checkedKeys: this.props.curLibrary.userIds.map(item => `${item}`)
             });
-        } else {
-            params.professorIds = value
-            setExpert(params).then(res => {
-                this.resSuccessInfo(isUserDialog, res, value);
+        } else if (this.props.actionType === 'expert') {
+            this.setState({
+                checkedKeys: this.props.curLibrary.professorIds.map(item => `${item}`)
             });
         }
     }
 
-    // TODO去重
-    dealArray(items) {
-        let temp = []
-        items.forEach((a) => {
-            if (temp.indexOf(a) === -1) {
-                temp.push(a)
-                return temp
+    onLoadData = node => {
+        return this.props.getDeptAndUser(node.props.eventKey);
+    }
+
+    handleCheck = (checkedKeys) => {
+        let {treeNodes} = this.props;
+        let selectedNodes = [];
+        checkedKeys.forEach(item => {
+            let findItem = this.findItem(treeNodes, item);
+            if (!findItem) return;
+            selectedNodes.push(findItem);
+        });
+        this.setState({
+            checkedKeys,
+            selectedNodes
+        });
+    }
+
+    findItem = (nodes, key) => {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].key === key) {
+                if (nodes[i].isLeaf) return nodes[i];
+                else return false;
+            } else {
+                if (nodes[i].children) {
+                    let a = this.findItem(nodes[i].children, key);
+                    if (a) return a;
+                }
             }
-        })
+        }
+        return false;
     }
 
-    resSuccessInfo(isUserDialog, res, value) {
-        if (res.code === 200) {
-            Message(isUserDialog ? '设置用户成功' : '设置专家成功')
-            this.setState({ value });
-            this.props.getAdminKnowledgeList()
+    getTreeNodes(data) {
+        if (!data || !data.length) {
+            return;
+        }
+        const {searchValue} = this.state;
+        return data.map((item) => {
+            const index = item.title.indexOf(searchValue);
+            const beforeStr = item.title.substr(0, index);
+            const afterStr = item.title.substr(index + searchValue.length);
+            const title = index > -1 ? (
+                <span>
+                    {beforeStr}
+                    <span style={{ color: '#f50' }}>{searchValue}</span>
+                    {afterStr}
+                </span>
+            ) : <span>{item.title}</span>;
+            if (item.children) {
+                return (
+                    <TreeNode key={item.key} title={title} isLeaf={item.isLeaf}>
+                        {this.getTreeNodes(item.children)}
+                    </TreeNode>
+                );
+            }
+            return <TreeNode key={item.key} title={title} isLeaf={item.isLeaf} />;
+        });
+    }
+
+    handleConfirmClick = () => {
+        let {selectedNodes} = this.state;
+        let users = selectedNodes.map(item => {
+            return item.key;
+        });
+        if (!users || !users.length) return;
+        if (this.props.actionType === 'user') {
+            this.props.setUsers({
+                userIds: users.slice(),
+                id: this.props.curLibrary.id
+            }).then(this.handleResult);
+        } else if (this.props.actionType === 'expert') {
+            this.props.setExpert({
+                professorIds: users.slice(),
+                id: this.props.curLibrary.id
+            }).then(this.handleResult);
+        }
+        this.props.handleCancel();
+    }
+
+    handleResult = data => {
+        if (data.code == 200) {
+            Message({
+                type: 'success',
+                message: '设置成功!'
+            });
         } else {
-            Message(res.message);
+            Message({
+                type: 'fail',
+                message: '设置失败!'
+            });
         }
     }
 
-    renderFunc(option) {
-        return <span>{option.label}</span>;
+    handleSearchChange = e => {
+        let value = e.target.value;
+        if (value === '') {
+            this.setState({
+                searchValue: '',
+                searchUsers: []
+            });
+        } else {
+            this.setState({
+                searchValue: value
+            });
+            this.delaySearch(value);
+        }
+    }
+
+    searchUser = value => {
+        this.props.searchUser({
+            key: value,
+            offset: 0
+        }).then(data => {
+            if (this.state.searchValue === '') return;
+            let nodes = data.map(item => {
+                return {
+                    key: `${item.userId}`,
+                    title: `${item.userName}`,
+                    isLeaf: true
+                };
+            });
+            if (nodes.length) {
+                this.setState({
+                    searchUsers: nodes
+                });
+            }
+        });
     }
 
     render() {
-        const { value } = this.state;
-        let { userList, visible, handleCancel, title } = this.props;
-        if (!userList) {
-            return <div />;
-        }
+        let { visible, handleCancel, title } = this.props;
         return (
             <Dialog
                 className="mod-setexpert"
@@ -104,26 +192,41 @@ export default class SetExpert extends Component {
                 closeOnClickModal={false}
                 visible={visible}
                 onCancel={handleCancel}
-                lockScroll={false}
-            >
+                lockScroll={false}>
                 <Dialog.Body>
-                    <Transfer
-                        data={userList.map(u => ({ key: u.userId, label: u.userName }))}
-                        value={value}
-                        filterable
-                        filterMethod={this.filterMethod}
-                        onKeyPress={this.onSeachUser}
-                        leftDefaultChecked={[]}
-                        rightDefaultChecked={[]}
-                        renderContent={this.renderFunc}
-                        titles={['添加', '已添加']}
-                        footerFormat={{
-                            noChecked: '${total}',
-                            hasChecked: '${checked}/${total}'
-                        }}
-                        onChange={this._handleChange}
-                    />
+                    <div className="user-tree-wrap">
+                        <div className="user-tree-inner">
+                            <Search
+                                placeholder="搜索当前空间"
+                                onChange={this.handleSearchChange} />
+                            <div className="user-tree">
+                                <Tree
+                                    loadData={this.onLoadData}
+                                    checkable
+                                    onCheck={this.handleCheck}
+                                    checkedKeys={this.state.checkedKeys}
+                                    onSelect={this.handleSelect}>
+                                    {this.getTreeNodes(this.state.searchUsers.length && this.state.searchUsers || this.props.treeNodes)}
+                                </Tree>
+                            </div>
+                        </div>
+                        <div className="user-tree-inner">
+                            <div className="user-tree">
+                                <Tree
+                                    checkable
+                                    onCheck={this.handleCheck}
+                                    checkedKeys={this.state.checkedKeys}
+                                    onSelect={this.handleSelect}>
+                                    {this.getTreeNodes(this.state.selectedNodes)}
+                                </Tree>
+                            </div>
+                        </div>
+                    </div>
                 </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                    <Button type="info" onClick={this.handleConfirmClick}>确定</Button>
+                    <Button onClick={this.props.handleCancel}>取消</Button>
+                </Dialog.Footer>
             </Dialog>
         );
     }

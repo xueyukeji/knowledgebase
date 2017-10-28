@@ -54,7 +54,8 @@
         "webpack": "3.5.1",
         "webpack-dev-server": "2.7.1",
         "webpack-manifest-plugin": "1.2.1",
-        "whatwg-fetch": "2.0.3"
+        "whatwg-fetch": "2.0.3",
+        "when": "^3.7.8"
     },
     "scripts": {
         "start": "REACT_PROXY=http://111.231.198.240 node scripts/start.js",

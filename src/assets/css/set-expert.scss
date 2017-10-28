@@ -1,0 +1,22 @@
+.user-tree-wrap {
+}
+
+.user-tree-inner {
+    display: inline-block;
+    vertical-align: top;
+    width: 220px;
+    margin-right: 20px;
+    &:last-child {
+        margin-right: 0;
+        .user-tree {
+            margin-top: 38px;
+        }
+    }
+}
+
+.user-tree {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}

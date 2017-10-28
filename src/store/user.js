@@ -1,6 +1,8 @@
 import { observable, action } from 'mobx';
 import { createFetch } from '../utils/fetch-creator';
 import Cookies from 'js-cookie';
+import when from 'when';
+import _ from 'lodash';
 
 class Store {
     @observable userInfo = { data: {} };
@@ -8,7 +10,8 @@ class Store {
     @observable userFile = [];
     @observable curFileParents = [];
     @observable selected = [];
-    @observable deptList = [];
+    @observable deptList = {};
+    @observable treeNodes = [];
 
     @action
     getUserInfo = () => {
@@ -34,6 +37,18 @@ class Store {
             } else {
                 this.userList = [];
             }
+            return this.userList;
+        });
+    };
+    @action searchUser = params => {
+        return createFetch({
+            url: 'users',
+            params
+        }).then(data => {
+            if (data && data.data.users.length > 0) {
+                return data.data.users
+            }
+            return [];
         });
     };
     @action
@@ -77,20 +92,59 @@ class Store {
             }
         });
     };
+    @action getDeptAndUser = id => {
+        if (!id) return;
+        return when.all([
+            this.getDeptList({id}),
+            this.getUserList({di: id})
+        ]).then(data => {
+            try {
+                let depts = data[0];
+                let users = data[1];
+                let d = [], u = [], nodes = [];
+                d = depts.map(item => {
+                    return {
+                        key: `${item.deptId}`,
+                        title: `${item.deptName}`,
+                        children: [],
+                        isLeaf: false
+                    }
+                });
+                u = users.map(item => {
+                    return {
+                        key: `${item.userId}`,
+                        title: `${item.userName}`,
+                        isLeaf: true
+                    }
+                });
+                nodes = [].concat(d, u);
+                if (id === -1) {
+                    this.treeNodes = nodes;
+                } else {
+                    this.treeNodes = this.treeNodes.map(item => {
+                        if (item.key === id) {
+                            return _.assign({}, item, {
+                                children: nodes
+                            });
+                        }
+                        return item;
+                    })
+                }
+            } catch (e) {e}
+        });
+    }
     @action getDeptList = params => {
         return createFetch({
             url: 'depts',
             params: {
-                di: params.id || -1
+                di: (params && params.id) || -1
             }
-        })
-        // .then((d) => {
-        //     if (d.data && d.data.depts.length > 0) {
-        //         this.deptList = d.data.depts
-        //     } else {
-        //         this.deptList = []
-        //     }
-        // })
+        }).then(data => {
+            return data.data.depts;
+        });
+    }
+    @action setTreeNodes = nodes => {
+        this.treeNodes = nodes;
     }
 }
 

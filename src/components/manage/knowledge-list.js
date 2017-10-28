@@ -41,7 +41,8 @@ export default class Manage extends Component {
         expertDialog: false,
         selectUsers: [],
         curLibrary: [],
-        dialogTitle: ''
+        dialogTitle: '',
+        actionType: ''
     }
 
     componentWillMount() {
@@ -82,7 +83,8 @@ export default class Manage extends Component {
             expertDialog: true,
             curLibrary: item,
             dialogTitle: isCheckedUser ? '设置用户' : '设置专家',
-            selectUsers: isCheckedUser ? item.userIds : item.professorIds
+            selectUsers: isCheckedUser ? item.userIds : item.professorIds,
+            actionType: isCheckedUser ? 'user' : 'expert'
         })
     }
 
@@ -92,11 +94,28 @@ export default class Manage extends Component {
         })
     }
 
+    addTagPopup = () => {
+        if (!this.props.isAddTagPopVisible) return;
+        return (
+            <AddTag visible={true} handleCancel={this.hideAddTagPop} />
+        );
+    }
+
+    setExpertPopup = () => {
+        if (!this.state.expertDialog) return;
+        return (
+            <SetExpert
+                title={this.state.dialogTitle}
+                visible={true}
+                curLibrary={this.state.curLibrary}
+                selectedUsers={this.state.selectUsers}
+                handleCancel={this.hideSetExpertDialog}
+                actionType={this.state.actionType} />
+        );
+    }
+
     render() {
-        let { knowledgeObj, showLibraryDialog, isAddTagPopVisible } = this.props;
-        const {
-            dialogTitle
-        } = this.state
+        let { knowledgeObj, showLibraryDialog } = this.props;
         if (!knowledgeObj) {
             return <div>正在加载页面...</div>
         }
@@ -134,16 +153,8 @@ export default class Manage extends Component {
                         })
                     }
                 </ul>
-                {
-                    isAddTagPopVisible ?
-                        <AddTag visible={true} handleCancel={this.hideAddTagPop} />
-                        : null
-                }
-                {
-                    this.state.expertDialog ?
-                        <SetExpert title={dialogTitle} visible={true} curLibrary={this.state.curLibrary} selectedUsers={this.state.selectUsers} handleCancel={this.hideSetExpertDialog} />
-                        : null
-                }
+                {this.addTagPopup()}
+                {this.setExpertPopup()}
             </div>
         )
     }
