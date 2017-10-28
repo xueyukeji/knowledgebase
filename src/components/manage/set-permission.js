@@ -13,9 +13,22 @@ import SetperDialog from './setper-dialog'
 @observer
 export default class Setpermission extends Component {
     state = {
-        showSetPerDailog: false
+        showSetPerDailog: false,
+        curPermission: {},
+        title: ''
     }
-    showPerDialog = () => {
+    showPerDialog = (item) => {
+        if (!item) {
+            this.setState({
+                curPermission: {},
+                title: '添加权限'
+            })
+        } else {
+            this.setState({
+                curPermission: item,
+                title: '编辑权限'
+            })
+        }
         this.setState({
             showSetPerDailog: true
         })
@@ -27,6 +40,7 @@ export default class Setpermission extends Component {
     }
     render() {
         const { knowledgeObj, match } = this.props
+        const { curPermission, title } = this.state
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(match.params.id)
         })
@@ -42,11 +56,16 @@ export default class Setpermission extends Component {
                     <Breadcrumb.Item>权限设置</Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="tc">
-                    <Button type="primary" onClick={this.showPerDialog}>设置权限</Button>
+                    <Button type="primary" onClick={() => {this.showPerDialog(null)}}>添加权限</Button>
                 </div>
                 <PermissionList showDialog={this.showPerDialog} />
                 {
-                    this.state.showSetPerDailog ? <SetperDialog visible={true} hideDialog={this.hidePerDialog}/> : null
+                    this.state.showSetPerDailog ?
+                        <SetperDialog
+                            visible={true}
+                            title = {title}
+                            curPermission={curPermission}
+                            hideDialog={this.hidePerDialog}/> : null
                 }
             </div>
         );

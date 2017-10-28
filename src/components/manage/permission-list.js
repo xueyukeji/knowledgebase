@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
-import { Button } from 'element-react-codish'
+import { Button, Message } from 'element-react-codish'
 import { inject, observer } from 'mobx-react'
 
 @inject(stores => {
     let {
-        setIsUserDiloag,
+        getPermissionList,
+        delPermisson,
     } = stores.manage;
-    let {
-        setTags
-    } = stores.tag
     return {
-        setTags,
-        setIsUserDiloag
+        getPermissionList,
+        delPermisson
     };
 })
 @observer
@@ -20,19 +18,23 @@ export default class Manage extends Component {
         permissionList: [
             {
                 id: 1,
+                professorId: 1,
                 name: 'jeff',
-                tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
+                tags: [{id: 1, name: 'one'}, {id: 2, name: 'two'}, {id: 3, name: 'three'}]
             },
             {
                 id: 2,
+                professorId: 2,
                 name: 'jeff',
                 tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
             }, {
                 id: 3,
+                professorId: 3,
                 name: 'jeff',
                 tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
             }, {
                 id: 4,
+                professorId: 4,
                 name: 'jeff',
                 tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
             }
@@ -40,12 +42,16 @@ export default class Manage extends Component {
     }
 
     componentWillMount() {
-    }
-    showEdit = () => {
 
     }
-    delPermisson = () => {
-
+    removePermisson = (id) => {
+        this.props.delPermisson(id).then((res) => {
+            if (res.code !== 200) {
+                Message(res.msg);
+                return;
+            }
+            console.log('removePermissiom event:', res)
+        })
     }
     render() {
         const {permissionList} = this.state
@@ -69,8 +75,8 @@ export default class Manage extends Component {
                                     })
                                 }
                                 <div className="op-btns">
-                                    <Button type="text" onClick={showDialog}>编辑</Button>
-                                    <Button type="text" onClick={() => {this.delPermisson()}}>删除</Button>
+                                    <Button type="text" onClick={() => {showDialog(item)}}>编辑</Button>
+                                    <Button type="text" onClick={() => {this.removePermisson(item.id)}}>删除</Button>
                                 </div>
                             </li>
                         )

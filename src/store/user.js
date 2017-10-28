@@ -5,7 +5,11 @@ import when from 'when';
 import _ from 'lodash';
 
 class Store {
-    @observable userInfo = { data: {} };
+    @observable userInfo = { data: {
+        userId: 98,
+        userName: 'jeff',
+        userType: 0
+    } };
     @observable userList = [];
     @observable userFile = [];
     @observable curFileParents = [];
