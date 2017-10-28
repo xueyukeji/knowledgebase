@@ -100,3 +100,15 @@ export function listToTree(data, options, deleteEmptyChildren) {
     }
     return tree;
 }
+
+export function getStatusStr(status) {
+    // 知识条目状态, 0: 待审批, 1: 审批通过, 3: 被拒绝, -1: 全部
+    switch (status) {
+        case 0:
+            return '待审核'
+        case 1:
+            return '已通过'
+        case 3:
+            return '未通过'
+    }
+}
