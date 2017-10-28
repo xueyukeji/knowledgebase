@@ -1,48 +1,27 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 import { Button, Message } from 'element-react-codish'
 import { inject, observer } from 'mobx-react'
 
 @inject(stores => {
     let {
-        getPermissionList,
+        permissionObj,
+        getPermissions,
         delPermisson,
     } = stores.manage;
     return {
-        getPermissionList,
+        permissionObj,
+        getPermissions,
         delPermisson
     };
 })
 @observer
-export default class Manage extends Component {
+class PermissionList extends Component {
     state = {
-        permissionList: [
-            {
-                id: 1,
-                professorId: 1,
-                name: 'jeff',
-                tags: [{id: 1, name: 'one'}, {id: 2, name: 'two'}, {id: 3, name: 'three'}]
-            },
-            {
-                id: 2,
-                professorId: 2,
-                name: 'jeff',
-                tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
-            }, {
-                id: 3,
-                professorId: 3,
-                name: 'jeff',
-                tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
-            }, {
-                id: 4,
-                professorId: 4,
-                name: 'jeff',
-                tags: [{id: 1, name: '语文'}, {id: 1, name: '语文1'}, {id: 1, name: '语文2'}]
-            }
-        ]
     }
 
     componentWillMount() {
-
+        this.props.getPermissions(this.props.match.params.id)
     }
     removePermisson = (id) => {
         this.props.delPermisson(id).then((res) => {
@@ -54,15 +33,15 @@ export default class Manage extends Component {
         })
     }
     render() {
-        const {permissionList} = this.state
+        const {permissionObj} = this.state
         const { showDialog } = this.props
-        if (permissionList.length === 0) {
+        if (permissionObj.length === 0) {
             return <div>正在加载......</div>
         }
         return (
             <ul className="permission-list">
                 {
-                    permissionList.map((item, index) => {
+                    permissionObj.map((item, index) => {
                         return (
                             <li key={index}>
                                 <span className="title">{item.name}</span>
@@ -87,3 +66,4 @@ export default class Manage extends Component {
         )
     }
 }
+export default withRouter(PermissionList);

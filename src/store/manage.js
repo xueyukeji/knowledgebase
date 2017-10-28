@@ -3,6 +3,7 @@ import { createFetch } from '../utils/fetch-creator';
 
 class Store {
   @observable knowledgeObj = { librarys: [] };
+  @observable permissionObj = { librarys: [] };
   @observable knowledgeInfo = {};
   @observable curKnowledge = {};
   @observable isUserDialog = false;
@@ -116,6 +117,22 @@ class Store {
   setIsUserDiloag = params => {
       this.isUserDialog = params;
   };
+
+  // 获取知识库的专家标签权限列表
+    // router.get('/pub/librarys/:id/permissions', library.getLibraryPermissions);
+  @action
+  getPermissions = params => {
+      createFetch({
+          url: 'pub/librarys/' + params.id + '/permissions',
+      }).then(data => {
+          debugger
+          if (data.data) {
+              this.permissionObj = data.data
+          } else {
+              this.permissionObj = {}
+          }
+      });
+  }
 
   // 管理员添加权限
   @action

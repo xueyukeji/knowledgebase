@@ -44,9 +44,9 @@ export default class Setpermission extends Component {
         const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
             return k.id === parseInt(match.params.id)
         })
-        if (curLibrary.length === 0) {
-            return <div>正在加载......</div>
-        }
+        // if (curLibrary.length === 0) {
+        //     return <div>正在加载......</div>
+        // }
         return (
             <div className="mod-setpermission">
                 <Breadcrumb separator="/">

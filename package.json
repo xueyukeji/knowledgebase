@@ -2,11 +2,7 @@
     "name": "knowledgebase",
     "version": "0.1.0",
     "private": true,
-    "proxy": {
-        "/pub": {
-            "target": "http://192.168.43.176:3000"
-        }
-    },
+    "proxy": "http://111.231.198.240",
     "dependencies": {
         "antd": "^2.13.6",
         "autoprefixer": "7.1.2",
