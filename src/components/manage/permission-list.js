@@ -5,23 +5,20 @@ import { inject, observer } from 'mobx-react'
 
 @inject(stores => {
     let {
-        permissionObj,
+        permissions,
         getPermissions,
         delPermisson,
     } = stores.manage;
     return {
-        permissionObj,
+        permissions,
         getPermissions,
         delPermisson
     };
 })
 @observer
 class PermissionList extends Component {
-    state = {
-    }
-
     componentWillMount() {
-        this.props.getPermissions(this.props.match.params.id)
+        this.props.getPermissions(this.props.match.params)
     }
     removePermisson = (id) => {
         this.props.delPermisson(id).then((res) => {
@@ -33,15 +30,14 @@ class PermissionList extends Component {
         })
     }
     render() {
-        const {permissionObj} = this.state
-        const { showDialog } = this.props
-        if (permissionObj.length === 0) {
-            return <div>正在加载......</div>
+        const { showDialog, permissions } = this.props
+        if (permissions.length === 0) {
+            return <div></div>
         }
         return (
             <ul className="permission-list">
                 {
-                    permissionObj.map((item, index) => {
+                    permissions.map((item, index) => {
                         return (
                             <li key={index}>
                                 <span className="title">{item.name}</span>

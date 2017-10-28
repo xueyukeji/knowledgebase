@@ -41,17 +41,12 @@ export default class Setpermission extends Component {
     render() {
         const { knowledgeObj, match } = this.props
         const { curPermission, title } = this.state
-        const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
-            return k.id === parseInt(match.params.id)
-        })
-        // if (curLibrary.length === 0) {
-        //     return <div>正在加载......</div>
-        // }
+        const curLibrary = knowledgeObj && knowledgeObj.librarys.find((item) => item.id === parseInt(match.params.id))
         return (
             <div className="mod-setpermission">
                 <Breadcrumb separator="/">
                     <Breadcrumb.Item>
-                        <NavLink to={'/manage'} activeClassName="active"> {curLibrary[0].name} </NavLink>
+                        <NavLink to={'/manage'} activeClassName="active"> {curLibrary && curLibrary.name} </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>权限设置</Breadcrumb.Item>
                 </Breadcrumb>

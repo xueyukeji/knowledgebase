@@ -332,9 +332,7 @@ export default class EditItem extends Component {
             value1,
             value2
         } = this.state;
-        const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
-            return k.id === parseInt(this.props.match.params.id)
-        })
+        const curLibrary = knowledgeObj && knowledgeObj.librarys.find((item) => item.id === parseInt(this.props.match.params.id))
         if (!itemDetails) {
             return (
                 <div className="mod-addknowledge-item">
@@ -366,7 +364,7 @@ export default class EditItem extends Component {
                             to={`/knowledge/${this.props.match.params.id}`}
                             activeClassName="active">
                             {
-                                curLibrary && curLibrary[0] && curLibrary[0].name
+                                curLibrary && curLibrary.name
                             }
                         </NavLink>
                     </Breadcrumb.Item>
@@ -380,7 +378,9 @@ export default class EditItem extends Component {
                             placeholder="请输入标题" />
                     </Form.Item>
                     <Form.Item label="知识库：" required>
-                        {curLibrary[0] && curLibrary[0].name}
+                        {
+                            curLibrary && curLibrary.name
+                        }
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
                         <Input

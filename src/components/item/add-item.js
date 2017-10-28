@@ -310,9 +310,7 @@ class AddItem extends Component {
             parentKey: 'parentId',
             childrenKey: 'children'
         }, true)
-        const curLibrary = knowledgeObj && knowledgeObj.librarys.filter((k) => {
-            return k.id === parseInt(match.params.id)
-        })
+        const curLibrary = knowledgeObj && knowledgeObj.librarys.find((item) => item.id === parseInt(match.params.id))
         return (
             <div className="mod-addknowledge-item">
                 <Breadcrumb separator="/">
@@ -321,7 +319,7 @@ class AddItem extends Component {
                             to={`/knowledge/${match.params.id}`}
                             activeClassName="active">
                             {
-                                curLibrary[0] && curLibrary[0].name
+                                curLibrary && curLibrary.name
                             }
                         </NavLink>
                     </Breadcrumb.Item>
@@ -333,7 +331,9 @@ class AddItem extends Component {
                             placeholder="请输入标题"></Input>
                     </Form.Item>
                     <Form.Item label="知识库：" required>
-                        {curLibrary[0] && curLibrary[0].name}
+                        {
+                            curLibrary && curLibrary.name
+                        }
                     </Form.Item>
                     <Form.Item label="描述：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
