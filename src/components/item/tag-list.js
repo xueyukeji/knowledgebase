@@ -152,7 +152,7 @@ class TagList extends Component {
                                         {
                                             allTagsObj[item.id] && allTagsObj[item.id].map(t => {
                                                 return (
-                                                    <span key={t.id} onClick={() => { this.selectChildTag(t) }}>{t.tag}</span>
+                                                    <span key={t.id} title={t.tag} onClick={() => { this.selectChildTag(t) }}>{t.tag}</span>
                                                 );
                                             })
                                         }
