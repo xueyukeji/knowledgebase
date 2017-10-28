@@ -4,6 +4,8 @@ import { createFetch } from '../utils/fetch-creator';
 class Store {
   @observable knowledgeObj = { librarys: [] };
   @observable permissions = [];
+  @observable professors = [];
+  @observable firstLevelTags = [];
   @observable knowledgeInfo = {};
   @observable curKnowledge = {};
   @observable isUserDialog = false;
@@ -118,19 +120,45 @@ class Store {
       this.isUserDialog = params;
   };
 
+  // 获取知识库的专家
+  @action
+  getProfessors = params => {
+      createFetch({
+          url: 'pub/librarys/' + params + '/professors'
+      }).then(data => {
+          if (data.data) {
+              this.professors = data.data.userInfos;
+          } else {
+              this.professors = [];
+          }
+      });
+  };
+  // 获取知识库下的一级标签
+  getFirstLevelTags = params => {
+      createFetch({
+          url: 'pub/librarys/' + params + '/tags/first-level'
+      }).then(data => {
+          if (data.data) {
+              this.firstLevelTags = data.data.tags;
+          } else {
+              this.firstLevelTags = [];
+          }
+      });
+  }
+
   // 获取知识库的专家标签权限列表
   @action
   getPermissions = params => {
       createFetch({
-          url: 'pub/librarys/' + params.id + '/permissions',
+          url: 'pub/librarys/' + params.id + '/permissions'
       }).then(data => {
           if (data.data) {
-              this.permissions = data.data.permissions
+              this.permissions = data.data.permissions;
           } else {
-              this.permissions = []
+              this.permissions = [];
           }
       });
-  }
+  };
 
   // 管理员添加权限
   @action
@@ -139,11 +167,10 @@ class Store {
           url: 'pub/librarys/' + params.id + '/add-permission',
           method: 'post',
           body: {
-              professorId: params.professorId,
-              tagId: params.tagId
+              params: params
           }
-      })
-  }
+      });
+  };
   // 管理员编辑权限
   @action
   editPermission = params => {
@@ -151,11 +178,10 @@ class Store {
           url: 'pub/librarys/' + params.id + '/edit-permission',
           method: 'post',
           body: {
-              professorId: params.professorId,
-              tagId: params.tagId
+              params: params
           }
-      })
-  }
+      });
+  };
   // 管理员删除权限
   @action
   delPermission = params => {
@@ -164,10 +190,9 @@ class Store {
           method: 'post',
           body: {
               professorId: params.professorId,
-              tagId: params.tagId
           }
-      })
-  }
+      });
+  };
 }
 
 export default new Store();

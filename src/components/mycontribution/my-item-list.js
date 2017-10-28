@@ -8,6 +8,23 @@ class ListItem extends Component {
     getDatas = currentPage => {
         this.props.onPageChange(currentPage, true)
     };
+    goEdit = (item, e) => {
+        e.preventDefault();
+    };
+    renderStatus = (item) => {
+        console.log(item.status)
+        let statusClass = 'item-status'
+        if (item.status === 0) {
+            statusClass += ' ready'
+        } else if (item.status === 1) {
+            statusClass += ' pass'
+        } else {
+            statusClass += ' reject'
+        }
+        return (<div className={statusClass}>
+            <span>{constants.getStatusStr(item.status)}</span>
+        </div>)
+    }
     render() {
         let { items, currentPage, inMyContri } = this.props;
         if (items.items.length === 0) {
@@ -22,9 +39,7 @@ class ListItem extends Component {
                                 <div className="list-item" key={item.id}>
                                     <div className="title">
                                         <h5>{item.name}</h5>
-                                        <div className="item-status pass">
-                                            <span>{constants.getStatusStr(item.status)}</span>
-                                        </div>
+                                        {this.renderStatus(item)}
                                     </div>
                                     <div className="tag-items">
                                         <div className="tags">

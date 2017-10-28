@@ -7,12 +7,12 @@ import { inject, observer } from 'mobx-react'
     let {
         permissions,
         getPermissions,
-        delPermisson,
+        delPermission,
     } = stores.manage;
     return {
         permissions,
         getPermissions,
-        delPermisson
+        delPermission
     };
 })
 @observer
@@ -21,18 +21,23 @@ class PermissionList extends Component {
         this.props.getPermissions(this.props.match.params)
     }
     removePermisson = (id) => {
-        this.props.delPermisson(id).then((res) => {
+        let params = {
+            id: this.props.match.params.id,
+            professorId: id
+        }
+        this.props.delPermission(params).then((res) => {
             if (res.code !== 200) {
                 Message(res.msg);
                 return;
             }
-            console.log('removePermissiom event:', res)
+            Message('删除成功')
+            this.props.getPermissions(this.props.match.params)
         })
     }
     render() {
         const { showDialog, permissions } = this.props
         if (permissions.length === 0) {
-            return <div></div>
+            return <div>暂无数据</div>
         }
         return (
             <ul className="permission-list">
@@ -40,18 +45,18 @@ class PermissionList extends Component {
                     permissions.map((item, index) => {
                         return (
                             <li key={index}>
-                                <span className="title">{item.name}</span>
+                                <span className="title">{item.userInfo.userName}</span>
                                 审核
                                 {
-                                    item.tags.map((tag, index) => {
+                                    item.tagInfos.map((tag, index) => {
                                         return (
-                                            <span className="tag" key={index}>{tag.name}</span>
+                                            <span className="tag" key={index}>{tag.tag}</span>
                                         )
                                     })
                                 }
                                 <div className="op-btns">
                                     <Button type="text" onClick={() => {showDialog(item)}}>编辑</Button>
-                                    <Button type="text" onClick={() => {this.removePermisson(item.id)}}>删除</Button>
+                                    <Button type="text" onClick={() => {this.removePermisson(item.userInfo.userId)}}>删除</Button>
                                 </div>
                             </li>
                         )

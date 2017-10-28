@@ -1,39 +1,34 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Button, Dialog, Message } from 'element-react-codish';
 import { Select } from 'antd';
 
 @inject(stores => {
     let {
-        curPermissio11n,
+        professors,
+        getProfessors,
+        firstLevelTags,
+        getFirstLevelTags,
+        addPermission,
+        editPermission,
+        getPermissions
     } = stores.manage;
     return {
-        curPermissio11n,
+        professors,
+        getProfessors,
+        firstLevelTags,
+        getFirstLevelTags,
+        addPermission,
+        editPermission,
+        getPermissions
     };
 })
 @observer
-export default class AddKnowledge extends Component {
-    state = {
-        checkExperts: [
-            {professorId: 1, name: 'one'},
-            {professorId: 2, name: 'two'},
-            {professorId: 3, name: 'three'},
-            {professorId: 4, name: 'four'},
-            {professorId: 5, name: 'five'},
-            {professorId: 6, name: 'six'},
-        ],
-        tags: [
-            {id: 1, name: 'one'},
-            {id: 2, name: 'two'},
-            {id: 3, name: 'three'},
-            {id: 4, name: 'four'},
-            {id: 5, name: 'five'},
-            {id: 6, name: 'six'},
-        ],
-        professorId: null,
-        tagIds: [],
-    }
-    componentDidMount() {
+class SetPerDialog extends Component {
+    componentWillMount() {
+        this.props.getProfessors(this.props.match.params.id)
+        this.props.getFirstLevelTags(this.props.match.params.id)
     }
     handleChangeProfessor=(value) => {
         this.setState({
@@ -46,33 +41,51 @@ export default class AddKnowledge extends Component {
         })
     }
     comfirm = () => {
-        // const {title, addPermission, editPermission} = this.props
-        // let params = {
-        //     professorId: this.state.professorId,
-        //     tagIds: this.state.tagIds
-        // }
-        // if (title === '添加权限') {
-        //     addPermission(params).then((res) => {
-        //         if (res.code !== 200) {
-        //             Message(res.msg);
-        //             return;
-        //         }
-        //         console.log('addPermission event', res)
-        //     })
-        // } else {
-        //     editPermission(params).then((res) => {
-        //         if (res.code !== 200) {
-        //             Message(res.msg);
-        //             return;
-        //         }
-        //         console.log('editPermission event', res)
-        //     })
-        // }
+        const {title, match, addPermission, editPermission, curPermission} = this.props
+        let params = {
+            id: match.params.id,
+            professorId: this.state.professorId ? this.state.professorId : curPermission.userInfo.userId,
+            tagIds: this.state.tagIds
+        }
+        if (title === '添加权限') {
+            addPermission(params).then((res) => {
+                this.dealResMsg(title, res)
+            })
+        } else {
+            editPermission(params).then((res) => {
+                this.dealResMsg(title, res)
+            })
+        }
+    }
+    dealResMsg = (title, res) => {
+        if (res.code !== 200) {
+            Message(res.msg);
+            return;
+        }
+        this.props.getPermissions(this.props.match.params)
+        title === '添加权限' ? Message('添加权限成功') : Message('编辑权限成功')
+        this.props.hideDialog
     }
     render() {
-        console.log('setPermissionDialig: curPermission', this.props.curPermission)
         const Option = Select.Option;
-        const { visible, title, hideDialog, curPermission } = this.props
+        const {
+            visible,
+            title,
+            hideDialog,
+            // curPermission,
+            professors,
+            firstLevelTags
+        } = this.props
+        if (professors.length === 0 || firstLevelTags.length === 0) {
+            return (<div>正在加载数据.....</div>)
+        }
+        // let defaultProfessor = '', defaultTags = ''
+        // if (curPermission) {
+        //     defaultProfessor = curPermission.userInfo.userName
+        //     defaultTags = curPermission.tagInfos.map((tag) => {
+        //         return tag.id
+        //     }).toString()
+        // }
         return (
             <Dialog
                 className="mod-setper-dialog"
@@ -91,14 +104,14 @@ export default class AddKnowledge extends Component {
                             style={{ width: 200 }}
                             placeholder="请选择专家"
                             optionFilterProp="children"
-                            defaultValue={curPermission.name}
+                            defaultValue={''}
                             onChange={this.handleChangeProfessor}
                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                         >
                             {
-                                this.state.checkExperts.map((user, index) => {
+                                professors.map((user) => {
                                     return (
-                                        <Option key={index} value={user.professorId.toString()}>{user.name}</Option>
+                                        <Option key={user.userId} value={user.userId.toString()}>{user.userName}</Option>
                                     )
                                 })
                             }
@@ -110,13 +123,13 @@ export default class AddKnowledge extends Component {
                             mode="multiple"
                             style={{ width: '100%' }}
                             placeholder="请选择要审核的标签"
-                            defaultValue={['1', '6']}
+                            defaultValue={[]}
                             onChange={this.handleChangeTags}
                         >
                             {
-                                this.state.tags.map((user, index) => {
+                                firstLevelTags.map((tag) => {
                                     return (
-                                        <Option key={index} value={user.id.toString()}>{user.name}</Option>
+                                        <Option key={tag.id} value={tag.id.toString()}>{tag.tag}</Option>
                                     )
                                 })
                             }
@@ -131,3 +144,4 @@ export default class AddKnowledge extends Component {
         );
     }
 }
+export default withRouter(SetPerDialog)
