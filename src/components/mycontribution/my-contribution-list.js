@@ -29,54 +29,59 @@ class ListItem extends Component {
                 {
                     myConItemObj && myConItemObj.items.map(item => {
                         return (
-                            <div className="list-item" key={item.id}>
-                                <div className="title">
-                                    <h5>{item.name}</h5>
-                                    <div className="item-status pass">
-                                        <span>{constants.getStatusStr(item.status)}</span>
+                            <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id}>
+                                <div className="list-item" key={item.id}>
+                                    <div className="title">
+                                        <h5>{item.name}</h5>
+                                        <div className="item-status pass">
+                                            <span>{constants.getStatusStr(item.status)}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="tag-items">
-                                    <div className="tags">
-                                        {item.tagArr.map(t => {
-                                            return (
-                                                <Tag key={t.id} type="success">
-                                                    {t.tag ? t.tag : null}
-                                                </Tag>
-                                            );
-                                        })}
+                                    <div className="tag-items">
+                                        <div className="tags">
+                                            {item.tagArr.map(t => {
+                                                return (
+                                                    <Tag key={t.id} type="success">
+                                                        {t.tag ? t.tag : null}
+                                                    </Tag>
+                                                );
+                                            })}
+                                        </div>
+                                        <div className="op-btns fr">
+                                            {
+                                                // 待审核和未通过才可以编辑
+                                                item.status === 0 || item.status === 3 ? <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
+                                                    <Button type="primary">编辑</Button>
+                                                </NavLink> : ''
+                                            }
+                                            {
+                                                item.status === 3 ? <Popover placement="topLeft" content={123233112} trigger="click">
+                                                    <Button>查看原因</Button>
+                                                </Popover> : ''
+                                            }
+                                        </div>
+
+                                        {/* <p className="p-tips">
+                                            {constants.getDateStr(item.createTime, 4)}
+                                        </p> */}
                                     </div>
-                                    <div className="op-btns fr">
-                                        {
-                                            // 待审核和未通过才可以编辑
-                                            item.status === 0 || item.status === 3 ? <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
-                                                <Button type="primary">编辑</Button>
-                                            </NavLink> : ''
-                                        }
-                                        {
-                                            item.status === 3 ? <Popover placement="topLeft" content={123233112} trigger="click">
-                                                <Button>查看原因</Button>
-                                            </Popover> : ''
-                                        }
+                                    <div className="content">{item.desc}</div>
+                                    <div className="info">
+                                        <Layout.Row gutter="20">
+                                            <Layout.Col span="6">贡献者：{item.creatorName}</Layout.Col>
+                                            <Layout.Col span="6 tc"><i className="icon look"></i> {item.viewNum || 0}</Layout.Col>
+                                            <Layout.Col span="6 tc"><i className="icon download"></i> {item.downNum || 0}</Layout.Col>
+                                            <Layout.Col span="6">
+                                                <div className="tr">
+                                                    <i className="icon-star icon-look"></i> 评分 <span className="score">{item.rate || 0}</span>
+                                                </div>
+                                            </Layout.Col>
+                                        </Layout.Row>
                                     </div>
 
-                                    {/* <p className="p-tips">
-                                        {constants.getDateStr(item.createTime, 4)}
-                                    </p> */}
+                                    {/* <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id} /> */}
                                 </div>
-                                <div className="content">{item.desc}</div>
-                                <div className="info">
-                                    <Layout.Row gutter="20">
-                                        <Layout.Col span="5">贡献者：{item.creatorName}</Layout.Col>
-                                        <Layout.Col span="5"><i className="icon-look"></i> 12121</Layout.Col>
-                                        <Layout.Col span="5"><i className="icon-like icon-look"></i> 12121</Layout.Col>
-                                        <Layout.Col span="5"><i className="icon-down icon-look"></i> 12121</Layout.Col>
-                                        <Layout.Col span="4"><i className="icon-star icon-look"></i> 评分 <span className="score">4.6</span></Layout.Col>
-                                    </Layout.Row>
-                                </div>
-
-                                {/* <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id} /> */}
-                            </div>
+                            </NavLink>
                         );
                     })
                 }
