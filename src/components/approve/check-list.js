@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter, NavLink, Link } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Tag, Layout, Pagination } from 'element-react-codish';
+import { Button } from 'antd';
+
 // import * as constants from '../../utils/constants';
 
 @inject(stores => {
@@ -67,7 +69,9 @@ class ListItem extends Component {
                                         })}
                                     </div>
                                     <div className="op-btns fr">
-                                        <Link className="shenhe" to="/my-check/detail">审核</Link>
+                                        <NavLink to={`/my-check/detail/${item.id}`}>
+                                            <Button type="text">审核</Button>
+                                        </NavLink>
                                     </div>
                                     {/* <p className="p-tips">
                                         {constants.getDateStr(item.createTime, 4)}
