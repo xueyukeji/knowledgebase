@@ -41,7 +41,7 @@ export default class AppRouter extends Component {
 
     render() {
         const { userInfo, knowledgeObj: { librarys = []} } = this.props;
-        if (!this.props.userInfo) {
+        if (!this.props.userInfo.data.userId) {
             return <div>正在加载数据...</div>
         }
         return (

@@ -3,24 +3,64 @@ import { inject, observer } from 'mobx-react'
 import MyContributionList from './my-contribution-list'
 
 @inject(stores => {
-    stores
+    let { getUserItems } = stores.item;
+    let { userInfo } = stores.user;
+    return {
+        getUserItems,
+        userInfo
+    };
 })
 @observer
 export default class Knowledge extends Component {
-    status = [
-        {id: 1, name: '全部', isActive: true},
-        {id: 2, name: '待审核', isActive: false},
-        {id: 3, name: '未通过', isActive: false},
-        {id: 4, name: '已通过', isActive: false},
-    ]
-    getDatas = (s) => {
-        this.setState({})
-        this.status.forEach((d) => {
+    // 知识条目状态, 0: 待审批, 1: 审批通过, 3: 被拒绝, -1: 全部
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentPage: 1,
+            status: [
+                {id: -1, name: '全部', isActive: true},
+                {id: 0, name: '待审核', isActive: false},
+                {id: 3, name: '未通过', isActive: false},
+                {id: 1, name: '已通过', isActive: false},
+            ]
+        }
+    }
+    switchState = (s) => {
+        const {status, currentPage} = this.state
+        status.forEach((d) => {
             d.isActive = false
             if (d.id === s.id) {
                 d.isActive = true
             }
         })
+        this.setState({
+            status
+        })
+        this.onPageChange(currentPage)
+    }
+    getMyItemData = (params) => {
+        this.props.getUserItems(params);
+    }
+    onPageChange = (currentPage, pageChanged) => {
+        if (pageChanged) {
+            this.setState({
+                currentPage
+            })
+        }
+        let {status} = this.state
+        if (currentPage > 0) {
+            currentPage  = currentPage - 1
+        }
+        const params = {
+            start: currentPage,
+            limit: 10,
+            userId: this.props.userInfo.data.userId,
+            status: status.find(item => item.isActive).id
+        };
+        this.getMyItemData(params)
+    }
+    componentWillMount() {
+        this.onPageChange(1)
     }
     render() {
         return (
@@ -29,17 +69,17 @@ export default class Knowledge extends Component {
                     <div className="check-top">
                         <div className="check-filter">
                             {
-                                this.status.map((s) => {
+                                this.state.status.map((s) => {
                                     return (
                                         <span key={s.id} className={s.isActive ? 'active' : ''}
-                                            onClick={() => {this.getDatas(s)}}>{s.name}</span>
+                                            onClick={() => {this.switchState(s)}}>{s.name}</span>
                                     )
                                 })
                             }
                         </div>
                     </div>
                 </h4>
-                <MyContributionList />
+                <MyContributionList onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
             </div>
         )
     }

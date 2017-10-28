@@ -6,42 +6,21 @@ import { Popover, Button } from 'antd';
 // import * as constants from '../../utils/constants';
 
 @inject(stores => {
-    let { getUserItems, myConItemObj } = stores.item;
-    let { userInfo, getUserInfo } = stores.user;
+    let { myConItemObj } = stores.item;
     return {
-        getUserItems,
-        myConItemObj,
-        userInfo,
-        getUserInfo
+        myConItemObj
     };
 })
 @observer
 class ListItem extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    componentWillMount() {
-        this.props.getUserInfo().then(() => {
-            this.getDatas(0);
-        });
-    }
     getDatas = currentPage => {
-        if (currentPage > 0) {
-            currentPage  = currentPage - 1
-        }
-        const params = {
-            start: currentPage,
-            limit: 10,
-            userId: this.props.userInfo.data.userId
-        };
-        this.props.getUserItems(params);
+        this.props.onPageChange(currentPage, true)
     };
     goEdit = (item, e) => {
         e.preventDefault();
     };
     render() {
-        let { myConItemObj } = this.props;
+        let { myConItemObj, currentPage } = this.props;
         if (myConItemObj.items.length === 0) {
             return <div className="search-tips">暂无知识条目</div>;
         }
@@ -99,7 +78,7 @@ class ListItem extends Component {
                     myConItemObj && myConItemObj.count > 10 && (
                         <Pagination
                             className="pagination"
-                            currentPage={1}
+                            currentPage={currentPage}
                             layout="prev, pager, next"
                             onCurrentChange={this.getDatas}
                             total={myConItemObj.count}
