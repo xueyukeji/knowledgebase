@@ -1,6 +1,6 @@
 .mod-taglist {
     padding-top: 10px;
-    width: 1234px;
+    max-width: 100%;
     .filter-wrap{
         background-color: #f6f6f6;
         padding-left: 16px;
@@ -62,7 +62,7 @@
         }
         .right{
             color: #404040;
-            width: 1114px;
+            width: calc(100% - 119px);
             background: #fff;
             padding-left: 19px;
             box-sizing: content-box;
