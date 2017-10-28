@@ -83,7 +83,7 @@ class Store {
 
     @action getAuditItem = params => {
         return createFetch({
-            url: 'pub/items/wait-audit',
+            url: 'pub/items/audit',
             params: params
         }).then(data => {
             if (data && data.data) {

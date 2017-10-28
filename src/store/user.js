@@ -12,6 +12,7 @@ class Store {
     @observable selected = [];
     @observable deptList = {};
     @observable treeNodes = [];
+    @observable boardList = {users: []};
 
     @action
     getUserInfo = () => {
@@ -145,6 +146,22 @@ class Store {
     }
     @action setTreeNodes = nodes => {
         this.treeNodes = nodes;
+    }
+
+    @action getBoard = params => {
+        return createFetch({
+            url: 'pub/users/board',
+            params
+        }).then(data => {
+            if (data && data.data.users.count > 0) {
+                this.boardList = data.data.users;
+            } else {
+                this.boardList = {
+                    count: 0,
+                    users: []
+                };
+            }
+        });
     }
 }
 

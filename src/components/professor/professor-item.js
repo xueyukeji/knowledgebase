@@ -1,15 +1,7 @@
 import React, {Component} from 'react';
+import defaultAvatar from '../../assets/images/default-avatar.png';
 
 export default class ProfessorItem extends Component {
-    state = {
-        professorList: [
-            {id: 1, name: 'one', job: 123},
-            {id: 1, name: 'one', job: 123},
-            {id: 1, name: 'one', job: 123},
-            {id: 1, name: 'one', job: 123},
-            {id: 1, name: 'one', job: 123}
-        ]
-    }
     renderIconfun = (index) => {
         if (index === 0) {
             return (<i className='medals guanjun'></i>)
@@ -22,16 +14,16 @@ export default class ProfessorItem extends Component {
     render() {
         return (
             <div className="professor-list">
-                {this.state.professorList.map((item, index) => {
+                {this.props.boardList.users.map((item, index) => {
                     return (
                         <div className="professor-item" key={index}>
                             {this.renderIconfun(index)}
                             <div className="avator ">
-                                <img src="" alt="" />
+                                <img src={item.userIcon || defaultAvatar} alt={item.userName} />
                             </div>
                             <div className="info">
-                                <p className="name">{item.name}</p>
-                                <p className="job">贡献指数：{item.job}</p>
+                                <p className="name">{item.userName}</p>
+                                <p className="job">贡献指数：{item.total || 0}</p>
                             </div>
                         </div>
                     )
