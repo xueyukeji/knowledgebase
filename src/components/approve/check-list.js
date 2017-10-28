@@ -34,7 +34,8 @@ class ListItem extends Component {
         const params = {
             start: currentPage,
             limit: 10,
-            userId: this.props.userInfo.data.userId
+            userId: this.props.userInfo.data.userId,
+            status: -1
         };
         this.props.getUserItems(params);
     };

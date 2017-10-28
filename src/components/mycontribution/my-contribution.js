@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import MyContributionList from './my-contribution-list'
+import MyItemList from './my-item-list'
 
 @inject(stores => {
-    let { getUserItems } = stores.item;
+    let { getUserItems, myConItemObj } = stores.item;
     let { userInfo } = stores.user;
     return {
         getUserItems,
+        myConItemObj,
         userInfo
     };
 })
@@ -79,7 +80,7 @@ export default class Knowledge extends Component {
                         </div>
                     </div>
                 </h4>
-                <MyContributionList onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
+                <MyItemList items={this.props.myConItemObj} inMyContri={true} onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
             </div>
         )
     }

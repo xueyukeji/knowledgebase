@@ -4,6 +4,7 @@ import { createFetch } from '../utils/fetch-creator';
 class Store {
     @observable itemListObj = {items: []};
     @observable myConItemObj = {items: []};
+    @observable myAuditItem = {items: []};
     @observable itemDetails = false; // 知识条目详情
     @observable searchInput = ''; // 知识条目搜索用到
     @observable searchTagIds = []
@@ -78,6 +79,23 @@ class Store {
             method: 'post',
             body: params
         });
+    }
+
+    @action getAuditItem = params => {
+        return createFetch({
+            url: 'pub/items/wait-audit',
+            params: params
+        }).then(data => {
+            if (data && data.data) {
+                this.setAuditItem(data.data);
+            } else {
+                this.setAuditItem({items: []});
+            }
+        });
+    }
+
+    @action setAuditItem = obj => {
+        this.myAuditItem = obj;
     }
 }
 

@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
 import { Tag, Layout, Pagination } from 'element-react-codish';
 import { Popover, Button } from 'antd';
 import * as constants from '../../utils/constants';
 
-@inject(stores => {
-    let { myConItemObj } = stores.item;
-    return {
-        myConItemObj
-    };
-})
-@observer
 class ListItem extends Component {
     getDatas = currentPage => {
         this.props.onPageChange(currentPage, true)
@@ -20,14 +12,14 @@ class ListItem extends Component {
         e.preventDefault();
     };
     render() {
-        let { myConItemObj, currentPage } = this.props;
-        if (myConItemObj.items.length === 0) {
+        let { items, currentPage, inMyContri } = this.props;
+        if (items.items.length === 0) {
             return <div className="search-tips">暂无知识条目</div>;
         }
         return (
             <div className="mod-listitem">
                 {
-                    myConItemObj && myConItemObj.items.map(item => {
+                    items && items.items.map(item => {
                         return (
                             <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id}>
                                 <div className="list-item" key={item.id}>
@@ -49,15 +41,22 @@ class ListItem extends Component {
                                         </div>
                                         <div className="op-btns fr">
                                             {
-                                                // 待审核和未通过才可以编辑
-                                                item.status === 0 || item.status === 3 ? <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
+                                                // 我的贡献中：待审核和未通过才可以编辑
+                                                inMyContri && (item.status === 0 || item.status === 3) ? <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
                                                     <Button type="primary">编辑</Button>
                                                 </NavLink> : ''
                                             }
                                             {
-                                                item.status === 3 ? <Popover placement="topLeft" content={123233112} trigger="click">
+                                                // 我的贡献中：未通过可以查看原因
+                                                inMyContri && item.status === 3 ? <Popover placement="topLeft" content={123233112} trigger="click">
                                                     <Button>查看原因</Button>
                                                 </Popover> : ''
+                                            }
+                                            {
+                                                // 我的审批中：待审核可以审核
+                                                !inMyContri && item.status === 0 ? <NavLink to={`/my-check/detail/${item.id}`}>
+                                                    <Button type="text">审核</Button>
+                                                </NavLink> : ''
                                             }
                                         </div>
 
@@ -86,13 +85,13 @@ class ListItem extends Component {
                     })
                 }
                 {
-                    myConItemObj && myConItemObj.count > 10 && (
+                    items && items.count > 10 && (
                         <Pagination
                             className="pagination"
                             currentPage={currentPage}
                             layout="prev, pager, next"
                             onCurrentChange={this.getDatas}
-                            total={myConItemObj.count}
+                            total={items.count}
                         />
                     )
                 }
