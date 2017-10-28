@@ -74,18 +74,25 @@
     }
     .info {
       margin-top: 10px;
-      .icon-look {
+      .icon {
         display: inline-block;
         width: 16px;
         height: 13px;
+      }
+      .look {
         background-image: url(../../assets/images/look.png);
+      }
+      .download {
+        background-image: url(../../assets/images/download.png);
+      }
+      div.tr {
+        position: absolute;
+        right: 0px;
+        top: -9px;
       }
       .score {
         color: #d00832;
         font-size: 25px;
-        top: -9px;
-        position: absolute;
-        right: 10px;
       }
     }
   }

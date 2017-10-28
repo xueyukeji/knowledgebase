@@ -33,7 +33,8 @@
 		}
 
 		.add-itembtn {
-			text-align: right;
+            float: right;
+            margin-right: 8px;
 			.el-button:last-child {
 				border-radius: 0;
                 width: calc(100% - 10px);

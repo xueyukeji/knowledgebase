@@ -73,7 +73,7 @@ class SearchItem extends Component {
                             if (e.charCode === 13) { this.getData() }
                         }} />
                 </Layout.Col>
-                <Layout.Col span="3" className="btn-search">
+                <Layout.Col span="2" className="btn-search">
                     <Button type="primary" onClick={this.onSearch}>搜索</Button>
                 </Layout.Col>
                 <Layout.Col span="3" className="add-itembtn">
