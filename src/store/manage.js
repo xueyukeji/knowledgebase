@@ -167,7 +167,8 @@ class Store {
           url: 'pub/librarys/' + params.id + '/add-permission',
           method: 'post',
           body: {
-              params: params
+              professorId: params.professorId,
+              tagIds: params.tagIds
           }
       });
   };
@@ -178,7 +179,8 @@ class Store {
           url: 'pub/librarys/' + params.id + '/edit-permission',
           method: 'post',
           body: {
-              params: params
+              professorId: params.professorId,
+              tagIds: params.tagIds
           }
       });
   };

@@ -14,13 +14,17 @@ import SetperDialog from './setper-dialog'
 export default class Setpermission extends Component {
     state = {
         showSetPerDailog: false,
-        curPermission: {},
+        curPermission: {
+            tagInfos: []
+        },
         title: ''
     }
     showPerDialog = (item) => {
         if (!item) {
             this.setState({
-                curPermission: {},
+                curPermission: {
+                    tagInfos: []
+                },
                 title: '添加权限'
             })
         } else {

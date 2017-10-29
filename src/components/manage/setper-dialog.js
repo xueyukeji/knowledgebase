@@ -64,7 +64,7 @@ class SetPerDialog extends Component {
         }
         this.props.getPermissions(this.props.match.params)
         title === '添加权限' ? Message('添加权限成功') : Message('编辑权限成功')
-        this.props.hideDialog
+        this.props.hideDialog()
     }
     render() {
         const Option = Select.Option;
@@ -72,20 +72,20 @@ class SetPerDialog extends Component {
             visible,
             title,
             hideDialog,
-            // curPermission,
+            curPermission,
             professors,
             firstLevelTags
         } = this.props
         if (professors.length === 0 || firstLevelTags.length === 0) {
             return (<div>正在加载数据.....</div>)
         }
-        // let defaultProfessor = '', defaultTags = ''
-        // if (curPermission) {
-        //     defaultProfessor = curPermission.userInfo.userName
-        //     defaultTags = curPermission.tagInfos.map((tag) => {
-        //         return tag.id
-        //     }).toString()
-        // }
+        let defaultProfessor = '', defaultTags = []
+        if (curPermission && curPermission.tagInfos.length !== 0) {
+            defaultProfessor = curPermission.userInfo.userName
+            curPermission.tagInfos.forEach((tag) => {
+                defaultTags.push(tag.id)
+            })
+        }
         return (
             <Dialog
                 className="mod-setper-dialog"
@@ -104,7 +104,7 @@ class SetPerDialog extends Component {
                             style={{ width: 200 }}
                             placeholder="请选择专家"
                             optionFilterProp="children"
-                            defaultValue={''}
+                            defaultValue={defaultProfessor}
                             onChange={this.handleChangeProfessor}
                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                         >
@@ -123,7 +123,7 @@ class SetPerDialog extends Component {
                             mode="multiple"
                             style={{ width: '100%' }}
                             placeholder="请选择要审核的标签"
-                            defaultValue={[]}
+                            defaultValue={defaultTags}
                             onChange={this.handleChangeTags}
                         >
                             {
