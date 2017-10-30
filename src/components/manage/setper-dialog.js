@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Button, Dialog, Message } from 'element-react-codish';
-import { Select } from 'antd';
+import { Select, Modal } from 'antd';
+import { Loading } from 'element-react-codish';
 
 @inject(stores => {
     let {
@@ -77,11 +78,21 @@ class SetPerDialog extends Component {
             firstLevelTags
         } = this.props
         let defaultProfessor = '', defaultTags = []
-        if (curPermission && curPermission.tagInfos.length !== 0) {
+        if (curPermission.tagInfos.length && firstLevelTags && firstLevelTags.length) {
             defaultProfessor = curPermission.userInfo.userName
             curPermission.tagInfos.forEach((tag) => {
-                defaultTags.push(tag.id)
+                defaultTags.push(tag.id + '')
             })
+        } else {
+            if (firstLevelTags === null) {
+                return <Loading text="拼命加载中" />
+            } else {
+                Modal.warning({
+                    title: '提示',
+                    content: '请先添加一级标签',
+                });
+                return <div></div>
+            }
         }
         return (
             <Dialog
@@ -118,13 +129,13 @@ class SetPerDialog extends Component {
                         <Select
                             mode="multiple"
                             placeholder="请选择要审核的标签"
-                            defaultValue={defaultTags.length > 0 ? [defaultTags.toString()] : []}
+                            defaultValue={defaultTags}
                             onChange={this.handleChangeTags}
                         >
                             {
                                 firstLevelTags.map((tag) => {
                                     return (
-                                        <Option key={tag.id} value={tag.id.toString()}>{tag.tag}</Option>
+                                        <Option key={tag.id} value={tag.id + ''}>{tag.tag}</Option>
                                     )
                                 })
                             }
