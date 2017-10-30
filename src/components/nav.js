@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import defaultAvatar from '../assets/images/default-avatar.png';
+import { inject, observer } from 'mobx-react';
 
+@inject(stores => {
+    let { knowledgeObj } = stores.manage;
+    return {
+        knowledgeObj
+    };
+})
+@observer
 export default class Nav extends Component {
     render() {
-        let { list, userInfo } = this.props;
+        let { list, userInfo, knowledgeObj: { librarys = []} } = this.props;
         let userType = '',
             userName = '',
-            userIcon = defaultAvatar;
+            userIcon = defaultAvatar,
+            isProfessor = false;
         if (userInfo && userInfo.data) {
             userType = userInfo.data.userType;
             userName = userInfo.data.userName;
             userIcon = userInfo.data.userIcon || defaultAvatar;
+            const item = librarys.find(item => {
+                return item.professorIds.indexOf(userInfo.data.userId) != -1
+            })
+            isProfessor = item ? item.auditType === 1 : false
         }
         return (
             <div className="nav">
@@ -34,10 +47,11 @@ export default class Nav extends Component {
                     <a target="_blank" href="/home.html">云盘</a>
                 </div>
                 <div className="nav-item__sep" />
-
-                <div className="nav-item nav-check">
-                    <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>
-                </div>
+                {
+                    isProfessor ? <div className="nav-item nav-check">
+                        <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>
+                    </div> : ''
+                }
                 <div className="nav-item nav-professor">
                     <NavLink to="/professor" activeClassName="active">排行榜</NavLink>
                 </div>
