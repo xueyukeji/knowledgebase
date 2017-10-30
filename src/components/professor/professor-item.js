@@ -6,9 +6,9 @@ export default class ProfessorItem extends Component {
         if (index === 0) {
             return (<i className='medals guanjun'></i>)
         } else if (index === 1) {
-            return (<i className='medals jijun'></i>)
-        } else if (index === 2) {
             return (<i className='medals yajun'></i>)
+        } else if (index === 2) {
+            return (<i className='medals jijun'></i>)
         }
     }
     render() {

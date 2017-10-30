@@ -15,6 +15,7 @@
         "babel-runtime": "6.26.0",
         "case-sensitive-paths-webpack-plugin": "2.1.1",
         "chalk": "1.1.3",
+        "cross-env": "^5.1.1",
         "crypto-js": "^3.1.9-1",
         "css-loader": "0.28.4",
         "dotenv": "4.0.0",
@@ -58,10 +59,10 @@
         "when": "^3.7.8"
     },
     "scripts": {
-        "start": "REACT_PROXY=http://111.231.198.240 node scripts/start.js",
+        "start": "cross-env REACT_PROXY=http://111.231.198.240 node scripts/start.js",
         "build": "node scripts/build.js",
         "test": "node scripts/test.js --env=jsdom",
-        "dev": "NODE_ENV=development REACT_APP_PROXY=http://127.0.0.1:3000 concurrently -r \"node ./server/app.js\" \"node scripts/start.js\"",
+        "dev": "cross-env NODE_ENV=development REACT_APP_PROXY=http://127.0.0.1:3000 concurrently -r \"node ./server/app.js\" \"node scripts/start.js\"",
         "scp": "scp ./build.zip root@111.231.198.240:/opt/yliyun/work/nginx"
     },
     "jest": {
