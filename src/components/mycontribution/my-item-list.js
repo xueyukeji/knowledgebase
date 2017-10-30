@@ -12,7 +12,6 @@ class ListItem extends Component {
         e.preventDefault();
     };
     renderStatus = (item) => {
-        console.log(item.status)
         let statusClass = 'item-status'
         if (item.status === 0) {
             statusClass += ' ready'
@@ -28,7 +27,7 @@ class ListItem extends Component {
     render() {
         let { items, currentPage, inMyContri } = this.props;
         if (items.items.length === 0) {
-            return <div className="search-tips">暂无知识条目</div>;
+            return <div className="empty-tips">暂无知识条目</div>;
         }
         return (
             <div className="mod-listitem">
@@ -60,7 +59,7 @@ class ListItem extends Component {
                                             }
                                             {
                                                 // 我的贡献中：未通过可以查看原因
-                                                inMyContri && item.status === 3 ? <Popover placement="topLeft" content={item.auditDesc} trigger="click">
+                                                inMyContri && item.status === 3 ? <Popover placement="bottom" content={item.auditDesc} trigger="click">
                                                     <Button>查看原因</Button>
                                                 </Popover> : ''
                                             }
@@ -79,12 +78,12 @@ class ListItem extends Component {
                                     <div className="content">{item.desc}</div>
                                     <div className="info">
                                         <Layout.Row gutter="20">
-                                            <Layout.Col span="6">贡献者：{item.creatorName}</Layout.Col>
-                                            <Layout.Col span="6 tc"><i className="icon look"></i> {item.viewNum || 0}</Layout.Col>
-                                            <Layout.Col span="6 tc"><i className="icon download"></i> {item.downNum || 0}</Layout.Col>
+                                            <Layout.Col span="6"> <i className="icon user"></i> {item.creatorName}</Layout.Col>
+                                            <Layout.Col span="6 tc"><i className="icon look"></i>{item.viewNum || 0}</Layout.Col>
+                                            <Layout.Col span="6 tc"><i className="icon download"></i>{item.downNum || 0}</Layout.Col>
                                             <Layout.Col span="6">
                                                 <div className="tr">
-                                                    <i className="icon-star icon-look"></i> 评分 <span className="score">{item.rate || 0}</span>
+                                                    <i className="icon rate"></i><span className="score">{item.rate || 0}</span>
                                                 </div>
                                             </Layout.Col>
                                         </Layout.Row>

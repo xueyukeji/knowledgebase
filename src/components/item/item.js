@@ -41,8 +41,6 @@ export default class Knowledge extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.match.params.id !== nextProps.match.params.id) {
-            console.log(this.props.match.params.id)
-            console.log(nextProps.match.params.id)
             // 清空搜索区、清空tag选择区、重新加载tag、重新加载items
             const { setSearchInput, getTags, match } = this.props
             setSearchInput('');
@@ -61,10 +59,6 @@ export default class Knowledge extends Component {
             };
             this.getItemData(params)
         }
-    }
-
-    componentWillMount() {
-        console.log()
     }
 
     render() {
@@ -86,7 +80,7 @@ export default class Knowledge extends Component {
             }
         }
         if (librarys.length === 0) {
-            return <div className="search-tips">尚未创建知识库</div>
+            return <div className="empty-tips">尚未创建知识库</div>
         }
         return (
             <div className="mod-homepage">

@@ -15,298 +15,307 @@
 @import "./set-permission";
 @import "./set-expert";
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .hidden {
-    display: none;
+	display: none;
 }
+
 .clearfix:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden
 }
 
 #root {
-    height: 100%;
-    >div{
-        height: 100%;
-    }
+	height: 100%;
+	>div {
+		height: 100%;
+	}
 }
 
 .wrap {
-  padding-left: 180px;
-  height: 100%;
+	padding-left: 180px;
+	height: 100%;
 }
 
 .wrap-right {
-  padding: 15px;
-  height: 100%;
-  max-width: 1264px;
-  margin: 0 auto;
+	padding: 15px;
+	height: 100%;
+	max-width: 1264px;
+	margin: 0 auto;
 }
 
 .tr {
-  text-align: right;
+	text-align: right;
 }
 
 .tc {
-  text-align: center;
+	text-align: center;
 }
 
 .p-tips {
-  font-size: 12px;
-  color: $text-title-weak;
+	font-size: 12px;
+	color: $text-title-weak;
 }
 
-a:hover{
-  color: inherit !important;
+a:hover {
+	color: inherit !important;
 }
 
 .el-dialog {
-  .el-dialog__header {
-    padding: 20px;
-    background: $primary;
-    span.el-dialog__title {
-      color: white;
-    }
-    .el-icon-close {
-      color: white;
-    }
-  }
-  .el-dialog__body {
-    .el-table--border td,
-    .el-table--border th {
-      border-right: none;
-      height: 35px;
-    }
-    .el-table td,
-    .el-table th.is-leaf {
-      border-bottom: none;
-    }
-  }
-  .el-dialog__footer {
-    .el-button--info {
-      background-color: $primary;
-      border-color: $primary;
-    }
-    .el-button--info:focus,
-    .el-button--info:hover {
-      background-color: $primary;
-      border-color: $primary;
-      color: white;
-    }
-  }
+	.el-dialog__header {
+		padding: 20px;
+		background: $primary;
+		span.el-dialog__title {
+			color: white;
+		}
+		.el-icon-close {
+			color: white;
+		}
+	}
+	.el-dialog__body {
+		.el-table--border td,
+		.el-table--border th {
+			border-right: none;
+			height: 35px;
+		}
+		.el-table td,
+		.el-table th.is-leaf {
+			border-bottom: none;
+		}
+	}
+	.el-dialog__footer {
+		.el-button--info {
+			background-color: $primary;
+			border-color: $primary;
+		}
+		.el-button--info:focus,
+		.el-button--info:hover {
+			background-color: $primary;
+			border-color: $primary;
+			color: white;
+		}
+	}
 }
 
 .el-pagination {
-  .el-pager li.active {
-    border-color: $primary;
-    background-color: $primary;
-  }
-  button:hover,
-  .el-pager li:hover {
-    color: $primary;
-  }
+	.el-pager li.active {
+		border-color: $primary;
+		background-color: $primary;
+	}
+	button:hover,
+	.el-pager li:hover {
+		color: $primary;
+	}
 }
 
 .el-tabs__new-tab {
-  border: 1px solid $primary;
-  .el-icon-plus:before {
-    color: $primary;
-  }
+	border: 1px solid $primary;
+	.el-icon-plus:before {
+		color: $primary;
+	}
 }
 
 .el-message-box {
-  border: 1px solid $border;
-  .el-message-box__content {
-    padding: 30px 20px 0 20px;
-  }
+	border: 1px solid $border;
+	.el-message-box__content {
+		padding: 30px 20px 0 20px;
+	}
 }
 
 .el-message {
-  z-index: 100000;
+	z-index: 100000;
 }
 
 .el-button {
-  &:focus,
-  &:hover {
-    border-color: $primary;
-    color: $primary;
-  }
-  &--primary {
-    background-color: $primary;
-    border-color: $primary;
-    &:hover {
-      background-color: $primary;
-      color: #fff;
-    }
-  }
+	&:focus,
+	&:hover {
+		border-color: $primary;
+		color: $primary;
+	}
+	&--primary {
+		background-color: $primary;
+		border-color: $primary;
+		&:hover {
+			background-color: $primary;
+			color: #fff;
+		}
+	}
 }
 
 .el-tabs {
-  &__item {
-    &.is-active {
-      color: $primary;
-    }
-  }
-  &__new-tab {
-    &:hover {
-      color: $primary;
-    }
-  }
+	&__item {
+		&.is-active {
+			color: $primary;
+		}
+	}
+	&__new-tab {
+		&:hover {
+			color: $primary;
+		}
+	}
 }
 
 .el-input {
-  &__inner {
-    &:focus {
-      border-color: $primary;
-    }
-  }
+	&__inner {
+		&:focus {
+			border-color: $primary;
+		}
+	}
 }
 
 .el-select-dropdown__item.selected {
-  &,
-  &.hover {
-    background-color: $primary;
-  }
+	&,
+	&.hover {
+		background-color: $primary;
+	}
 }
 
 .root-loading {
-  height: 100%;
+	height: 100%;
 }
 
-.search-tips {
-  color: $text-title-weak;
-  font-size: 16px;
-  height: 50px;
-  line-height: 50px;
-  margin-left: 16px;
+.empty-tips {
+	color: $text-title-weak;
+	font-size: 16px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
 }
 
 .kd-list {
-  max-height: 48%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: relative;
+	max-height: 35%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
 }
 
 .is-foucsed {
-  .Select-control {
-    border: 1px solid $primary;
-  }
+	.Select-control {
+		border: 1px solid $primary;
+	}
 }
 
 .is-open {
-  .Select-control {
-    border: 1px solid #bfcbd9;
-  }
+	.Select-control {
+		border: 1px solid #bfcbd9;
+	}
 }
 
 .Select-clear {
-  display: none;
+	display: none;
 }
 
 .Select-placeholder,
-.Select--single > .Select-control .Select-value {
-  color: #1f2d3d;
+.Select--single>.Select-control .Select-value {
+	color: #1f2d3d;
 }
 
 .Select-control,
 .Select-menu-outer {
-  border: 1px solid #bfcbd9;
-  color: #1f2d3d;
+	border: 1px solid #bfcbd9;
+	color: #1f2d3d;
 }
 
 #scrollWrap::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
+
 #scrollWrap:hover::-webkit-scrollbar {
-  display: block;
+	display: block;
 }
+
+
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-#scrollWrap::-webkit-scrollbar
-{
-    width: 10px;
-    height: 10px;
-    background-color: #3d3d3d;
+
+#scrollWrap::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+	background-color: #3d3d3d;
 }
+
 
 /*定义滚动条轨道 内阴影+圆角*/
-#scrollWrap::-webkit-scrollbar-track
-{
-    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    background-color: #3d3d3d;
+
+#scrollWrap::-webkit-scrollbar-track {
+	// -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #3d3d3d;
 }
+
 
 /*定义滑块 内阴影+圆角*/
-#scrollWrap::-webkit-scrollbar-thumb
-{
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #111111;
+
+#scrollWrap::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #111111;
 }
 
-.anticon.anticon-file{
-  margin-right: 5px;
+.anticon.anticon-file {
+	margin-right: 5px;
 }
 
 .check-top {
-    position: relative;
-    margin-bottom: 10px;
-    min-height: 32px;
+	position: relative;
+	margin-bottom: 10px;
+	min-height: 32px;
 }
+
 .total-num {
-    line-height: 32px;
+	line-height: 32px;
 }
+
 .check-filter {
-    position: absolute;
-    top: 0;
-    right: 0;
-    > span {
-        display: inline-block;
-        vertical-align: top;
-        width: 100px;
-        text-align: center;
-        line-height: 30px;
-        border: 1px solid $primary;
-        margin-left: -1px;
-        cursor: pointer;
-        &.active {
-            background: $primary;
-            color: #fff;
-        }
-    }
+	position: absolute;
+	top: 0;
+	right: 0;
+	>span {
+		display: inline-block;
+		vertical-align: top;
+		width: 100px;
+		text-align: center;
+		line-height: 30px;
+		border: 1px solid $primary;
+		margin-left: -1px;
+		cursor: pointer;
+		&.active {
+			background: $primary;
+			color: #fff;
+		}
+	}
 }
 
-.item-status{
-    position: absolute;
-    top: -15px;
-    right: 18px;
-    transform: rotate(270deg);
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 85px 50px;
-    span{
-        display: inline-block;
-        transform: rotate(120deg);
-        margin: 54px -40px;
-        color: white;
-    }
+.item-status {
+	position: absolute;
+	top: -18px;
+	right: 18px;
+	transform: rotate(270deg);
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 0 80px 45px;
+	span {
+        font-size: 12px;
+		display: inline-block;
+		transform: rotate(120deg);
+		margin: 52px -35px;
+		color: white;
+	}
 }
 
-.pass{
-    border-color: #06ca67 transparent;
+.pass {
+	border-color: #06ca67 transparent;
 }
 
-.reject{
-    border-color: #ff4499 transparent;
+.reject {
+	border-color: #ff4499 transparent;
 }
 
-.ready{
-    border-color: #4db7f4 transparent;
+.ready {
+	border-color: #4db7f4 transparent;
 }

@@ -76,9 +76,6 @@ class SetPerDialog extends Component {
             professors,
             firstLevelTags
         } = this.props
-        if (professors.length === 0 || firstLevelTags.length === 0) {
-            return (<div>正在加载数据.....</div>)
-        }
         let defaultProfessor = '', defaultTags = []
         if (curPermission && curPermission.tagInfos.length !== 0) {
             defaultProfessor = curPermission.userInfo.userName
@@ -101,7 +98,6 @@ class SetPerDialog extends Component {
                         <label>审核人：</label>
                         <Select
                             showSearch
-                            style={{ width: 200 }}
                             placeholder="请选择专家"
                             optionFilterProp="children"
                             defaultValue={defaultProfessor}
@@ -121,9 +117,8 @@ class SetPerDialog extends Component {
                         <label>审核标签：</label>
                         <Select
                             mode="multiple"
-                            style={{ width: '100%' }}
                             placeholder="请选择要审核的标签"
-                            defaultValue={defaultTags}
+                            defaultValue={defaultTags.length > 0 ? [defaultTags.toString()] : []}
                             onChange={this.handleChangeTags}
                         >
                             {

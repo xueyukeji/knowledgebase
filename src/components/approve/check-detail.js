@@ -44,7 +44,6 @@ export default class CheckDetail extends Component {
         let id = this.props.match.params.id;
         if (!id) return;
         this.props.getItemDetail(id).then(data => {
-            console.log('detail', data);
             const tagObj0 = data.tagArr[0];
             const tagObj1 = data.tagArr[1];
             const tagId1 = tagObj0 ? tagObj0.parentId : -1;

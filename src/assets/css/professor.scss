@@ -1,51 +1,56 @@
 .professor {
-    overflow: hidden;
-    .pagination {
-        text-align: center;
-    }
+  overflow: hidden;
+  .pagination {
+    text-align: center;
+  }
 }
 
 .professor-list {
-    padding: 3px;
-    margin-right: -34px;
+  padding: 3px;
+  margin-right: -34px;
 }
 
 .professor-item {
-    position: relative;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 194px;
+  height: 180px;
+  background: #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  margin: 0 34px 34px 0;
+  .avator {
+    height: 130px;
+    text-align: center;
+    img {
+      max-width: 100%;
+      margin-top: 15px;
+    }
+  }
+  .info {
+    padding: 5px 10px 0;
+    .name {
+        color: $text-title;
+        font-size: 16px;
+    }
+    .job {
+      margin-top: 5px;
+      color: $text-title-weak;
+    }
+  }
+  .medals {
+    position: absolute;
     display: inline-block;
-    vertical-align: top;
-    width: 194px;
-    height: 234px;
-    background: #fff;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-    margin: 0 34px 34px 0;
-    .avator {
-        height: 190px;
-        text-align: center;
-        img{
-            max-width: 100%;
-        }
-    }
-    .info {
-        padding: 5px 10px 0;
-        .job {
-            margin-top: 5px;
-            color: $text-title-weak;
-        }
-    }
-    .medals {
-        position: absolute;
-        display: inline-block;
-        width: 25px;
-        height: 32px;
-    }
-    .guanjun{
-        background-image: url(../images/guanjun.png)
-    }
-    .jijun{
-        background-image: url(../images/jijun.png)
-    }
-    .yajun{
-        background-image: url(../images/yajun.png)
-    }
+    width: 25px;
+    height: 32px;
+  }
+  .guanjun {
+    background-image: url(../images/guanjun.png);
+  }
+  .jijun {
+    background-image: url(../images/jijun.png);
+  }
+  .yajun {
+    background-image: url(../images/yajun.png);
+  }
 }

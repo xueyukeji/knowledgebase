@@ -37,7 +37,7 @@ class PermissionList extends Component {
     render() {
         const { showDialog, permissions } = this.props
         if (permissions.length === 0) {
-            return <div>暂无数据</div>
+            return <div className="empty-tips">暂无权限设置</div>
         }
         return (
             <ul className="permission-list">
