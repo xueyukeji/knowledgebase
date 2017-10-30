@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { inject, observer } from 'mobx-react'
 import MyItemList from '../mycontribution/my-item-list'
+import CheckDetail from './check-detail'
 @inject(stores => {
     let { getAuditItem, myAuditItem } = stores.item;
     let { userInfo } = stores.user;
@@ -17,6 +18,8 @@ export default class MyCheck extends Component {
         super(props);
         this.state = {
             currentPage: 1,
+            curItemId: null,
+            isShowDialog: false,
             status: [
                 {id: 0, name: '待审核', isActive: true},
                 {id: 3, name: '未通过', isActive: false},
@@ -64,9 +67,21 @@ export default class MyCheck extends Component {
     componentWillMount() {
         this.onPageChange(1)
     }
+    showDialog =(itemId, event) => {
+        event.stopPropagation()
+        this.setState({
+            isShowDialog: true,
+            curItemId: itemId
+        })
+    }
+    hideDialog =() => {
+        this.setState({
+            isShowDialog: false
+        })
+    }
     render() {
         const { myAuditItem } = this.props
-        let { status, currentPage } = this.state
+        let { status, currentPage, isShowDialog, curItemId } = this.state
         return (
             <div className="mod-homepage">
                 <h4>知识条目{myAuditItem.count ? `(${myAuditItem.count})` : ''}
@@ -86,7 +101,10 @@ export default class MyCheck extends Component {
                         </div>
                     </div>
                 </h4>
-                <MyItemList items={myAuditItem} inMyContri={false} onPageChange={this.onPageChange} currentPage={currentPage}/>
+                <MyItemList showDialog={this.showDialog} items={myAuditItem} inMyContri={false} onPageChange={this.onPageChange} currentPage={currentPage}/>
+                {
+                    isShowDialog ? <CheckDetail visible={true}  curItemId={curItemId}  hideDialog={this.hideDialog}/> : null
+                }
             </div>
         )
     }

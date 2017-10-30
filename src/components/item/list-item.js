@@ -10,6 +10,7 @@ import * as constants from '../../utils/constants';
         searchInput,
         searchTagIds,
         setSearchTagIds,
+        updateItemNum
     } = stores.item;
     let { getTags } = stores.tag;
     return {
@@ -18,6 +19,7 @@ import * as constants from '../../utils/constants';
         searchTagIds,
         setSearchTagIds,
         getTags,
+        updateItemNum
     };
 })
 @observer
@@ -51,7 +53,13 @@ class ListItem extends Component {
         };
         this.props.getItemData(params)
     }
-
+    viewNum(item) {
+        let params = {
+            id: item.id,
+            field: 'viewNum'
+        }
+        this.props.updateItemNum(params)
+    }
     render() {
         let { itemListObj } = this.props;
         if (itemListObj.items.length === 0) {
@@ -62,7 +70,7 @@ class ListItem extends Component {
                 {itemListObj.items.map(item => {
                     return (
                         <NavLink to={`/item-detail/${item.id}`} key={item.id}>
-                            <div className="list-item" >
+                            <div className="list-item" onClick={() => {this.viewNum(item)}}>
                                 <div className="title">
                                     <h5>{item.name}</h5>
                                 </div>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, Button, Slider, Loading, MessageBox, Message} from 'element-react-codish';
+import {Dialog, Input, Button, Slider, Loading, MessageBox, Message} from 'element-react-codish';
 import {inject, observer} from 'mobx-react';
 import {getDateStr, listToTree} from '../../utils/constants';
 import { Cascader } from 'antd';
@@ -41,7 +41,7 @@ export default class CheckDetail extends Component {
     }
 
     componentWillMount() {
-        let id = this.props.match.params.id;
+        let id = this.props.curItemId;
         if (!id) return;
         this.props.getItemDetail(id).then(data => {
             const tagObj0 = data.tagArr[0];
@@ -146,6 +146,7 @@ export default class CheckDetail extends Component {
                     type: 'success',
                     message: '审批成功!'
                 });
+                this.props.hideDialog()
             } else {
                 Message({
                     type: 'error',
@@ -169,6 +170,7 @@ export default class CheckDetail extends Component {
                     type: 'success',
                     message: '审批成功!'
                 });
+                this.props.hideDialog()
             } else {
                 Message({
                     type: 'error',
@@ -185,7 +187,7 @@ export default class CheckDetail extends Component {
     }
 
     render() {
-        let {checkItemDetail, tags} = this.props;
+        let {checkItemDetail, tags, visible, hideDialog} = this.props;
         if (!checkItemDetail.id || !tags.length) {
             return (
                 <Loading text="拼命加载中" />
@@ -212,81 +214,89 @@ export default class CheckDetail extends Component {
             rate
         } = this.state;
         return (
-            <div className="check-list">
-                <div className="knowledge-info">
-                    <span className="info-title">{checkItemDetail.name}</span>
-                    {/* <span className="info-author">作者: {checkItemDetail.creatorName}</span> */}
-                </div>
-                <div className="check-table">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>时间： {getDateStr(checkItemDetail.createTime)}</td>
-                                <td>作者： {checkItemDetail.creatorName}</td>
-                            </tr>
-                            <tr>
-                                <td>添加标签</td>
-                                <td className="tags-wrap">
-                                    <Cascader
-                                        options={options.filter(item => {
-                                            return item.id !== tagId2
-                                        })}
-                                        onChange={this.onChangeTag1}
-                                        placeholder="请选择标签一"
-                                        size="small"
-                                        style={{ width: 100 }}
-                                        value={tagValue1}
-                                        className="item"
-                                        allowClear={false}
-                                    />
-                                    <Cascader
-                                        options={options.filter(item => {
-                                            return item.id !== tagId1
-                                        })}
-                                        onChange={this.onChangeTag2}
-                                        placeholder="请选择标签二"
-                                        size="small"
-                                        style={{ width: 100 }}
-                                        value={tagValue2}
-                                        className="item"
-                                        allowClear={false}
-                                    />
-                                    <Input
-                                        className="default-tag item"
-                                        value={customTag}
-                                        onChange={this.handleCustomTagChange}
-                                        placeholder="自定义标签"
-                                        size="mini" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>处理意见</td>
-                                <td>
-                                    <Input
-                                        type="textarea"
-                                        value={desc}
-                                        onChange={this.handleReasonChange} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>打分</td>
-                                <td>
-                                    <Slider
-                                        value={rate || 0}
-                                        onChange={this.handleSliderChange} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>操作</td>
-                                <td className="align-right">
-                                    <Button type="success" onClick={this.handlePassClick}>通过</Button>
-                                    <Button onClick={this.handleRejectClick}>驳回</Button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <Dialog
+                className="mod-checkdetail-dialog"
+                title={checkItemDetail.name}
+                size="small"
+                closeOnClickModal={false}
+                visible={visible}
+                onCancel={hideDialog}
+                lockScroll={false}
+            >
+                <Dialog.Body>
+                    <div className="check-list">
+                        {/* <div className="knowledge-info">
+                            <span className="info-title">{checkItemDetail.name}</span>
+                        </div> */}
+                        <div className="check-table">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>时间： {getDateStr(checkItemDetail.createTime)}</td>
+                                        <td>作者： {checkItemDetail.creatorName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>添加标签</td>
+                                        <td className="tags-wrap">
+                                            <Cascader
+                                                options={options.filter(item => {
+                                                    return item.id !== tagId2
+                                                })}
+                                                onChange={this.onChangeTag1}
+                                                placeholder="请选择标签一"
+                                                size="small"
+                                                style={{ width: 100 }}
+                                                value={tagValue1}
+                                                className="item"
+                                                allowClear={false}
+                                            />
+                                            <Cascader
+                                                options={options.filter(item => {
+                                                    return item.id !== tagId1
+                                                })}
+                                                onChange={this.onChangeTag2}
+                                                placeholder="请选择标签二"
+                                                size="small"
+                                                style={{ width: 100 }}
+                                                value={tagValue2}
+                                                className="item"
+                                                allowClear={false}
+                                            />
+                                            <Input
+                                                className="default-tag item"
+                                                value={customTag}
+                                                onChange={this.handleCustomTagChange}
+                                                placeholder="自定义标签"
+                                                size="mini" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处理意见</td>
+                                        <td>
+                                            <Input
+                                                type="textarea"
+                                                value={desc}
+                                                onChange={this.handleReasonChange} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>打分</td>
+                                        <td>
+                                            <Slider
+                                                value={rate || 0}
+                                                onChange={this.handleSliderChange} />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                    <Button onClick={this.handleRejectClick} >驳回</Button>
+                    <Button type="success" onClick={this.handlePassClick}>通过</Button>
+                </Dialog.Footer>
+            </Dialog>
         )
     }
 }

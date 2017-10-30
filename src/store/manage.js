@@ -5,7 +5,7 @@ class Store {
   @observable knowledgeObj = { librarys: [] };
   @observable permissions = [];
   @observable professors = [];
-  @observable firstLevelTags = null;
+  @observable firstLevelTags = [];
   @observable knowledgeInfo = {};
   @observable curKnowledge = {};
   @observable isUserDialog = false;

@@ -12,11 +12,15 @@ import { Icon } from 'antd'
     let {
         itemDetails,
         getItemDetail,
+        updateItemNum,
+        downFile
     } = stores.item;
     return {
         itemDetails,
         getItemDetail,
-        viewFile
+        viewFile,
+        updateItemNum,
+        downFile
     }
 })
 @observer
@@ -73,6 +77,21 @@ export default class ItemDetail extends Component {
             let newWindow = window.open('about:blank');
             newWindow.location = `/views.html?fc=personal&fi=${item.fileId}`;
         }
+    }
+
+    downloadFile = (item) => {
+        const { match, updateItemNum, downFile } = this.props
+        downFile(item.fileId).then((res) => {
+            if (res.status === 'ok') {
+                var params = {
+                    id: match.params.id,
+                    field: 'downNum'
+                }
+                updateItemNum(params)
+            }
+            // TODO
+            location.href = 'http://111.231.198.240' + res.data.fileUri
+        })
     }
 
     closeLightbox = () => {
@@ -166,6 +185,10 @@ export default class ItemDetail extends Component {
                                             className="preview"
                                             type="text"
                                             onClick={() => {this.handlePreviewClick(item)}}>预览</Button>
+                                        <Button
+                                            className="preview"
+                                            type="text"
+                                            onClick={() => {this.downloadFile(item)}}>下载</Button>
                                     </div>
                                 )
                             }) : <div>暂无附件</div>

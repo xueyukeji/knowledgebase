@@ -25,7 +25,7 @@ class ListItem extends Component {
         </div>)
     }
     render() {
-        let { items, currentPage, inMyContri } = this.props;
+        let { items, currentPage, inMyContri, showDialog } = this.props;
         if (items.items.length === 0) {
             return <div className="empty-tips">暂无知识条目</div>;
         }
@@ -34,62 +34,64 @@ class ListItem extends Component {
                 {
                     items && items.items.map(item => {
                         return (
-                            <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id}>
-                                <div className="list-item" key={item.id}>
-                                    <div className="title">
-                                        <h5>{item.name}</h5>
-                                        {this.renderStatus(item)}
+                            // <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id}>
+                            <div className="list-item" key={item.id}>
+                                <div className="title">
+                                    <h5>{item.name}</h5>
+                                    {this.renderStatus(item)}
+                                </div>
+                                <div className="tag-items">
+                                    <div className="tags">
+                                        {item.tagArr.map(t => {
+                                            return (
+                                                <Tag key={t.id} type="success">
+                                                    {t.tag ? t.tag : null}
+                                                </Tag>
+                                            );
+                                        })}
                                     </div>
-                                    <div className="tag-items">
-                                        <div className="tags">
-                                            {item.tagArr.map(t => {
-                                                return (
-                                                    <Tag key={t.id} type="success">
-                                                        {t.tag ? t.tag : null}
-                                                    </Tag>
-                                                );
-                                            })}
-                                        </div>
-                                        <div className="op-btns fr">
-                                            {
-                                                // 我的贡献中：待审核和未通过才可以编辑
-                                                inMyContri && (item.status === 0 || item.status === 3) ? <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
-                                                    <Button type="primary">编辑</Button>
-                                                </NavLink> : ''
-                                            }
-                                            {
-                                                // 我的贡献中：未通过可以查看原因
-                                                inMyContri && item.status === 3 ? <Popover placement="bottom" content={item.auditDesc} trigger="click">
-                                                    <Button>查看原因</Button>
-                                                </Popover> : ''
-                                            }
-                                            {
-                                                // 我的审批中：待审核可以审核
-                                                !inMyContri && item.status === 0 ? <NavLink to={`/my-check/detail/${item.id}`}>
-                                                    <Button type="text">审核</Button>
-                                                </NavLink> : ''
-                                            }
-                                        </div>
+                                    <div className="op-btns fr">
+                                        {
+                                            // 我的贡献中：待审核和未通过才可以编辑
+                                            inMyContri && (item.status === 0 || item.status === 3) ? <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
+                                                <Button type="primary">编辑</Button>
+                                            </NavLink> : ''
+                                        }
+                                        {
+                                            // 我的贡献中：未通过可以查看原因
+                                            inMyContri && item.status === 3 ? <Popover placement="bottom" content={item.auditDesc} trigger="click">
+                                                <Button>查看原因</Button>
+                                            </Popover> : ''
+                                        }
+                                        {
+                                            // // 我的审批中：待审核可以审核
+                                            // !inMyContri && item.status === 0 ? <NavLink to={`/my-check/detail/${item.id}`}>
+                                            //     <Button type="text" onClick={showDialog(item.id)}>审核</Button>
+                                            // </NavLink> : ''
+                                            // !inMyContri && item.status === 0 ?
+                                            <Button type="text" onClick={() => {showDialog(item.id, event)}}>审核</Button>
+                                        }
+                                    </div>
 
-                                        {/* <p className="p-tips">
+                                    {/* <p className="p-tips">
                                             {constants.getDateStr(item.createTime, 4)}
                                         </p> */}
-                                    </div>
-                                    <div className="content">{item.desc}</div>
-                                    <div className="info">
-                                        <Layout.Row gutter="20">
-                                            <Layout.Col span="6"> <i className="icon user"></i> {item.creatorName}</Layout.Col>
-                                            <Layout.Col span="6 tc"><i className="icon look"></i>{item.viewNum || 0}</Layout.Col>
-                                            <Layout.Col span="6 tc"><i className="icon download"></i>{item.downNum || 0}</Layout.Col>
-                                            <Layout.Col span="6">
-                                                <div className="tr">
-                                                    <i className="icon rate"></i><span className="score">{item.rate || 0}</span>
-                                                </div>
-                                            </Layout.Col>
-                                        </Layout.Row>
-                                    </div>
                                 </div>
-                            </NavLink>
+                                <div className="content">{item.desc}</div>
+                                <div className="info">
+                                    <Layout.Row gutter="20">
+                                        <Layout.Col span="6"> <i className="icon user"></i> {item.creatorName}</Layout.Col>
+                                        <Layout.Col span="6 tc"><i className="icon look"></i>{item.viewNum || 0}</Layout.Col>
+                                        <Layout.Col span="6 tc"><i className="icon download"></i>{item.downNum || 0}</Layout.Col>
+                                        <Layout.Col span="6">
+                                            <div className="tr">
+                                                <i className="icon rate"></i><span className="score">{item.rate || 0}</span>
+                                            </div>
+                                        </Layout.Col>
+                                    </Layout.Row>
+                                </div>
+                            </div>
+                            // </NavLink>
                         );
                     })
                 }

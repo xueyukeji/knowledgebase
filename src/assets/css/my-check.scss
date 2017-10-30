@@ -15,27 +15,32 @@
         margin-left: 20px;
     }
 }
+.mod-checkdetail-dialog{
+    width: 640px;
+    .check-table {
+        table {
+            width: 100%;
+        }
+        th, td {
+            padding: 10px 20px;
+            border: 1px solid $border;
+        }
+        .align-right {
+            text-align: right;
+        }
+        .tag {
+            margin-right: 5px;
+        }
+        .tags-wrap {
+            .item {
+                margin-right: 10px;
+            }
+            .default-tag {
+                width: 100px;
+            }
+        }
+    }
 
-.check-table {
-    table {
-        width: 100%;
-    }
-    th, td {
-        padding: 10px 20px;
-        border: 1px solid $border;
-    }
-    .align-right {
-        text-align: right;
-    }
-    .tag {
-        margin-right: 5px;
-    }
-    .tags-wrap {
-        .item {
-            margin-right: 10px;
-        }
-        .default-tag {
-            width: 100px;
-        }
-    }
 }
+
+

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Button, Dialog, Message } from 'element-react-codish';
-import { Select, Modal } from 'antd';
+import { Select } from 'antd';
 import { Loading } from 'element-react-codish';
 
 @inject(stores => {
@@ -78,21 +78,14 @@ class SetPerDialog extends Component {
             firstLevelTags
         } = this.props
         let defaultProfessor = '', defaultTags = []
-        if (curPermission.tagInfos.length && firstLevelTags && firstLevelTags.length) {
+        if (professors.length && firstLevelTags.length) {
             defaultProfessor = curPermission.userInfo.userName
             curPermission.tagInfos.forEach((tag) => {
                 defaultTags.push(tag.id + '')
             })
         } else {
-            if (firstLevelTags === null) {
-                return <Loading text="拼命加载中" />
-            } else {
-                Modal.warning({
-                    title: '提示',
-                    content: '请先添加一级标签',
-                });
-                return <div></div>
-            }
+            // TODO
+            return <Loading text="拼命加载中" />
         }
         return (
             <Dialog
