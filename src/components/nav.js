@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import defaultAvatar from '../assets/images/default-avatar.png';
-import { inject, observer } from 'mobx-react';
 
-@inject(stores => {
-    let { knowledgeObj } = stores.manage;
-    return {
-        knowledgeObj
-    };
-})
-@observer
 export default class Nav extends Component {
     render() {
-        let { list, userInfo, knowledgeObj: { librarys = []} } = this.props;
+        let { list, userInfo } = this.props;
         let userType = '',
             userName = '',
             userIcon = defaultAvatar,
@@ -21,10 +13,9 @@ export default class Nav extends Component {
             userType = userInfo.data.userType;
             userName = userInfo.data.userName;
             userIcon = userInfo.data.userIcon || defaultAvatar;
-            professorObj = librarys.find(item => {
+            professorObj = list.find(item => {
                 return item.auditType === 1 && item.professorIds.indexOf(userInfo.data.userId) != -1
             })
-            console.log(professorObj)
         }
         return (
             <div className="nav">
