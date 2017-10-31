@@ -16,15 +16,15 @@ export default class Nav extends Component {
         let userType = '',
             userName = '',
             userIcon = defaultAvatar,
-            isProfessor = false;
+            professorObj = undefined;
         if (userInfo && userInfo.data) {
             userType = userInfo.data.userType;
             userName = userInfo.data.userName;
             userIcon = userInfo.data.userIcon || defaultAvatar;
-            const item = librarys.find(item => {
-                return item.professorIds.indexOf(userInfo.data.userId) != -1
+            professorObj = librarys.find(item => {
+                return item.auditType === 1 && item.professorIds.indexOf(userInfo.data.userId) != -1
             })
-            isProfessor = item ? item.auditType === 1 : false
+            console.log(professorObj)
         }
         return (
             <div className="nav">
@@ -48,7 +48,7 @@ export default class Nav extends Component {
                 </div>
                 <div className="nav-item__sep" />
                 {
-                    isProfessor ? <div className="nav-item nav-check">
+                    professorObj ? <div className="nav-item nav-check">
                         <NavLink to="/my-check" activeClassName="active">我的审批</NavLink>
                     </div> : ''
                 }
