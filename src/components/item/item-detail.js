@@ -89,8 +89,7 @@ export default class ItemDetail extends Component {
                 }
                 updateItemNum(params)
             }
-            // TODO
-            location.href = 'http://111.231.198.240' + res.data.fileUri
+            window.location = res.data.fileUri
         })
     }
 
