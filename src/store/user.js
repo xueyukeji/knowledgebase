@@ -13,6 +13,9 @@ class Store {
     @observable deptList = {};
     @observable treeNodes = [];
     @observable boardList = {users: []};
+    @observable searchUsers = [];
+    @observable searchValue = '';
+    @observable selectedNodes = [];
 
     @action
     getUserInfo = () => {
@@ -47,9 +50,20 @@ class Store {
             params
         }).then(data => {
             if (data && data.data.users.length > 0) {
-                return data.data.users
+                if (this.searchValue === '') return;
+                let nodes = data.data.users.map(item => {
+                    return {
+                        key: `${item.userId}`,
+                        title: `${item.userName}`,
+                        isLeaf: true
+                    };
+                });
+                if (nodes.length) {
+                    this.setSearchUsers(nodes);
+                } else {
+                    this.setSearchUsers([]);
+                }
             }
-            return [];
         });
     };
     @action
@@ -162,6 +176,15 @@ class Store {
                 };
             }
         });
+    }
+    @action setSearchUsers = list => {
+        this.searchUsers = list;
+    }
+    @action setSearchValue = v => {
+        this.searchValue = v;
+    }
+    @action setSelectedNodes = list => {
+        this.selectedNodes = list;
     }
 }
 

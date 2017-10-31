@@ -12,7 +12,13 @@ const Search = Input.Search;
         treeNodes,
         getDeptAndUser,
         searchUser,
-        setTreeNodes
+        setTreeNodes,
+        setSearchUsers,
+        setSearchValue,
+        searchUsers,
+        searchValue,
+        selectedNodes,
+        setSelectedNodes
     } = stores.user;
     let {
         setUsers,
@@ -28,16 +34,20 @@ const Search = Input.Search;
         setIsUserDiloag,
         searchUser,
         setTreeNodes,
-        getAdminKnowledgeList
+        getAdminKnowledgeList,
+        setSearchUsers,
+        setSearchValue,
+        searchUsers,
+        searchValue,
+        selectedNodes,
+        setSelectedNodes
     };
 })
 @observer
 export default class SetExpert extends Component {
     state = {
-        searchValue: '',
         checkedKeys: [],
-        selectedNodes: [],
-        searchUsers: []
+        rightCheckedKeys: [],
     }
 
     constructor(props) {
@@ -47,39 +57,39 @@ export default class SetExpert extends Component {
 
     componentWillMount() {
         this.props.getDeptAndUser(-1);
-        let checkedKeys = [];
+        let users = [];
         if (this.props.actionType === 'user') {
-            checkedKeys = this.props.curLibrary.userIds.map(item => `${item}`);
+            users = this.props.curLibrary.userIds.map(item => `${item}`);
         } else if (this.props.actionType === 'expert') {
-            checkedKeys = this.props.curLibrary.professorIds.map(item => `${item}`);
+            users = this.props.curLibrary.professorIds.map(item => `${item}`);
         }
-        this.setState({
-            checkedKeys,
-            selectedNodes: checkedKeys.map(item => {
-                return {
-                    key: item,
-                    title: item,
-                    isLeaf: true
-                };
-            })
-        });
+        this.props.setSelectedNodes(users.map(item => {
+            return {
+                key: item,
+                title: item,
+                isLeaf: true
+            };
+        }));
+    }
+
+    componentWillUnmount() {
+        this.props.setSearchValue('');
+        this.props.setSearchUsers([]);
     }
 
     onLoadData = node => {
         return this.props.getDeptAndUser(node.props.eventKey);
     }
 
-    handleCheck = (checkedKeys) => {
-        let {treeNodes} = this.props;
-        let selectedNodes = [];
-        checkedKeys.forEach(item => {
-            let findItem = this.findItem(treeNodes, item);
-            if (!findItem) return;
-            selectedNodes.push(findItem);
-        });
+    handleCheck = (keys) => {
         this.setState({
-            checkedKeys,
-            selectedNodes
+            checkedKeys: keys
+        });
+    }
+
+    handleRightCheck = keys => {
+        this.setState({
+            rightCheckedKeys: keys
         });
     }
 
@@ -102,7 +112,7 @@ export default class SetExpert extends Component {
         if (!data || !data.length) {
             return;
         }
-        const {searchValue} = this.state;
+        const {searchValue} = this.props;
         return data.map((item) => {
             const index = item.title.indexOf(searchValue);
             const beforeStr = item.title.substr(0, index);
@@ -126,7 +136,7 @@ export default class SetExpert extends Component {
     }
 
     handleConfirmClick = () => {
-        let {selectedNodes} = this.state;
+        let {selectedNodes} = this.props;
         let users = selectedNodes.map(item => {
             return item.key;
         });
@@ -168,14 +178,10 @@ export default class SetExpert extends Component {
     handleSearchChange = e => {
         let value = e.target.value;
         if (value === '') {
-            this.setState({
-                searchValue: '',
-                searchUsers: []
-            });
+            this.props.setSearchValue('');
+            this.props.setSearchUsers([]);
         } else {
-            this.setState({
-                searchValue: value
-            });
+            this.props.setSearchValue(value);
             this.delaySearch(value);
         }
     }
@@ -184,25 +190,42 @@ export default class SetExpert extends Component {
         this.props.searchUser({
             key: value,
             offset: 0
-        }).then(data => {
-            if (this.state.searchValue === '') return;
-            let nodes = data.map(item => {
-                return {
-                    key: `${item.userId}`,
-                    title: `${item.userName}`,
-                    isLeaf: true
-                };
-            });
-            if (nodes.length) {
-                this.setState({
-                    searchUsers: nodes
-                });
+        });
+    }
+
+    add = () => {
+        let {treeNodes, searchUsers, selectedNodes, setSelectedNodes} = this.props;
+        let {checkedKeys} = this.state;
+        let curNodeslist = treeNodes;
+        if (searchUsers.length) {
+            curNodeslist = searchUsers;
+        }
+        let rightKeys = selectedNodes.map(item => {
+            return item.key;
+        });
+        checkedKeys.forEach(item => {
+            if (!rightKeys.includes(item)) {
+                let findItem = this.findItem(curNodeslist, item);
+                findItem && selectedNodes.push(findItem);
             }
+        });
+        setSelectedNodes(selectedNodes);
+    }
+
+    remove = () => {
+        let {selectedNodes, setSelectedNodes} = this.props;
+        let {rightCheckedKeys} = this.state;
+        let newArr = selectedNodes.filter(item => {
+            return !rightCheckedKeys.includes(item.key);
+        });
+        setSelectedNodes(newArr);
+        this.setState({
+            rightCheckedKeys: []
         });
     }
 
     render() {
-        let { visible, handleCancel, title } = this.props;
+        let { visible, handleCancel, title, searchUsers, treeNodes, selectedNodes } = this.props;
         return (
             <Dialog
                 className="mod-setexpert"
@@ -224,21 +247,23 @@ export default class SetExpert extends Component {
                                     loadData={this.onLoadData}
                                     checkable
                                     onCheck={this.handleCheck}
-                                    checkedKeys={this.state.checkedKeys}
-                                    onSelect={this.handleSelect}>
-                                    {this.getTreeNodes(this.state.searchUsers.length && this.state.searchUsers || this.props.treeNodes)}
+                                    checkedKeys={this.state.checkedKeys}>
+                                    {this.getTreeNodes(searchUsers.length && searchUsers || treeNodes)}
                                 </Tree>
                             </div>
+                        </div>
+                        <div className="opt-wrap">
+                            <div className="opt-item add" onClick={this.add}></div>
+                            <div className="opt-item remove" onClick={this.remove}></div>
                         </div>
                         <div className="user-tree-inner">
                             <p className="text">已添加</p>
                             <div className="user-tree">
                                 <Tree
                                     checkable
-                                    onCheck={this.handleCheck}
-                                    checkedKeys={this.state.checkedKeys}
-                                    onSelect={this.handleSelect}>
-                                    {this.getTreeNodes(this.state.selectedNodes)}
+                                    onCheck={this.handleRightCheck}
+                                    checkedKeys={this.state.rightCheckedKeys}>
+                                    {this.getTreeNodes(selectedNodes)}
                                 </Tree>
                             </div>
                         </div>

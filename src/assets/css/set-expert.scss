@@ -7,16 +7,39 @@
         font-size: 12px;
         padding: 10px 0 5px;
     }
+    .opt-wrap {
+        padding: 110px 20px 0;
+        display: inline-block;
+        vertical-align: top;
+        .opt-item {
+            background: #daf7e8;
+            padding: 13px 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            &:after {
+                display: inline-block;
+                vertical-align: top;
+                content: '';
+                width: 8px;
+                height: 14px;
+                overflow: hidden;
+            }
+            &.add:after {
+                background: url(../images/forward.png) no-repeat;
+            }
+            &.remove:after {
+                background: url(../images/back.png) no-repeat;
+            }
+        }
+    }
 }
 
 .user-tree-inner {
     display: inline-block;
     vertical-align: top;
-    width: 270px;
-    margin-right: 20px;
+    width: 240px;
     &:last-child {
         margin-top: 28px;
-        margin-right: 0;
     }
 }
 
