@@ -1,62 +1,73 @@
 .mod-homepage {
-	.btn-groups {
-		text-align: center;
-		.el-button {
-			margin-right: 20px;
-		}
-	}
-	.el-button--primary {
-		background-color: $primary;
-		border-color: $primary;
-	}
-	.search-item {
-		position: relative;
-		.el-input__icon+.el-input__inner {
-			padding-right: 30px;
-		}
-	}
-	.search-item {
-		.el-col-3:first-child {
-			padding-left: 0 !important;
-		}
-		.el-col-3 {
-			.el-select {
-				height: 30px;
-			}
-		}
-		.btn-search{
-			button{
-				height: 36px;
-				border-radius: 0;
-				width: 100%;
-			}
-		}
-
-		.add-itembtn {
+    .btn-groups {
+        text-align: center;
+        .el-button {
+            margin-right: 20px;
+        }
+    }
+    .el-button--primary {
+        background-color: $primary;
+        border-color: $primary;
+    }
+    .search-item {
+        position: relative;
+        .el-input__icon+.el-input__inner {
+            padding-right: 30px;
+        }
+    }
+    .search-item {
+        padding-right: 225px;
+        .el-col-3:first-child {
+            padding-left: 0 !important;
+        }
+        .el-col-3 {
+            .el-select {
+                height: 30px;
+            }
+        }
+        div:first-child {
+            width: 100%;
+        }
+        .btn-search {
+            position: absolute;
+            right: 140px;
+            top: 0;
+            width: 85px;
+            button {
+                height: 36px;
+                border-radius: 0;
+                width: 100%;
+            }
+        }
+        .add-itembtn {
             text-align: right;
-			.el-button:last-child {
-				border-radius: 0;
-                width: calc(100% - 10px);
-			}
-		}
-		.el-input__inner {
-			border: 1px solid $text-active;
-			border-radius: 0;
-		}
-	}
-	h4 {
-		font-weight: bold;
-		font-size: 18px;
-		padding: 10px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 130px;
+            button {
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+        .el-input__inner {
+            border: 1px solid $text-active;
+            border-radius: 0;
+        }
+    }
+    h4 {
+        font-weight: bold;
+        font-size: 18px;
+        padding: 10px;
         background: rgb(218, 247, 232);
-        .check-top{
+        .check-top {
             margin-bottom: 0;
             min-height: auto;
-            .check-filter{
-                top:-25px;
+            .check-filter {
+                top: -25px;
                 font-size: 14px;
                 font-weight: 300;
             }
         }
-	}
+    }
 }
