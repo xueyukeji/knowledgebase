@@ -68,8 +68,8 @@ class ListItem extends Component {
                                             // !inMyContri && item.status === 0 ? <NavLink to={`/my-check/detail/${item.id}`}>
                                             //     <Button type="text" onClick={showDialog(item.id)}>审核</Button>
                                             // </NavLink> : ''
-                                            // !inMyContri && item.status === 0 ?
-                                            <Button type="text" onClick={() => {showDialog(item.id, event)}}>审核</Button>
+                                            !inMyContri && item.status === 0 ?
+                                                <Button type="text" onClick={() => {showDialog(item.id, event)}}>审核</Button> : ''
                                         }
                                     </div>
 
