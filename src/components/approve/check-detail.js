@@ -146,6 +146,7 @@ export default class CheckDetail extends Component {
                     type: 'success',
                     message: '审批成功!'
                 });
+                this.props.getDatas()
                 this.props.hideDialog()
             } else {
                 Message({
@@ -170,6 +171,7 @@ export default class CheckDetail extends Component {
                     type: 'success',
                     message: '审批成功!'
                 });
+                this.props.getDatas()
                 this.props.hideDialog()
             } else {
                 Message({

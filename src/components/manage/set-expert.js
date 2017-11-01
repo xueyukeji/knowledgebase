@@ -24,7 +24,6 @@ const Search = Input.Search;
         setUsers,
         setExpert,
         setIsUserDiloag,
-        getAdminKnowledgeList
     } = stores.manage;
     return {
         setUsers,
@@ -34,7 +33,6 @@ const Search = Input.Search;
         setIsUserDiloag,
         searchUser,
         setTreeNodes,
-        getAdminKnowledgeList,
         setSearchUsers,
         setSearchValue,
         searchUsers,
@@ -59,14 +57,14 @@ export default class SetExpert extends Component {
         this.props.getDeptAndUser(-1);
         let users = [];
         if (this.props.actionType === 'user') {
-            users = this.props.curLibrary.userIds.map(item => `${item}`);
+            users = this.props.curLibrary.users
         } else if (this.props.actionType === 'expert') {
-            users = this.props.curLibrary.professorIds.map(item => `${item}`);
+            users = this.props.curLibrary.professors
         }
         this.props.setSelectedNodes(users.map(item => {
             return {
-                key: item,
-                title: item,
+                key: item.key,
+                title: item.value,
                 isLeaf: true
             };
         }));
@@ -161,7 +159,7 @@ export default class SetExpert extends Component {
     }
 
     handleResult = data => {
-        this.props.getAdminKnowledgeList();
+        this.props.getDatas()
         if (data.code == 200) {
             Message({
                 type: 'success',

@@ -21,14 +21,12 @@ class Store {
     getUserInfo = () => {
         return createFetch({
             url: 'user'
-        })
-            .then(({ data }) => {
-                this.userInfo.data = data;
-            })
-            .catch(() => {
-                Cookies.set('ct', '');
-                process.env.NODE_ENV !== 'development' && (window.location = '/login.html');
-            });
+        }).then(({ data }) => {
+            this.userInfo.data = data;
+        }).catch(() => {
+            Cookies.set('ct', '');
+            process.env.NODE_ENV !== 'development' && (window.location = '/login.html');
+        });
     };
     @action
     getUserList = params => {

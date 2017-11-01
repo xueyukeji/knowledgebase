@@ -11,16 +11,20 @@ import {
 
 @inject(stores => {
     let {
+        userInfo
+    } = stores.user
+    let {
         curKnowledge,
         creatKnowledge,
         modifyKnowledge,
-        getAdminKnowledgeList
+        getKnowledgeList
     } = stores.manage;
     return {
+        userInfo,
         curKnowledge,
         creatKnowledge,
         modifyKnowledge,
-        getAdminKnowledgeList
+        getKnowledgeList
     };
 })
 @observer
@@ -77,7 +81,7 @@ export default class AddKnowledge extends Component {
                     Message(res.msg);
                     return;
                 }
-                this.getData();
+                this.getDatas();
             });
         } else {
             creatKnowledge(params).then(res => {
@@ -85,16 +89,23 @@ export default class AddKnowledge extends Component {
                     Message(res.msg);
                     return;
                 }
-                this.getData();
+                this.getDatas();
             });
         }
     }
-    getData = () => {
-        const {curKnowledge, hideLibraryDialog, getAdminKnowledgeList} = this.props
+    getDatas() {
+        const { curKnowledge, hideLibraryDialog, userInfo, getKnowledgeList} = this.props;
+        let type = 'user'
+        if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
+            type = 'admin'
+        }
         Message.success(curKnowledge.id ? '修改' : '新增' + '知识库成功！');
         hideLibraryDialog();
-        getAdminKnowledgeList();
-    };
+        getKnowledgeList({
+            userId: userInfo.data.userId,
+            type
+        });
+    }
     render() {
         const { visible, hideLibraryDialog } = this.props
         return (

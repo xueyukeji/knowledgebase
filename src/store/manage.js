@@ -29,19 +29,19 @@ class Store {
       });
   };
 
-  @action
-  getAdminKnowledgeList = params => {
-      createFetch({
-          url: 'pub/librarys/admin',
-          params
-      }).then(data => {
-          if (data.data) {
-              this.setKnowledgeObj(data.data);
-          } else {
-              this.setKnowledgeObj(null);
-          }
-      });
-  };
+    //   @action
+    //   getAdminKnowledgeList = params => {
+    //       createFetch({
+    //           url: 'pub/librarys/admin',
+    //           params
+    //       }).then(data => {
+    //           if (data.data) {
+    //               this.setKnowledgeObj(data.data);
+    //           } else {
+    //               this.setKnowledgeObj(null);
+    //           }
+    //       });
+    //   };
 
   @action
   setKnowledgeObj = obj => {

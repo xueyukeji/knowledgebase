@@ -103,7 +103,7 @@ export default class MyCheck extends Component {
                 </h4>
                 <MyItemList showDialog={this.showDialog} items={myAuditItem} inMyContri={false} onPageChange={this.onPageChange} currentPage={currentPage}/>
                 {
-                    isShowDialog ? <CheckDetail visible={true}  curItemId={curItemId}  hideDialog={this.hideDialog}/> : null
+                    isShowDialog ? <CheckDetail visible={true} getDatas={this.onPageChange} curItemId={curItemId}  hideDialog={this.hideDialog}/> : null
                 }
             </div>
         )

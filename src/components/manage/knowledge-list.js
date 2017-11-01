@@ -7,9 +7,12 @@ import SetExpert from './set-expert.js';
 
 @inject(stores => {
     let {
+        userInfo
+    } = stores.user
+    let {
+        getKnowledgeList,
         showEditKnowledgeDialog,
         knowledgeObj,
-        getAdminKnowledgeList,
         removeKnowledge,
         setIsUserDiloag,
     } = stores.manage;
@@ -22,9 +25,10 @@ import SetExpert from './set-expert.js';
         setTags
     } = stores.tag
     return {
+        userInfo,
+        getKnowledgeList,
         showEditKnowledgeDialog,
         knowledgeObj,
-        getAdminKnowledgeList,
         removeKnowledge,
         isAddTagPopVisible,
         showAddTagPop,
@@ -46,7 +50,7 @@ export default class Manage extends Component {
     }
 
     componentWillMount() {
-        this.props.getAdminKnowledgeList();
+        // this.props.getAdminKnowledgeList();
     }
 
     showAddTagPop = (id) => {
@@ -72,11 +76,22 @@ export default class Manage extends Component {
                     type: 'success',
                     message: '删除成功!'
                 });
-                this.props.getAdminKnowledgeList();
+                this.getDatas()
             })
         }).catch(() => { });
     }
 
+    getDatas = () => {
+        const { userInfo, getKnowledgeList } = this.props;
+        let type = 'user'
+        if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
+            type = 'admin'
+        }
+        getKnowledgeList({
+            userId: userInfo.data.userId,
+            type
+        });
+    }
     showSetExpertDialog = (item, isCheckedUser) => {
         this.props.setIsUserDiloag(isCheckedUser)
         this.setState({
@@ -97,7 +112,7 @@ export default class Manage extends Component {
     addTagPopup = () => {
         if (!this.props.isAddTagPopVisible) return;
         return (
-            <AddTag visible={true} handleCancel={this.hideAddTagPop} />
+            <AddTag getDatas={this.getDatas} visible={true} handleCancel={this.hideAddTagPop} />
         );
     }
 
@@ -105,6 +120,7 @@ export default class Manage extends Component {
         if (!this.state.expertDialog) return;
         return (
             <SetExpert
+                getDatas={this.getDatas}
                 title={this.state.dialogTitle}
                 visible={true}
                 curLibrary={this.state.curLibrary}

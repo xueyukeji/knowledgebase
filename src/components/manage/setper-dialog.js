@@ -59,7 +59,11 @@ class SetPerDialog extends Component {
         let params = {
             id: match.params.id,
             professorId: this.state.professorId ? this.state.professorId : curPermission.userInfo.userId,
-            tagIds: this.state.tagIds
+            tagIds: this.state.tagIds ? this.state.tagIds : curPermission.tagInfos.map((t) => t.id),
+        }
+        if (!params.professorId || !params.tagIds.length) {
+            Message('请选择对应的专家和标签')
+            return
         }
         if (title === '添加权限') {
             addPermission(params).then((res) => {
