@@ -146,7 +146,7 @@ export default class CheckDetail extends Component {
                     type: 'success',
                     message: '审批成功!'
                 });
-                this.props.getDatas()
+                this.props.getDatas(1, true)
                 this.props.hideDialog()
             } else {
                 Message({
