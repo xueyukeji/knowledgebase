@@ -64,10 +64,10 @@ export default class AddKnowledge extends Component {
         });
     };
     create() {
-        if (this.state.name.length === 0 || this.state.name.length > 8) {
-            MessageBox.alert('知识库名称长度必须在1到8个字符');
-            return;
-        }
+        // if (this.state.name.length === 0 || this.state.name.length > 8) {
+        //     MessageBox.alert('知识库名称长度必须在1到8个字符');
+        //     return;
+        // }
         const {curKnowledge, modifyKnowledge, creatKnowledge} = this.props
         var params = {
             name: this.state.name,

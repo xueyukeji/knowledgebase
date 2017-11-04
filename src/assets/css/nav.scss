@@ -29,6 +29,8 @@
             height: 42px;
             line-height: 42px;
             position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
             &.active,
             &:hover {
                 background: $primary;

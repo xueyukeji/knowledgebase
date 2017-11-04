@@ -34,9 +34,7 @@ export default class Nav extends Component {
                 <div className="nav-item nav-my">
                     <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>
-                <div className="nav-item nav-cloud">
-                    <a target="_blank" href="/home.html">云盘</a>
-                </div>
+
                 <div className="nav-item__sep" />
                 {
                     professorObj ? <div className="nav-item nav-check">
@@ -51,9 +49,13 @@ export default class Nav extends Component {
                         <NavLink to="/manage" activeClassName="active">知识管理</NavLink>
                     </div>
                 ) : null}
+
+                <div className="nav-item nav-cloud">
+                    <a target="_blank" href="/home.html">返回云盘</a>
+                </div>
                 <div className="user-info">
-                    <img src={userIcon} alt="" />
-                    <p className="tc">{userName}</p>
+                    {/* <img src={userIcon} alt="" />
+                    <p className="tc">{userName}</p> */}
                 </div>
             </div>
         );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import {Redirect, NavLink} from 'react-router-dom';
-import {Button, Breadcrumb, Tag} from 'element-react-codish';
+import {Button, Breadcrumb, Tag, Message} from 'element-react-codish';
 import LightBox from 'react-images';
 import Cookies from 'js-cookie';
 import AES from 'crypto-js/aes'
@@ -51,6 +51,8 @@ export default class ItemDetail extends Component {
                         image: data.data.view ? data.data.view : data.data.file,
                         lightboxIsOpen: true
                     });
+                } else {
+                    Message('文件已删除，无法预览！')
                 }
             });
         } else {
@@ -88,8 +90,10 @@ export default class ItemDetail extends Component {
                     field: 'downNum'
                 }
                 updateItemNum(params)
+                window.location = res.data.fileUri
+            } else {
+                Message('文件已删除，无法下载！')
             }
-            window.location = res.data.fileUri
         })
     }
 
