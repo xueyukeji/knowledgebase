@@ -145,7 +145,7 @@ class TagList extends Component {
                             return allTagsObj[item.id] && allTagsObj[item.id].length > 0 && selTags.filter(cTag => {
                                 return allTagsObj[item.id].map(temp => temp.id).indexOf(cTag.id) > -1
                             }).length === 0 ? <div key={item.id} className= {(showThree && index > 2 && parentTags.length - selTags.length > 3 ) ? 'hidden clearfix' : 'clearfix' }>
-                                    <div className="left">
+                                    <div className="left" title={item.tag}>
                                         {item.tag} :
                                     </div>
                                     <div className="right">

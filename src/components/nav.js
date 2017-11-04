@@ -54,7 +54,7 @@ export default class Nav extends Component {
                 <div className="kd-list" id="scrollWrap">
                     {list.map(item => {
                         return (
-                            <div className="nav-item nav-base" key={item.id}>
+                            <div className="nav-item nav-base" key={item.id} title={item.name}>
                                 <NavLink to={`/knowledge/${item.id}`} activeClassName="active" isActive={(match, location) => {
                                     return this.isKnowledgeActive(item.id, match, location);
                                 }}>
