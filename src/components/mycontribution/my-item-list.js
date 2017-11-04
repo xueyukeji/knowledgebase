@@ -84,9 +84,12 @@ class ListItem extends Component {
                                             <Layout.Col span="6 tc"><i className="icon look"></i>{item.viewNum || 0}</Layout.Col>
                                             <Layout.Col span="6 tc"><i className="icon download"></i>{item.downNum || 0}</Layout.Col>
                                             <Layout.Col span="6">
-                                                <div className="tr">
-                                                    <i className="icon rate"></i><span className="score">{item.rate || 0}</span>
-                                                </div>
+                                                {
+                                                    item.rate ?
+                                                        <div className="tr">
+                                                            <i className="icon rate"></i><span className="score">{item.rate || 0}</span>
+                                                        </div> : null
+                                                }
                                             </Layout.Col>
                                         </Layout.Row>
                                     </div>
