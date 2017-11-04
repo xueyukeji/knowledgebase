@@ -63,7 +63,7 @@ export default class SetExpert extends Component {
         }
         this.props.setSelectedNodes(users.map(item => {
             return {
-                key: item.key,
+                key: `${item.key}`,
                 title: item.value,
                 isLeaf: true
             };
