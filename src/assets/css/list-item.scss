@@ -49,11 +49,11 @@
         float: right;
       }
       .op-btns {
-        float: right;
-        position: relative;
         z-index: 100;
         display: inline-block;
-        margin: 10px 30px 0 0;
+        position: absolute;
+        right: 75px;
+        top: 36px;
         .shenhe {
           color: rgb(32, 160, 255);
           &:hover {
