@@ -18,6 +18,7 @@
 .mod-checkdetail-dialog{
     width: 640px;
     .check-table {
+        margin: 5px 10px;
         table {
             width: 100%;
         }
@@ -32,6 +33,7 @@
             margin-right: 5px;
         }
         .tags-wrap {
+            padding: 15px 20px;
             .item {
                 margin-right: 10px;
             }

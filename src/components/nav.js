@@ -84,7 +84,7 @@ export default class Nav extends Component {
                 ) : null}
 
                 <div className="nav-item nav-cloud">
-                    <a target="_blank" href="/home.html">返回云盘</a>
+                    <a href="/home.html">返回云盘</a>
                 </div>
                 <div className="user-info">
                     {/* <img src={userIcon} alt="" />

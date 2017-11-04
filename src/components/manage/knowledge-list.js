@@ -142,7 +142,10 @@ export default class Manage extends Component {
                         knowledgeObj.librarys.map(item => {
                             return (
                                 <li key={item.id}>
-                                    <span className="title">{item.name}</span>
+                                    <span className="title">
+                                        {/* <span className="status"> 受审 </span> */}
+                                        {item.name}
+                                    </span>
                                     <div className="op-btns">
                                         {
                                             item.auditType ?
