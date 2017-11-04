@@ -21,7 +21,7 @@ class ListItem extends Component {
             statusClass += ' reject'
         }
         return (<div className={statusClass}>
-            <span>{constants.getStatusStr(item.status)}</span>
+            {constants.getStatusStr(item.status)}
         </div>)
     }
     render() {

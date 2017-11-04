@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import defaultAvatar from '../assets/images/default-avatar.png';
+// import defaultAvatar from '../assets/images/default-avatar.png';
 
 export default class Nav extends Component {
     render() {
         let { list, userInfo } = this.props;
         let userType = '',
-            userName = '',
-            userIcon = defaultAvatar,
+            // userName = '',
+            // userIcon = defaultAvatar,
             professorObj = undefined;
         if (userInfo && userInfo.data) {
             userType = userInfo.data.userType;
-            userName = userInfo.data.userName;
-            userIcon = userInfo.data.userIcon || defaultAvatar;
+            // userName = userInfo.data.userName;
+            // userIcon = userInfo.data.userIcon || defaultAvatar;
             professorObj = list.find(item => {
                 return item.auditType === 1 && item.professorIds.indexOf(userInfo.data.userId) != -1
             })
