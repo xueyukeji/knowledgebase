@@ -19,7 +19,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 class SearchItem extends Component {
     onChangeInput = (e) => {
-        this.props.setSearchInput(encodeURIComponent(e))
+        this.props.setSearchInput(e)
     }
     onSearch = () => {
         this.getData()
@@ -31,7 +31,7 @@ class SearchItem extends Component {
             start: 0,
             limit: 10,
             tagIds: searchTagIds || [],
-            name: searchInput
+            name: encodeURIComponent(searchInput)
         }
         this.props.getItemData(params)
     }
