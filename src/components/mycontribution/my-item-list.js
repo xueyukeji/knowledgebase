@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Tag, Layout, Pagination } from 'element-react-codish';
 import { Popover, Button } from 'antd';
 import * as constants from '../../utils/constants';
 
+@inject(stores => {
+    let {
+        updateItemNum
+    } = stores.item;
+    return {
+        updateItemNum
+    };
+})
+@observer
 class ListItem extends Component {
     getDatas = currentPage => {
         this.props.onPageChange(currentPage, true)
@@ -24,6 +34,13 @@ class ListItem extends Component {
             {constants.getStatusStr(item.status)}
         </div>)
     }
+    viewNum(item) {
+        let params = {
+            id: item.id,
+            field: 'viewNum'
+        }
+        this.props.updateItemNum(params)
+    }
     render() {
         let { items, currentPage, inMyContri, showDialog } = this.props;
         if (items.items.length === 0) {
@@ -35,7 +52,7 @@ class ListItem extends Component {
                     items && items.items.map(item => {
                         return (
                             <NavLink className="item-link" to={`/item-detail/${item.id}`} key={item.id}>
-                                <div className="list-item" key={item.id}>
+                                <div className="list-item" key={item.id} onClick={() => {this.viewNum(item)}}>
                                     <div className="title">
                                         <h5>{item.name}</h5>
                                         {this.renderStatus(item)}
