@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // import defaultAvatar from '../assets/images/default-avatar.png';
+import _ from 'lodash';
 
 export default class Nav extends Component {
+    isKnowledgeActive = (id, match, location) => {
+        let pathname = location.pathname;
+        if (match) return true;
+        if (_.startsWith(pathname, '/add-item')) {
+            let path = pathname.split('/');
+            if (path && path[2] == id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
     render() {
         let { list, userInfo } = this.props;
         let userType = '',
@@ -24,7 +39,9 @@ export default class Nav extends Component {
                     {list.map(item => {
                         return (
                             <div className="nav-item nav-base" key={item.id}>
-                                <NavLink to={`/knowledge/${item.id}`} activeClassName="active">
+                                <NavLink to={`/knowledge/${item.id}`} activeClassName="active" isActive={(match, location) => {
+                                    return this.isKnowledgeActive(item.id, match, location);
+                                }}>
                                     {item.name}
                                 </NavLink>
                             </div>
