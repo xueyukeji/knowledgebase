@@ -69,7 +69,7 @@ class ListItem extends Component {
             <div className="mod-listitem">
                 {itemListObj.items.map(item => {
                     return (
-                        <NavLink to={`/item-detail/${item.id}`} key={item.id}>
+                        <NavLink to={`/item-detail/${item.libraryId}/${item.id}`} key={item.id}>
                             <div className="list-item" onClick={() => {this.viewNum(item)}}>
                                 <div className="title">
                                     <h5>{item.name}</h5>

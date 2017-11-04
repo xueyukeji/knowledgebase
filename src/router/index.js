@@ -60,7 +60,7 @@ export default class AppRouter extends Component {
                         <Route path="/set-permission/:id" component={SetPermission} />
                         <Route path="/add-item/:id" component={AddItem} />
                         <Route path="/edit-item/:id/:itemId" component={EditItem} />
-                        <Route path="/item-detail/:id" component={ItemDetail} />
+                        <Route path="/item-detail/:libId/:id" component={ItemDetail} />
                     </div>
                 </div>
             </Router>

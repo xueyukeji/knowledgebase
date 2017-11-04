@@ -15,6 +15,22 @@ export default class Nav extends Component {
                 return false;
             }
         }
+        if (_.startsWith(pathname, '/item-detail')) {
+            let path = pathname.split('/');
+            if (path && path[2] == id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (_.startsWith(pathname, '/edit-item')) {
+            let path = pathname.split('/');
+            if (path && path[2] == id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
         return false;
     }
 
