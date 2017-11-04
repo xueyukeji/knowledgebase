@@ -18,23 +18,8 @@ import { inject, observer } from 'mobx-react';
 
 @observer
 class SearchItem extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            options: [{
-                value: '1',
-                label: '标签搜索',
-                clearableValue: false
-                // }, {
-                //     value: '2',
-                //     label: '内容搜索'
-            }],
-            value: '1'
-        };
-    }
     onChangeInput = (e) => {
-        this.props.setSearchInput(e)
+        this.props.setSearchInput(encodeURIComponent(e))
     }
     onSearch = () => {
         this.getData()
