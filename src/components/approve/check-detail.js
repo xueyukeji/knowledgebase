@@ -295,7 +295,7 @@ export default class CheckDetail extends Component {
                     </div>
                 </Dialog.Body>
                 <Dialog.Footer className="dialog-footer">
-                    <Button onClick={this.handleRejectClick} >驳回</Button>
+                    <Button type="danger" onClick={this.handleRejectClick} >驳回</Button>
                     <Button type="success" onClick={this.handlePassClick}>通过</Button>
                 </Dialog.Footer>
             </Dialog>
