@@ -32,8 +32,8 @@ export default class AddTagItem extends Component {
     addTag = () => {
         let { parentId, creatTag } = this.props;
         let { inputValue } = this.state;
-        if (inputValue.length > 8) {
-            return MessageBox.alert('标签名不能超过8个字符！', '提示');
+        if (inputValue.length > 42) {
+            return MessageBox.alert('标签长度在不能超过42个字符!', '提示');
         }
         if (parentId && inputValue) {
             creatTag({
