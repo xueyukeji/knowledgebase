@@ -6,9 +6,22 @@
         margin-top: 30px;
         padding: 50px;
         background: white;
+
+        hr {
+            border: 1px solid #97aabb;
+            margin-bottom: 30px;
+        }
+
+        .btn_st {
+            text-align: right;
+        }
+
+        .autor{
+            float: right;
+        }
     }
 
-    .el-breadcrumb{
+    .el-breadcrumb {
         font-size: 20px;
     }
     .select-flie-tips {
@@ -23,15 +36,15 @@
     }
     .select-tags {
         .default-tag {
-            width: 33% !important;
+            width: 32% !important;
             display: inline-block;
             vertical-align: top;
             position: relative;
         }
     }
-    .ant-cascader-picker{
-        width: 33.3% !important;
-        &:nth-child(2){
+    .ant-cascader-picker {
+        width: 32% !important;
+        &:nth-child(2) {
             padding: 0 5px;
         }
     }
@@ -40,11 +53,23 @@
             height: 36px;
         }
     }
-    .delete-file {
-        cursor: pointer;
-        color: $blue;
-        margin-left: 20px;
+
+    .fj-item{
+        height: 50px;
+
+        span{
+            line-height: 50px;
+            font-size: 16px;
+            margin-left: 20px;
+        }
+        .delete-file {
+            cursor: pointer;
+            color: $blue;
+            margin-left: 20px;
+        }
     }
+
+
 }
 
 .select-file-dialog {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Button, Dialog, Breadcrumb, Table } from 'element-react-codish';
+import FileIcon from '../../utils/FileIcon';
 
 @inject(stores => {
     let {
@@ -35,8 +36,7 @@ export default class Knowledge extends Component {
                         <div onClick={() => {
                             this.handleFolderClick(data);
                         }}>
-                            <span className={data.folder ? 'folder' : ''}></span>
-                            {data.fileName}
+                            <FileIcon file={data}/>  <span style={{'position': 'relative','top': '-15px'}} >{data.fileName}</span>
                         </div>
                     );
                 }
@@ -103,7 +103,7 @@ export default class Knowledge extends Component {
                         <Breadcrumb.Item>
                             <span onClick={() => {
                                 this.handleFolderClick();
-                            }}>首页</span>
+                            }}>个人空间 > </span>
                         </Breadcrumb.Item>
                         {
                             curFileParents.map(item => {

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
-import { withRouter, NavLink } from 'react-router-dom';
-import { Form, Input, Button, Message, Breadcrumb } from 'element-react-codish';
+import React, {Component} from 'react';
+import {inject, observer} from 'mobx-react';
+import {withRouter, NavLink} from 'react-router-dom';
+import {Form, Input, Button, Message, Breadcrumb} from 'element-react-codish';
 import SelectFile from './select-file.js';
-import { MessageBox } from 'element-react-codish';
-import { Cascader, Icon } from 'antd'
-import { listToTree } from '../../utils/constants'
+import {MessageBox} from 'element-react-codish';
+import {Cascader, Icon} from 'antd'
+import {listToTree} from '../../utils/constants'
+import FileIcon from '../../utils/FileIcon'
 
 @inject(stores => {
     let {
@@ -58,13 +59,13 @@ class AddItem extends Component {
                 creatorId: '',
                 creatorName: '',
                 fileInfos: [],
-                tagIds: [{ id: '' }, { id: '' }],
+                tagIds: [{id: ''}, {id: ''}],
                 tag: ''
             },
             files: [],
             rules: {
                 name: [
-                    { required: true, message: '请输入标题', trigger: 'change' },
+                    {required: true, message: '请输入标题', trigger: 'change'},
                     {
                         validator: (rule, value, callback) => {
                             if (value.length > 32) {
@@ -77,7 +78,7 @@ class AddItem extends Component {
                     }
                 ],
                 desc: [
-                    { required: true, message: '请输入描述', trigger: 'change' },
+                    {required: true, message: '请输入描述', trigger: 'change'},
                     {
                         validator: (rule, value, callback) => {
                             if (value.length > 500) {
@@ -127,7 +128,7 @@ class AddItem extends Component {
     }
 
     componentWillMount() {
-        const { getTags } = this.props
+        const {getTags} = this.props
         getTags({
             libraryId: this.props.match.params.id,
             isCustom: 0 // 不返回自定义标签
@@ -175,7 +176,7 @@ class AddItem extends Component {
         this.props.setSelected([]);
     }
 
-    selectKnowledge = ({ value: libraryId }) => {
+    selectKnowledge = ({value: libraryId}) => {
         this.state.form.libraryId = libraryId
         this.props.getTags({
             libraryId,
@@ -210,7 +211,7 @@ class AddItem extends Component {
     }
 
     confirmCreateItem() {
-        const { userInfo, createItem, history } = this.props
+        const {userInfo, createItem, history} = this.props
         this.refs.form.validate((valid) => {
             if (valid) {
                 const params = Object.assign(this.state.form, {
@@ -235,11 +236,10 @@ class AddItem extends Component {
     }
 
     handleConfirm = () => {
-        let { form } = this.state;
+        let {form} = this.state;
         let files = this.props.selected.slice();
-        if (files.some(item => {
-            return item.folder;
-        })) {
+        if (files.some(item => {return item.folder;}))
+        {
             return MessageBox.alert('选择的附件不能为文件夹！');
         }
         if (files.length > 30) {
@@ -263,7 +263,7 @@ class AddItem extends Component {
     }
 
     deleteFile = data => {
-        let { form, files } = this.state;
+        let {form, files} = this.state;
         form = Object.assign(form, {
             fileInfos: files.filter(item => {
                 return item.fileId !== data.fileId;
@@ -278,8 +278,8 @@ class AddItem extends Component {
     getSelectedFile = () => {
         return this.state.files.map(item => {
             return (
-                <div key={item.fileId}>
-                    <Icon type="file" />{item.fileName}
+                <div className='fj-item' key={item.fileId}>
+                    <FileIcon file={item}/> <span>{item.fileName}</span>
                     <span className="delete-file" onClick={() => {
                         this.deleteFile(item);
                     }}>删除</span>
@@ -301,7 +301,7 @@ class AddItem extends Component {
             tagId1,
             tagId2
         } = this.state;
-        tags.forEach(function(item) {
+        tags.forEach(function (item) {
             item.value = item.id
             item.label = item.tag
         });
@@ -313,7 +313,7 @@ class AddItem extends Component {
         const curLibrary = knowledgeObj && knowledgeObj.librarys.find((item) => item.id === parseInt(match.params.id))
         return (
             <div className="mod-addknowledge-item">
-                <Breadcrumb  separator="/">
+                <Breadcrumb separator="/">
                     <Breadcrumb.Item>
                         <NavLink
                             to={`/knowledge/${match.params.id}`}
@@ -326,21 +326,24 @@ class AddItem extends Component {
                     <Breadcrumb.Item>创建知识条目</Breadcrumb.Item>
                 </Breadcrumb>
                 <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
+
+                    <Form.Item className="autor" label="作者：" required>
+                        {userInfo && userInfo.data && userInfo.data.userName}
+                    </Form.Item>
+
                     <Form.Item label="知识库：" required>
                         {
                             curLibrary && curLibrary.name
                         }
                     </Form.Item>
                     <Form.Item label="标题：" prop="name">
-                        <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}
-                            placeholder="请输入标题"></Input>
+                        <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')} placeholder="请输入标题"></Input>
                     </Form.Item>
-                    <Form.Item label="描述：" prop="desc">
+                    <br/>
+                    <Form.Item label="备注：" prop="desc">
                         <Input type="textarea" placeholder="请输入描述" value={this.state.form.desc} onChange={this.onChange.bind(this, 'desc')}></Input>
                     </Form.Item>
-                    <Form.Item label="作者：" required>
-                        {userInfo && userInfo.data && userInfo.data.userName}
-                    </Form.Item>
+                    <br/>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
                         <Cascader
                             options={options.filter(item => {
@@ -350,8 +353,8 @@ class AddItem extends Component {
                             placeholder="请选择标签一"
                             showSearch
                             size="large"
-                            style={{ width: 180 }}
-                        />
+                            style={{width: 140}}
+                        /> &nbsp;&nbsp;
                         <Cascader
                             options={options.filter(item => {
                                 return item.id !== tagId1
@@ -360,12 +363,12 @@ class AddItem extends Component {
                             placeholder="请选择标签二"
                             showSearch
                             size="large"
-                            style={{ width: 180 }}
+                            style={{width: 140}}
                         />
-                        <Input className="default-tag" value={this.state.form.tag}
-                            onChange={this.onChange.bind(this, 'tag')}
-                            placeholder="自定义标签"></Input>
+                        &nbsp;&nbsp;
+                        <Input className="default-tag" value={this.state.form.tag} onChange={this.onChange.bind(this, 'tag')}  placeholder="自定义标签"></Input>
                     </Form.Item>
+                    <br/>
                     <Form.Item label="附件：" prop="fileInfos" required>
                         {
                             files.length ?
@@ -374,11 +377,19 @@ class AddItem extends Component {
                         <Button size="small" type="primary" onClick={this.showSelectFileDialog}>选择文件</Button>
                         <span className="select-flie-tips">从个人空间选取（请先将文件上传到云盘）</span>
                     </Form.Item>
+
+                    <hr/>
+
                     <Form.Item>
-                        <Button type="primary" nativeType="submit" onClick={() => { this.confirmCreateItem() }}>确定</Button>
-                        <Button>
-                            <NavLink to={`/knowledge/${this.props.match.params.id}`}> 取消 </NavLink>
-                        </Button>
+                        <div className='btn_st'>
+                            <Button type="primary" size="large" nativeType="submit" onClick={() => {
+                                this.confirmCreateItem()
+                            }}>确定</Button>
+                            &nbsp;&nbsp;
+                            <Button size="large">
+                                <NavLink to={`/knowledge/${this.props.match.params.id}`}> 取消 </NavLink>
+                            </Button>
+                        </div>
                     </Form.Item>
                 </Form>
                 {
@@ -386,10 +397,11 @@ class AddItem extends Component {
                         <SelectFile
                             dialogVisible={true}
                             handleConfirm={this.handleConfirm}
-                            closeSelecFileDialog={this.hideSelectFileDialog} /> : null
+                            closeSelecFileDialog={this.hideSelectFileDialog}/> : null
                 }
             </div>
         )
     }
 }
+
 export default withRouter(AddItem)
