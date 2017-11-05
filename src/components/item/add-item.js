@@ -7,6 +7,7 @@ import {MessageBox} from 'element-react-codish';
 import {Cascader} from 'antd'
 import {listToTree} from '../../utils/constants'
 import FileIcon from '../../utils/FileIcon'
+import uniqBy from 'lodash/uniqBy'
 
 @inject(stores => {
     let {
@@ -237,16 +238,23 @@ class AddItem extends Component {
 
     handleConfirm = () => {
         let {form} = this.state;
-        let files = this.props.selected.slice();
-        if (files.some(item => {return item.folder;}))
+        let selFiles = this.props.selected.slice();
+        if (selFiles.some(item => {return item.folder;}))
         {
             return MessageBox.alert('选择的附件不能为文件夹！');
         }
-        if (files.length > 30) {
+        if (selFiles.length > 30) {
             return MessageBox.alert('文件个数不能超过30个！');
         }
+
+        const { files } = this.state
+        files.forEach(function(item) {
+            item.fileId ? selFiles.unshift(item) : ''
+        })
+        const newFiles = uniqBy(selFiles, 'fileId');
+
         form = Object.assign(form, {
-            fileInfos: files.map(item => {
+            fileInfos: newFiles.map(item => {
                 return {
                     fileId: item.fileId,
                     fileVersion: item.fileVersion,
@@ -254,8 +262,9 @@ class AddItem extends Component {
                 };
             })
         });
+
         this.setState({
-            files: files,
+            files: newFiles,
             dialogVisible: false,
             form: form
         });

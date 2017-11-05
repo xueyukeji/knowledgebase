@@ -30,7 +30,7 @@ export default class Knowledge extends Component {
             {
                 label: '名称',
                 prop: 'fileName',
-                width: 240,
+                width: 420,
                 render: data => {
                     return (
                         <div onClick={() => {
@@ -44,20 +44,9 @@ export default class Knowledge extends Component {
             {
                 label: '日期',
                 prop: 'createTime',
-                width: 180
+
             },
-            {
-                label: '类型',
-                prop: 'fileName',
-                width: 180,
-                render: data => {
-                    return (
-                        <div>
-                            <span>{data.folder ? '文件夹' : '文件'}</span>
-                        </div>
-                    );
-                }
-            }
+
         ];
     }
 
@@ -123,7 +112,7 @@ export default class Knowledge extends Component {
                         columns={this.COLUMNS}
                         data={this.props.userFile}
                         border={true}
-                        height={250}
+                        height={300}
                         stripe={true}
                         onSelectChange={this.handleSelectedItem}
                         onSelectAll={this.handleSelectAll}
