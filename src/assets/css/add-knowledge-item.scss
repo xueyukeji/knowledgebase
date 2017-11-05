@@ -76,6 +76,15 @@
     min-width: 600px;
 }
 
+.item-detail-dialog {
+    min-width: 600px;
+    width: 75%;
+    .el-dialog__body{
+        padding: 30px;
+        padding-top: 5px;
+    }
+}
+
 .table-file {
     table {
         width: 100% !important;

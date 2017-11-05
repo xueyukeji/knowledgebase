@@ -18,8 +18,22 @@
         min-height: 21px;
         border-bottom: 1px solid #eee;
         &:last-child {
-            border-bottom: none;
+            //border-bottom: none;
+            min-height: 300px;
         }
+    }
+    .item-info{
+        max-width: 140px;
+        color: #9E9E9E;
+        margin-right: 20px;
+        font-size: 14px;
+
+        .score-text{
+            color: red;
+        }
+    }
+    .item-right{
+        float: right;
     }
     .title {
         position: absolute;
@@ -36,12 +50,21 @@
     }
     .file-item {
         position: relative;
-        min-height: 56px;
-        padding: 10px 0;
-        line-height: 36px;
         border-bottom: 1px solid #eee;
         .preview {
-            margin-left: 20px;
+            margin-right: 20px;
+            float: right;
+        }
+        .icon-img{
+            height: 36px;
+            width: 36px;
+        }
+        .f-name{
+            position: relative;
+            top: -17px;
+            overflow: hidden;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
         }
     }
     .tag-item {
@@ -50,4 +73,10 @@
         padding: 0 10px;
         border: 1px solid $primary;
     }
+}
+
+.item-desc{
+    color: #9E9E9E;
+    font-size: 14px;
+    margin-top: 10px;
 }

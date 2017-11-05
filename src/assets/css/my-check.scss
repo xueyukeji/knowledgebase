@@ -26,6 +26,14 @@
             padding: 10px 20px;
             border: 1px solid $border;
         }
+        td{
+            vertical-align:middle ;
+        }
+        .el-tooltip{
+            span{
+                display: none;
+            }
+        }
         .align-right {
             text-align: right;
         }

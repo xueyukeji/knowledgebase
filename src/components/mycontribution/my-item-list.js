@@ -6,17 +6,26 @@ import {Popover, Button} from 'antd';
 import * as constants from '../../utils/constants';
 import {Icon} from 'antd'
 import FileIcon from '../../utils/FileIcon'
+import ItemDetail from '../item/item-detail'
 
 @inject(stores => {
     let {
+        getItemDetail,
         updateItemNum
     } = stores.item;
     return {
+        getItemDetail,
         updateItemNum
     };
 })
 @observer
 class ListItem extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
     getDatas = currentPage => {
         this.props.onPageChange(currentPage, true)
     };
@@ -38,15 +47,33 @@ class ListItem extends Component {
     }
 
     viewNum(item) {
-        let params = {
-            id: item.id,
-            field: 'viewNum'
-        }
-        this.props.updateItemNum(params)
+        // let params = {
+        //     id: item.id,
+        //     field: 'viewNum'
+        // }
+        // this.props.updateItemNum(params)
+        this.props.getItemDetail(item.id)
+    }
+
+    showDetailDialog = (item) => {
+        this.setState({
+            dialogVisible: true
+        }, () => {
+            this.viewNum(item);
+        });
+    }
+
+    hideDetailDialog = () => {
+        this.setState({
+            dialogVisible: false
+        });
+        //this.clearUserFile();
     }
 
     render() {
         let {items, currentPage, inMyContri, showDialog} = this.props;
+        let {dialogVisible} = this.state;
+
         if (items.items.length === 0) {
             return <div className="empty-tips">暂无知识条目</div>;
         }
@@ -56,9 +83,7 @@ class ListItem extends Component {
                     items && items.items.map(item => {
                         return (
                             <div className='kn-item'  key={item.id}>
-                                <div className="list-item" onClick={() => {
-                                    this.viewNum(item)
-                                }}>
+                                <div className="list-item" onClick={() => this.showDetailDialog(item)}>
                                     <div className="title">
                                         <h3> {this.renderStatus(item)} {item.name}</h3>
                                         <div className="info">
@@ -131,7 +156,7 @@ class ListItem extends Component {
                                         })}
                                     </div>
                                     <div className="content">{item.desc}
-                                        <NavLink className='more' to={`/item-detail/${item.libraryId}/${item.id}`} key={item.id}>查看详情>></NavLink>
+                                        <div className='more' onClick={() => this.showDetailDialog(item)}>查看详情>></div>
                                     </div>
 
                                 </div>
@@ -149,6 +174,11 @@ class ListItem extends Component {
                             total={items.count}
                         />
                     )
+                }
+                {
+                    dialogVisible ?
+                        <ItemDetail
+                            dialogVisible={true} closeSelecFileDialog={this.hideDetailDialog}/> : null
                 }
             </div>
 

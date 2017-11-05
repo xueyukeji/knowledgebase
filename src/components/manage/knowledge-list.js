@@ -143,7 +143,12 @@ export default class Manage extends Component {
                             return (
                                 <li key={item.id}>
                                     <span className="title">
-                                        {/* <span className="status"> 受审 </span> */}
+                                        {
+                                            item.auditType ?
+                                                <span className="audit-status status"> 审核 </span>
+                                                : <span className="noaudit-status status"> 免审 </span>
+
+                                        }
                                         {item.name}
                                     </span>
                                     <div className="op-btns">

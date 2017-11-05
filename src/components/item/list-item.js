@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {withRouter, NavLink} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {inject, observer} from 'mobx-react';
 import {Tag, Layout, Pagination} from 'element-react-codish';
 import * as constants from '../../utils/constants';
+import ItemDetail from './item-detail'
 import FileIcon from '../../utils/FileIcon'
 import {Icon} from 'antd'
 
@@ -12,6 +13,7 @@ import {Icon} from 'antd'
         searchInput,
         searchTagIds,
         setSearchTagIds,
+        getItemDetail,
         updateItemNum
     } = stores.item;
     let {getTags} = stores.tag;
@@ -21,6 +23,7 @@ import {Icon} from 'antd'
         searchTagIds,
         setSearchTagIds,
         getTags,
+        getItemDetail,
         updateItemNum
     };
 })
@@ -57,16 +60,29 @@ class ListItem extends Component {
         this.props.getItemData(params)
     }
 
+    showDetailDialog = (item) => {
+        this.setState({
+            dialogVisible: true
+        }, () => {
+            this.viewNum(item);
+        });
+    }
+
+    hideDetailDialog = () => {
+        this.setState({
+            dialogVisible: false
+        });
+        //this.clearUserFile();
+    }
+
     viewNum(item) {
-        let params = {
-            id: item.id,
-            field: 'viewNum'
-        }
-        this.props.updateItemNum(params)
+        this.props.getItemDetail(item.id)
     }
 
     render() {
         let {itemListObj} = this.props;
+        let {dialogVisible} = this.state;
+
         if (itemListObj.items.length === 0) {
             return <div className="empty-tips">暂无知识条目</div>;
         }
@@ -74,10 +90,8 @@ class ListItem extends Component {
             <div className="mod-listitem">
                 {itemListObj.items.map(item => {
                     return (
-                        <NavLink className='kn-item' to={`/item-detail/${item.libraryId}/${item.id}`} key={item.id}>
-                            <div className="list-item" onClick={() => {
-                                this.viewNum(item)
-                            }}>
+                        <div className='kn-item'>
+                            <div className="list-item" onClick={() => this.showDetailDialog(item)}>
                                 <div className="title">
                                     <h3><Icon type="copy"/> {item.name}</h3>
                                     <div className="info">
@@ -94,7 +108,8 @@ class ListItem extends Component {
                                                 {
                                                     item.rate ?
                                                         <div className="tr">
-                                                            <i className="icon rate"></i><span className="score">{item.rate || 0}</span>
+                                                            <i className="icon rate"></i><span
+                                                            className="score">{item.rate || 0}</span>
                                                         </div> : null
                                                 }
                                             </Layout.Col>
@@ -117,13 +132,14 @@ class ListItem extends Component {
                                     {item.fileInfos.map(file => {
                                         return (
                                             <div key={file.fileId}>
-                                                <FileIcon file={file}/> <span title={file.fileName}>{file.fileName} </span>
+                                                <FileIcon file={file}/> <span
+                                                title={file.fileName}>{file.fileName} </span>
                                             </div>)
                                     })}
                                 </div>
                                 <div className="content">备注：{item.desc}</div>
                             </div>
-                        </NavLink>
+                        </div>
                     );
                 })}
                 {itemListObj && itemListObj.count > 10 && (<Pagination
@@ -134,6 +150,11 @@ class ListItem extends Component {
                         total={itemListObj.count}
                     />
                 )}
+                {
+                    dialogVisible ?
+                        <ItemDetail
+                            dialogVisible={true} closeSelecFileDialog={this.hideDetailDialog}/> : null
+                }
             </div>
         );
     }

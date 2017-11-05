@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import {Redirect, NavLink} from 'react-router-dom';
-import {Button, Breadcrumb, Tag, Message} from 'element-react-codish';
+import {Button, Dialog, Breadcrumb, Tag, Message} from 'element-react-codish';
 import LightBox from 'react-images';
 import Cookies from 'js-cookie';
 import AES from 'crypto-js/aes'
 import { Icon } from 'antd'
+import FileIcon from '../../utils/FileIcon'
 
 @inject(stores => {
     let { viewFile } = stores.user
@@ -31,13 +31,13 @@ export default class ItemDetail extends Component {
     }
 
     componentWillMount() {
-        this.handleRefresh();
+        //this.handleRefresh();
     }
 
     handleRefresh = () => {
-        let id = this.props.match.params.id;
-        if (id) {
-            this.props.getItemDetail(id)
+        let {itemDetails} = this.props;
+        if (itemDetails.id) {
+            this.props.getItemDetail(itemDetails.id)
         }
     }
 
@@ -82,11 +82,11 @@ export default class ItemDetail extends Component {
     }
 
     downloadFile = (item) => {
-        const { match, updateItemNum, downFile } = this.props
+        const { itemDetails, updateItemNum, downFile } = this.props
         downFile(item.fileId).then((res) => {
             if (res.status === 'ok') {
                 var params = {
-                    id: match.params.id,
+                    id: itemDetails.id,
                     field: 'downNum'
                 }
                 updateItemNum(params)
@@ -104,10 +104,10 @@ export default class ItemDetail extends Component {
     }
 
     render() {
-        let id = this.props.match.params.id;
-        if (!id) {
-            return <Redirect to="/knowledge" />;
-        }
+        // let id = this.props.match.params.id;
+        // if (!id) {
+        //     return <Redirect to="/knowledge" />;
+        // }
         let {itemDetails} = this.props;
         if (!itemDetails) {
             return (
@@ -117,92 +117,81 @@ export default class ItemDetail extends Component {
             );
         }
         return (
-            <div className="mod-itemdetail">
-                <Breadcrumb separator="/">
-                    <Breadcrumb.Item>
-                        <NavLink
-                            to={`/knowledge/${itemDetails.libraryId}`}
-                            activeClassName="active">
-                            {itemDetails.libraryName}
-                        </NavLink>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>知识条目详情</Breadcrumb.Item>
-                </Breadcrumb>
-                <div className="item">
-                    <div className="title">
-                        标题:
+            <Dialog
+                className="item-detail-dialog"
+                title={itemDetails ? '预览：' + itemDetails.libraryName : '预览'}
+                closeOnClickModal={false}
+                visible={this.props.dialogVisible}
+                onCancel={this.props.closeSelecFileDialog}
+                lockScroll={false}>
+                <Dialog.Body>
+                    <div className="mod-itemdetail">
+                        <div className="item">
+                            <span className="item-info">
+                                作者 : {itemDetails.creatorName}
+                            </span>
+                            <span className="item-info">
+                                创建时间 : {itemDetails.name}
+                            </span>
+                            <span className="item-info">
+                                <Icon type="eye" /> 查看 : {itemDetails.viewNum}
+                            </span>
+                            <span className="item-info">
+                                <Icon type="download" /> 下载 : {itemDetails.downNum}
+                            </span>
+                            <span className="item-info item-right">
+                                评分 : <span className="score-text">{itemDetails.rate || 0}</span>
+                            </span>
+                        </div>
+                        <div className="item">
+                            <div className="title">
+                                标签:
+                            </div>
+                            <div className="content">
+                                {
+                                    itemDetails.tagArr.map(item => {
+                                        return (
+                                            <Tag type="success" key={item.id}>{item.tag}</Tag>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="item">
+                            <div className="title">
+                                附件:
+                            </div>
+                            <div className="content">
+                                {
+                                    itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
+                                        return (
+                                            <div className="file-item" key={item.fileId}>
+                                                <FileIcon file={item}/> <span className="f-name"
+                                                title={item.fileName}>{item.fileName} </span>
+                                                <Button
+                                                    className="preview"
+                                                    type="text"
+                                                    onClick={() => {this.handlePreviewClick(item)}}>预览</Button>
+                                                <Button
+                                                    className="preview"
+                                                    type="text"
+                                                    onClick={() => {this.downloadFile(item)}}>下载</Button>
+                                            </div>
+                                        )
+                                    }) : <div>暂无附件</div>
+                                }
+                            </div>
+                        </div>
+                        <LightBox
+                            images={[{src: this.state.image}]}
+                            isOpen={this.state.lightboxIsOpen}
+                            onClose={this.closeLightbox} />
                     </div>
-                    <div className="content">
-                        {itemDetails.name}
-                    </div>
-                </div>
-                <div className="item">
-                    <div className="title">
-                        知识库:
-                    </div>
-                    <div className="content">
-                        {itemDetails.libraryName}
-                    </div>
-                </div>
-                <div className="item">
-                    <div className="title">
-                        描述:
-                    </div>
-                    <div className="content">
+                    <div className="item-desc">
                         {itemDetails.desc}
                     </div>
-                </div>
-                <div className="item">
-                    <div className="title">
-                        作者:
-                    </div>
-                    <div className="content">
-                        {itemDetails.creatorName}
-                    </div>
-                </div>
-                <div className="item">
-                    <div className="title">
-                        标签:
-                    </div>
-                    <div className="content">
-                        {
-                            itemDetails.tagArr.map(item => {
-                                return (
-                                    <Tag type="success" key={item.id}>{item.tag}</Tag>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
-                <div className="item">
-                    <div className="title">
-                        附件:
-                    </div>
-                    <div className="content">
-                        {
-                            itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
-                                return (
-                                    <div className="file-item" key={item.fileId}>
-                                        <Icon type="file" />{item.fileName}
-                                        <Button
-                                            className="preview"
-                                            type="text"
-                                            onClick={() => {this.handlePreviewClick(item)}}>预览</Button>
-                                        <Button
-                                            className="preview"
-                                            type="text"
-                                            onClick={() => {this.downloadFile(item)}}>下载</Button>
-                                    </div>
-                                )
-                            }) : <div>暂无附件</div>
-                        }
-                    </div>
-                </div>
-                <LightBox
-                    images={[{src: this.state.image}]}
-                    isOpen={this.state.lightboxIsOpen}
-                    onClose={this.closeLightbox} />
-            </div>
+                </Dialog.Body>
+            </Dialog>
         )
     }
 }

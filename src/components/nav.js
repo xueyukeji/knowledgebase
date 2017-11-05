@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // import defaultAvatar from '../assets/images/default-avatar.png';
 import _ from 'lodash';
+import {Icon} from 'antd'
 
 export default class Nav extends Component {
     isKnowledgeActive = (id, match, location) => {
@@ -54,7 +55,7 @@ export default class Nav extends Component {
                     <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>
                 <div className="nav-item nav-know">
-                    <a>知 识 库</a>
+                    <a>知 识 库 <Icon type="caret-down" /></a>
                 </div>
                 <div className="kd-list" id="scrollWrap">
                     {list.map(item => {

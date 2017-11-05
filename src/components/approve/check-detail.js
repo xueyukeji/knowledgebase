@@ -286,7 +286,7 @@ export default class CheckDetail extends Component {
                                         <td>
                                             <Slider
                                                 value={rate || 0}
-                                                onChange={this.handleSliderChange} />
+                                                onChange={this.handleSliderChange} /><span>分数: {rate}</span>
                                         </td>
                                     </tr>
                                 </tbody>
