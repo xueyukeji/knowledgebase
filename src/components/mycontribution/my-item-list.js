@@ -83,7 +83,7 @@ class ListItem extends Component {
                     items && items.items.map(item => {
                         return (
                             <div className='kn-item'  key={item.id}>
-                                <div className="list-item" onClick={() =>{}}>
+                                <div className="list-item" >
                                     <div className="title">
                                         <h3> {this.renderStatus(item)} {item.name}</h3>
                                         <div className="info">

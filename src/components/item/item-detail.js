@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import {Button, Dialog, Breadcrumb, Tag, Message} from 'element-react-codish';
+import {Button, Dialog,  Tag, Message} from 'element-react-codish';
 import LightBox from 'react-images';
 import Cookies from 'js-cookie';
 import AES from 'crypto-js/aes'
@@ -166,8 +166,7 @@ export default class ItemDetail extends Component {
                                     itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
                                         return (
                                             <div className="file-item" key={item.fileId}>
-                                                <FileIcon file={item}/> <span className="f-name"
-                                                title={item.fileName}>{item.fileName} </span>
+                                                <FileIcon file={item}/> <span className="f-name" title={item.fileName}>{item.fileName} </span>
                                                 <Button
                                                     className="preview"
                                                     type="text"

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import defaultAvatar from '../../assets/images/default-avatar.png';
 
 export default class ProfessorItem extends Component {
     renderIconfun = (index) => {

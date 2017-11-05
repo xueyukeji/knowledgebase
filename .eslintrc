@@ -11,7 +11,7 @@
   "extends": "eslint:recommended",
   "rules": {
       "indent": [
-          "error",
+          "warn",
           4,
           {"SwitchCase": 1}
       ],
@@ -21,34 +21,34 @@
       ],
       "linebreak-style": [
           0,
-          "unix"
+          "windows"
       ],
       // 操作符前后空格
-      "space-infix-ops": ["error", {"int32Hint": false}],
+      "space-infix-ops": ["warn", {"int32Hint": false}],
       // 关键字前后空格
-      "keyword-spacing": ["error", {"before": true, "after": true}],
+      "keyword-spacing": ["warn", {"before": true, "after": true}],
       // 箭头函数空格
-      "arrow-spacing": ["error", {"before": true, "after": true}],
+      "arrow-spacing": ["warn", {"before": true, "after": true}],
       // 逗号空格
-      "comma-spacing": ["error", {"before": false, "after": true}],
+      "comma-spacing": ["warn", {"before": false, "after": true}],
       // 一些array方法必须有return
-      "array-callback-return": "error",
-      "no-alert": "error",
+      "array-callback-return": "warn",
+      "no-alert": "warn",
       // 浮点数dot前后带0
-      "no-floating-decimal": "error",
+      "no-floating-decimal": "warn",
       // switch-case是否要有default
       "default-case": "off",
       // 非行首的代码块之前的空格
-      "space-before-blocks": ["error", "always"],
+      "space-before-blocks": ["warn", "always"],
       // 对象字面量的键和值之间使用空格
-      "key-spacing": ["error", {"afterColon": true}],
-      "no-trailing-spaces": "error",
-      "react/jsx-uses-react": "error",
+      "key-spacing": ["warn", {"afterColon": true}],
+      "no-trailing-spaces": "warn",
+      "react/jsx-uses-react": "warn",
       "no-console": "off",
       "no-debugger": "off",
-      "react/jsx-uses-vars": "error",
+      "react/jsx-uses-vars": "warn",
       // _开头的变量可以留着
-      "no-unused-vars": ["error", {"argsIgnorePattern": "^_"}]
+      "no-unused-vars": ["warn", {"argsIgnorePattern": "^_"}]
   },
   "ecmaFeatures": {
       "jsx": true,

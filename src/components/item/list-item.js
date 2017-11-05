@@ -108,8 +108,8 @@ class ListItem extends Component {
                                                 {
                                                     item.rate ?
                                                         <div className="tr">
-                                                            <i className="icon rate"></i><span
-                                                            className="score">{item.rate || 0}</span>
+                                                            <i className="icon rate"></i>
+                                                            <span className="score">{item.rate || 0}</span>
                                                         </div> : null
                                                 }
                                             </Layout.Col>
@@ -132,8 +132,8 @@ class ListItem extends Component {
                                     {item.fileInfos.map(file => {
                                         return (
                                             <div key={file.fileId}>
-                                                <FileIcon file={file}/> <span
-                                                title={file.fileName}>{file.fileName} </span>
+                                                <FileIcon file={file}/>
+                                                <span title={file.fileName}>{file.fileName} </span>
                                             </div>)
                                     })}
                                 </div>
@@ -142,7 +142,8 @@ class ListItem extends Component {
                         </div>
                     );
                 })}
-                {itemListObj && itemListObj.count > 10 && (<Pagination
+                {itemListObj && itemListObj.count > 10 && (
+                    <Pagination
                         className="pagination"
                         currentPage={0}
                         layout="prev, pager, next"
