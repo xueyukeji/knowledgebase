@@ -279,10 +279,7 @@ class AddItem extends Component {
         return this.state.files.map(item => {
             return (
                 <div className='fj-item' key={item.fileId}>
-                    <FileIcon file={item}/> <span>{item.fileName}</span>
-                    <span className="delete-file" onClick={() => {
-                        this.deleteFile(item);
-                    }}>删除</span>
+                    <FileIcon file={item}/>  <span style={{'position': 'relative', 'top': '-15px'}} >{item.fileName}<span className="delete-file" onClick={() => {this.deleteFile(item);}}>删除</span></span>
                 </div>
             );
         });

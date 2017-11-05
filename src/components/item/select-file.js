@@ -36,7 +36,7 @@ export default class Knowledge extends Component {
                         <div onClick={() => {
                             this.handleFolderClick(data);
                         }}>
-                            <FileIcon file={data}/>  <span style={{'position': 'relative','top': '-15px'}} >{data.fileName}</span>
+                            <FileIcon file={data}/>  <span style={{'position': 'relative', 'top': '-15px'}} >{data.fileName}</span>
                         </div>
                     );
                 }
