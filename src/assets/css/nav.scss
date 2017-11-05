@@ -24,7 +24,7 @@
         margin-bottom: 2px;
         >a {
             display: block;
-            padding-left: 60px;
+            padding-left: 70px;
             color: #fff;
             height: 42px;
             line-height: 42px;
@@ -39,10 +39,10 @@
                 position: absolute;
                 content: '';
                 top: 50%;
-                left: 42px;
+                left: 48px;
                 transform: translate(-50%, -50%);
-                width: 16px;
-                height: 16px;
+                width: 14px;
+                height: 18px;
                 background-repeat: no-repeat;
                 background-size: 100%;
             }
@@ -51,22 +51,39 @@
             height: 30px;
         }
         &.nav-base {
+            font-size: 12px;
             >a {
+                padding-left:76px ;
                 &:before {
-                    background-image: url(../images/nav-base.png);
+                    left:56px ;
+                    background-image: url(../images/nav-konw.png);
                 }
             }
         }
         &.nav-cloud {
+            border: 2px solid #0cb6ff;
+            /* margin: 0px 30px; */
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            width: 120px;
+            border-radius: 5px;
+
             >a {
+                padding-left: 50px;
                 &:before {
-                    background-image: url(../images/cloud-s.png);
+                    left: 22px;
+                    height: 24px;
+                    width: 24px;
+                    background-image: url(../images/nav-back.png);
                 }
             }
         }
         &.nav-my {
             >a {
                 &:before {
+                    height: 24px;
+                    width: 24px;
                     background-image: url(../images/nav-my.png);
                 }
             }
@@ -74,6 +91,8 @@
         &.nav-check {
             >a {
                 &:before {
+                    height: 24px;
+                    width: 24px;
                     background-image: url(../images/nav-check.png);
                 }
             }
@@ -81,6 +100,8 @@
         &.nav-professor {
             >a {
                 &:before {
+                    height: 24px;
+                    width: 24px;
                     background-image: url(../images/nav-professor.png);
                 }
             }
@@ -88,7 +109,22 @@
         &.nav-manage {
             >a {
                 &:before {
+                    height: 24px;
+                    width: 24px;
                     background-image: url(../images/nav-manage.png);
+                }
+            }
+        }
+        &.nav-know {
+            >a {
+                &.active,
+                &:hover {
+                    background: transparent;
+                }
+                &:before {
+                    height: 24px;
+                    width: 24px;
+                    background-image: url(../images/nav-list.png);
                 }
             }
         }
