@@ -43,7 +43,7 @@ class SearchItem extends Component {
         const {searchInput, match} = this.props
         return (
             <Layout.Row className="search-item">
-                <Layout.Col span="19">
+                <Layout.Col span="16">
                     <Input placeholder="请输入条目名称进行搜索" value={searchInput || ''}
                         onChange={this.onChangeInput}
                         onKeyPress={(e) => {

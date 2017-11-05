@@ -4,7 +4,7 @@ import {withRouter, NavLink} from 'react-router-dom';
 import {Form, Input, Button, Message, Breadcrumb} from 'element-react-codish';
 import SelectFile from './select-file.js';
 import {MessageBox} from 'element-react-codish';
-import {Cascader, Icon} from 'antd'
+import {Cascader} from 'antd'
 import {listToTree} from '../../utils/constants'
 import FileIcon from '../../utils/FileIcon'
 

@@ -19,11 +19,12 @@ export default class ProfessorItem extends Component {
                         <div className="professor-item" key={index}>
                             {this.renderIconfun(index)}
                             <div className="avator ">
-                                <img src={item.userIcon || defaultAvatar} alt={item.userName} />
+                                {/*<img src={item.userIcon || defaultAvatar} alt={item.userName} />*/}
+                                <p className="name">{item.realName || item.userName}</p>
                             </div>
                             <div className="info">
-                                <p className="name">{item.userName}</p>
                                 <p className="job">贡献指数：{item.total || 0}</p>
+                                <p className="job">排名：{index + 1}</p>
                             </div>
                         </div>
                     )

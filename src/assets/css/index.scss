@@ -43,7 +43,7 @@
 }
 
 .wrap-right {
-	padding: 15px;
+	padding: 15px 0;
 	height: 100%;
 	max-width: 1264px;
 	margin: 0 auto;
@@ -291,12 +291,11 @@ a:hover {
 }
 
 .item-status {
-    position: absolute;
-    right: 10px;
-    top: 36px;
+
     border-radius: 5px;
-    padding: 7px 10px;
+    padding: 2px 10px;
     color: white;
+    font-size: 12px;
 }
 
 .pass {
@@ -308,11 +307,12 @@ a:hover {
 }
 
 .ready {
-	background: #4db7f4;
+	background: #ffd627;
 }
 
 .mod-listitem{
     margin-top:20px;
+    background: #f8f7fc;
 }
 
 .icon-img{
