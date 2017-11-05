@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
-import { Tag, Button } from 'element-react-codish';
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import {inject, observer} from 'mobx-react';
+import {Tag, Button} from 'element-react-codish';
 import groupBy from 'lodash/groupBy';
 
 @inject(stores => {
-    let { tags, parentTags } = stores.tag
-    let { knowledgeObj } = stores.manage
+    let {tags, parentTags} = stores.tag
+    let {knowledgeObj} = stores.manage
     let {
         searchInput,
         setSearchTagIds,
@@ -23,12 +23,13 @@ import groupBy from 'lodash/groupBy';
 class TagList extends Component {
     constructor(props) {
         super(props)
+        this.v = true;
         this.state = {
-            selTags: [
-            ],
+            selTags: [],
             showThree: true
         }
     }
+
     showScenodLevel = () => {
     }
     selectChildTag = (childTag) => {
@@ -37,7 +38,7 @@ class TagList extends Component {
         // })
         var tagsIds = []
         tagsIds[0] = childTag.id
-        const { selTags } = this.state
+        const {selTags} = this.state
         selTags.push({
             id: childTag.id,
             tag: childTag.tag,
@@ -48,6 +49,7 @@ class TagList extends Component {
         this.props.setSearchTagIds(tagsIds)
         this.getData(selTags.map(item => item.id), this.props.searchInput)
     }
+
     getData(tagsIds, name) {
         const params = {
             libraryId: parseInt(this.props.match.params.id),
@@ -60,7 +62,7 @@ class TagList extends Component {
     }
 
     handleClose(tag) {
-        const { selTags } = this.state;
+        const {selTags} = this.state;
         selTags.splice(selTags.map(el => el.id).indexOf(tag.id), 1);
         this.setState({
             selTags
@@ -78,11 +80,28 @@ class TagList extends Component {
         this.clearSelect()
         this.getData([], '')
     }
-    toggleShowMore () {
-        const { showThree } = this.state;
+
+    toggleShowMore() {
+        const {showThree} = this.state;
         this.setState({
             showThree: !showThree
         });
+    }
+
+    showMore(tid) {
+
+        let pn = this.refs[ 'mtag' + tid];
+
+        console.log('ref------', pn)
+
+        if (this.v) {
+           pn.className = 'right';
+        } else {
+           pn.className = 'more-right  right';
+        }
+
+        this.v = !this.v;
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -92,8 +111,8 @@ class TagList extends Component {
     }
 
     render() {
-        let { tags, parentTags } = this.props
-        const allTagsObj = groupBy(tags, function({parentId, isCustom}) {
+        let {tags, parentTags} = this.props
+        const allTagsObj = groupBy(tags, function ({parentId, isCustom}) {
             if (parentId && !isCustom) {
                 return parentId
             } else {
@@ -139,33 +158,37 @@ class TagList extends Component {
                         selTags.length ? <Button type="text" onClick={this.handleClear.bind(this)}>清空筛选</Button> : ''
                     }
                 </div>
-                <div className= {parentTags.length === selTags.length ? 'hidden tag-wrap' : 'tag-wrap' }>
+                <div className={parentTags.length === selTags.length ? 'hidden tag-wrap' : 'tag-wrap'}>
                     {
                         parentTags.map((item, index) => {
                             return allTagsObj[item.id] && allTagsObj[item.id].length > 0 && selTags.filter(cTag => {
                                 return allTagsObj[item.id].map(temp => temp.id).indexOf(cTag.id) > -1
-                            }).length === 0 ? <div key={item.id} className= {(showThree && index > 2 && parentTags.length - selTags.length > 5 ) ? 'hidden clearfix' : 'clearfix' }>
-                                    <div className="left" title={item.tag}>
-                                        {item.tag} :
-                                    </div>
-                                    <div className="right">
-                                        {
-                                            allTagsObj[item.id] && allTagsObj[item.id].map(t => {
-                                                return (
-                                                    <span key={t.id} title={t.tag} onClick={() => { this.selectChildTag(t) }}>{t.tag}</span>
-                                                );
-                                            })
-                                        }
-                                    </div>
-                                </div> : ''
+                            }).length === 0 ? <div key={item.id} className={(showThree && index > 2 && parentTags.length - selTags.length > 5 ) ? 'hidden clearfix' : 'clearfix'}>
+                                <div className="left" title={item.tag}> {item.tag} :</div>
+                                <div ref={`mtag${item.id}`} className={( allTagsObj[item.id] && allTagsObj[item.id].length > 6) ? 'more-right right' : 'right'}>
+                                    {(allTagsObj[item.id] && allTagsObj[item.id].length > 6) ?
+                                        <div className='more-tag'  onClick={() => this.showMore(item.id)}>更多</div> : ''}
+                                    {
+                                        allTagsObj[item.id] && allTagsObj[item.id].map(t => {
+                                            return (
+                                                <span key={t.id} title={t.tag} onClick={() => {
+                                                    this.selectChildTag(t)
+                                                }}>{t.tag}</span>
+                                            );
+                                        })
+                                    }
+                                </div>
+                            </div> : ''
                         })
                     }
                 </div>
                 {
                     parentTags.length - selTags.length > 3 ? <div className="collapse-area">
                         <div className="line">
-                            <div className={showThree ? 'collapse-wrap' : 'collapse-wrap expand'} onClick={() => { this.toggleShowMore() }}>
-                                { showThree ? '更多选项' : '收起' }
+                            <div className={showThree ? 'collapse-wrap' : 'collapse-wrap expand'} onClick={() => {
+                                this.toggleShowMore()
+                            }}>
+                                {showThree ? '更多选项' : '收起'}
                             </div>
                         </div>
                     </div> : ''

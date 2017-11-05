@@ -65,6 +65,11 @@
             overflow: hidden;
             white-space: nowrap;
         }
+
+        .more-right{
+            height: 30px;
+            overflow: hidden;
+        }
         .right{
             color: #404040;
             width: calc(100% - 119px);
@@ -85,6 +90,14 @@
                 }
             }
         }
+
+
+        .more-tag{
+
+            float: right;
+            background: yellowgreen;
+        }
+
     }
 
     .collapse-area{
