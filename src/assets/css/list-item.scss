@@ -1,8 +1,9 @@
 .mod-listitem {
 
     .kn-item {
-        float: left;
+        display: inline-block;
         margin: 16px 10px;
+        overflow: hidden;
 
         &:hover {
             cursor: pointer;
@@ -12,6 +13,7 @@
     }
 
     .list-item {
+        margin: auto;
         position: relative;
         padding: 10px;
         background: white;
