@@ -90,7 +90,7 @@ class ListItem extends Component {
             <div className="mod-listitem">
                 {itemListObj.items.map(item => {
                     return (
-                        <div className='kn-item'>
+                        <div className='kn-item' key={item.id} >
                             <div className="list-item" onClick={() => this.showDetailDialog(item)}>
                                 <div className="title">
                                     <h3><Icon type="copy"/> {item.name}</h3>
