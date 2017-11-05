@@ -59,16 +59,26 @@
             max-height: 135px;
             overflow-y: auto;
 
-            img {
-                width: 32px;
-                height: 32px;
-            }
-            span {
+            .item-file{
                 position: relative;
-                top: -10px;
                 overflow: hidden;
-                text-overflow: ellipsis;
+
+                img {
+                    width: 32px;
+                    height: 32px;
+                }
+                span {
+                    position: absolute;
+                    top: 10px;
+                    bottom: 10px;
+                    left: 40px;
+                    right: 10px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
             }
+
         }
 
         .tag-items {

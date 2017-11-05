@@ -167,7 +167,7 @@ class TagList extends Component {
                                 <div className="left" title={item.tag}> {item.tag} :</div>
                                 <div ref={`mtag${item.id}`} className={( allTagsObj[item.id] && allTagsObj[item.id].length > 6) ? 'more-right right' : 'right'}>
                                     {(allTagsObj[item.id] && allTagsObj[item.id].length > 6) ?
-                                        <div className='more-tag'  onClick={() => this.showMore(item.id)}>更多</div> : ''}
+                                        <a className='more-tag'  onClick={() => this.showMore(item.id)}>更多</a> : ''}
                                     {
                                         allTagsObj[item.id] && allTagsObj[item.id].map(t => {
                                             return (

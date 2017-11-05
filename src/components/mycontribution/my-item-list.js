@@ -150,7 +150,7 @@ class ListItem extends Component {
                                     <div className="files">
                                         {item.fileInfos.map(file => {
                                             return (
-                                                <div key={file.fileId}>
+                                                <div className="item-file" key={file.fileId}>
                                                     <FileIcon file={file}/> <span title={file.fileName}>{file.fileName} </span>
                                                 </div>)
                                         })}

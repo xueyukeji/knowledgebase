@@ -26,17 +26,24 @@ export default class Knowledge extends Component {
         this.COLUMNS = [
             {
                 type: 'selection',
+                width: 40,
             },
             {
                 label: '名称',
                 prop: 'fileName',
-                width: 420,
                 render: data => {
                     return (
                         <div onClick={() => {
                             this.handleFolderClick(data);
                         }}>
-                            <FileIcon file={data}/>  <span style={{'position': 'relative', 'top': '-15px'}} >{data.fileName}</span>
+                            <FileIcon file={data}/>  <span style={{ 'position': 'absolute',
+                            'top':'10px',
+                            'left': '70px',
+                            'bottom': '10px',
+                            'right':'110px',
+                            'overflow':'hidden',
+                            'textOverflow' : 'ellipsis',
+                            'whiteSpace' : 'nowrap'}} >{data.fileName}</span>
                         </div>
                     );
                 }
@@ -44,6 +51,7 @@ export default class Knowledge extends Component {
             {
                 label: '日期',
                 prop: 'createTime',
+                width: 180,
 
             },
 
@@ -112,7 +120,7 @@ export default class Knowledge extends Component {
                         columns={this.COLUMNS}
                         data={this.props.userFile}
                         border={true}
-                        height={300}
+                        height={250}
                         stripe={true}
                         onSelectChange={this.handleSelectedItem}
                         onSelectAll={this.handleSelectAll}

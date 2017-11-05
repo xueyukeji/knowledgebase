@@ -1,10 +1,26 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
 // import defaultAvatar from '../assets/images/default-avatar.png';
 import _ from 'lodash';
 import {Icon} from 'antd'
 
 export default class Nav extends Component {
+
+    state = {
+        expertDialog: false,
+        selectUsers: [],
+        curLibrary: [],
+        dialogTitle: '',
+        showKnowList: true
+    }
+
+    toggleShowMore() {
+        const {showKnowList} = this.state;
+        this.setState({
+            showKnowList: !showKnowList
+        });
+    }
+
     isKnowledgeActive = (id, match, location) => {
         let pathname = location.pathname;
         if (match) return true;
@@ -34,8 +50,11 @@ export default class Nav extends Component {
         }
         return false;
     }
+
     render() {
-        let { list, userInfo } = this.props;
+        let {list, userInfo} = this.props;
+        let {showKnowList} = this.state;
+
         let userType = '',
             // userName = '',
             // userIcon = defaultAvatar,
@@ -50,29 +69,30 @@ export default class Nav extends Component {
         }
         return (
             <div className="nav">
-                <div className="logo" />
+                <div className="logo"/>
                 <div className="nav-item nav-my">
                     <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>
-                <div className="nav-item nav-know">
-                    <a>知 识 库 <Icon type="caret-down" /></a>
+                <div className="nav-item nav-know" onClick={() => {
+                    this.toggleShowMore()
+                }}>
+                    <a>知 识 库 {showKnowList ? <Icon type="caret-down"/> : <Icon type="caret-up"/>} </a>
                 </div>
-                <div className="kd-list" id="scrollWrap">
-                    {list.map(item => {
-                        return (
-                            <div className="nav-item nav-base" key={item.id} title={item.name}>
-                                <NavLink to={`/knowledge/${item.id}`} activeClassName="active" isActive={(match, location) => {
-                                    return this.isKnowledgeActive(item.id, match, location);
-                                }}>
-                                    {item.name}
-                                </NavLink>
-                            </div>
-                        );
-                    })}
-                </div>
-
-
-                <div className="nav-item__sep" />
+                {
+                    showKnowList ? <div className="kd-list" id="scrollWrap">
+                        {list.map(item => {
+                            return (
+                                <div className="nav-item nav-base" key={item.id} title={item.name}>
+                                    <NavLink to={`/knowledge/${item.id}`} activeClassName="active" isActive={(match, location) => {
+                                        return this.isKnowledgeActive(item.id, match, location);}}>
+                                        {item.name}
+                                    </NavLink>
+                                </div>
+                            );
+                        })}
+                    </div> : null
+                }
+                <div className="nav-item__sep"/>
                 <div className="nav-item nav-professor">
                     <NavLink to="/professor" activeClassName="active">排 行 榜</NavLink>
                 </div>

@@ -93,11 +93,13 @@
 
 
         .more-tag{
-
             float: right;
             padding-right: 10px;
             cursor: pointer;
             //background: yellowgreen;
+            &:hover{
+                color: #13ce66;
+            }
         }
 
     }
