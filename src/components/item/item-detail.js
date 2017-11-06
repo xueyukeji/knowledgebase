@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import {Button, Dialog,  Tag, Message} from 'element-react-codish';
+import * as constants from '../../utils/constants';
 import LightBox from 'react-images';
 import Cookies from 'js-cookie';
 import AES from 'crypto-js/aes'
@@ -90,7 +91,7 @@ export default class ItemDetail extends Component {
                     field: 'downNum'
                 }
                 updateItemNum(params)
-                window.location = res.data.fileUri
+                window.location = res.data.fileUri+'&fn=' + encodeURIComponent(item.fileName);
             } else {
                 Message('文件已删除，无法下载！')
             }
@@ -119,7 +120,7 @@ export default class ItemDetail extends Component {
         return (
             <Dialog
                 className="item-detail-dialog"
-                title={itemDetails ? '预览：' + itemDetails.libraryName : '预览'}
+                title={itemDetails ? '预览：' + itemDetails.name : '预览'}
                 closeOnClickModal={false}
                 visible={this.props.dialogVisible}
                 onCancel={this.props.closeSelecFileDialog}
@@ -131,7 +132,7 @@ export default class ItemDetail extends Component {
                                 作者 : {itemDetails.creatorName}
                             </span>
                             <span className="item-info">
-                                创建时间 : {itemDetails.name}
+                                创建时间 :  {constants.getDateStr(itemDetails.createTime, 1)}
                             </span>
                             <span className="item-info">
                                 <Icon type="eye" /> 查看 : {itemDetails.viewNum}
