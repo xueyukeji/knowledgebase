@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Button, Dialog, Breadcrumb, Table } from 'element-react-codish';
 import FileIcon from '../../utils/FileIcon';
+import { Input} from 'antd';
+
+const Search = Input.Search;
 
 @inject(stores => {
     let {
@@ -34,7 +37,9 @@ export default class Knowledge extends Component {
                 render: data => {
                     return (
                         <div onClick={() => {
-                            this.handleFolderClick(data);
+                            if(data.folder){
+                                this.handleFolderClick(data);
+                            }
                         }}>
                             <FileIcon file={data}/>  <span style={{ 'position': 'absolute',
                             'top':'10px',
@@ -56,6 +61,10 @@ export default class Knowledge extends Component {
             },
 
         ];
+    }
+
+    searchFiles (value){
+        this.props.getUserFile(undefined,value);
     }
 
     handleSelectedItem = (data, checked) => {
@@ -96,6 +105,13 @@ export default class Knowledge extends Component {
                 onCancel={this.props.closeSelecFileDialog}
                 lockScroll={false}>
                 <Dialog.Body>
+
+                    <Search
+                        placeholder="根据文件名搜索"
+                        style={{width: 200,float:'right'}}
+                        onSearch={(value) => this.searchFiles(value)}
+                    />
+
                     <Breadcrumb separator="/">
                         <Breadcrumb.Item>
                             <span onClick={() => {
@@ -120,7 +136,7 @@ export default class Knowledge extends Component {
                         columns={this.COLUMNS}
                         data={this.props.userFile}
                         border={true}
-                        height={250}
+                        height={350}
                         stripe={true}
                         onSelectChange={this.handleSelectedItem}
                         onSelectAll={this.handleSelectAll}

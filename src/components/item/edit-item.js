@@ -7,6 +7,7 @@ import { MessageBox } from 'element-react-codish';
 import { Cascader, Icon } from 'antd'
 import { listToTree } from '../../utils/constants'
 import uniqBy from 'lodash/uniqBy'
+import FileIcon from '../../utils/FileIcon'
 
 @inject(stores => {
     let {
@@ -82,19 +83,7 @@ export default class EditItem extends Component {
                     trigger: 'blur'
                 }
             ],
-            desc: [
-                { required: true, message: '请输入描述', trigger: 'change' },
-                {
-                    validator: (rule, value, callback) => {
-                        if (value.length > 500) {
-                            callback(new Error('标题描述长度不能超过500个字符'));
-                            return
-                        }
-                        callback()
-                    },
-                    trigger: 'blur'
-                }
-            ],
+
             tagIds: [
                 {
                     validator: (rule, value, callback) => {
@@ -303,11 +292,8 @@ export default class EditItem extends Component {
     getSelectedFile = () => {
         return this.state.files.map(item => {
             return (
-                <div key={item.fileId}>
-                    <Icon type="file" />{item.fileName}
-                    <span className="delete-file" onClick={() => {
-                        this.deleteFile(item);
-                    }}>删除</span>
+                <div className='fj-item' key={item.fileId}>
+                    <FileIcon file={item}/>  <span style={{'position': 'relative', 'top': '-15px'}} >{item.fileName}<span className="delete-file" onClick={() => {this.deleteFile(item);}}>删除</span></span>
                 </div>
             );
         });
@@ -382,7 +368,7 @@ export default class EditItem extends Component {
                             curLibrary && curLibrary.name
                         }
                     </Form.Item>
-                    <Form.Item label="描述：" prop="desc">
+                    <Form.Item label="备注：" prop="desc">
                         <Input
                             type="textarea"
                             placeholder="请输入描述"
@@ -420,18 +406,6 @@ export default class EditItem extends Component {
                             onChange={this.handleCustomTagChange}
                             placeholder="自定义标签" />
 
-                        {/*
-                        <Select value={tagIds[0].id}
-                            onChange={this.selectParentTag}
-                            placeholder="标签一"
-                            noResultsText="暂无数据"
-                            options={parentTags.map(item => ({ label: item.tag, value: item.id }))} />
-                        <Select
-                            value={tagIds[1].id}
-                            onChange={this.selectChildTag}
-                            placeholder="标签二"
-                            noResultsText="暂无数据"
-                            options={tags.filter(t => t.parentId === curParentId).map(item => ({ label: item.tag, value: item.id }))} /> */}
 
                     </Form.Item>
                     <Form.Item label="附件：" prop="fileInfos" required>

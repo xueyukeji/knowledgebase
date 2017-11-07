@@ -78,19 +78,7 @@ class AddItem extends Component {
                         trigger: 'blur'
                     }
                 ],
-                desc: [
-                    {required: true, message: '请输入描述', trigger: 'change'},
-                    {
-                        validator: (rule, value, callback) => {
-                            if (value.length > 500) {
-                                callback(new Error('标题描述长度不能超过500个字符'));
-                                return
-                            }
-                            callback()
-                        },
-                        trigger: 'blur'
-                    }
-                ],
+                
                 tagIds: [
                     {
                         validator: (rule, value, callback) => {
@@ -342,7 +330,7 @@ class AddItem extends Component {
                             curLibrary && curLibrary.name
                         }
                     </Form.Item>
-                    <Form.Item label="标题：" prop="name">
+                    <Form.Item label="标题：" prop="name" required>
                         <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')} placeholder="请输入标题"></Input>
                     </Form.Item>
                     <br/>

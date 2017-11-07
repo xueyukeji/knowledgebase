@@ -65,17 +65,19 @@ class Store {
         });
     };
     @action
-    getUserFile = (fi = '') => {
+    getUserFile = (fi = '',key ='') => {
         return createFetch({
             url: 'files',
             method: 'get',
             params: {
                 fc: 'personal',
                 fi: fi,
+                key: key,
                 offset: 0,
                 limit: 200
             }
         }).then(data => {
+            console.log('data:', data);
             this.userFile = data.data.files;
             if (data.data.parents) {
                 this.setCurFileParents(data.data.parents);
