@@ -22,9 +22,9 @@ function createQuery(method, body) {
         method: method,
         headers: {
             ct:
-            process.env.NODE_ENV !== 'development'
-                ? Cookies.get('ct')
-                : 'kwawxtf2awul044a59b41b3a6a630fe4aa3f56ba944a62a70b1164d21b49b8f9ff8074362b260151002019101012530000000000000',
+                process.env.NODE_ENV !== 'development'
+                    ? Cookies.get('ct')
+                    : 'ok3b3b5qvr0n4c4359b00bcc696589b967ae523f4065dc1a5cf27fa93c0c28d0b7172672239b0151011096301012530000000000000',
             cv: '3.5.1',
             Accept: 'application/json',
             'Content-type': 'application/json;charset=UTF-8',
@@ -48,9 +48,15 @@ export const createFetch = param => {
         if (param.params) {
             let paramsArray = [];
             //拼接参数
-            Object.keys(param.params).forEach(key =>
-                paramsArray.push(key + '=' + param.params[key])
-            );
+            Object.keys(param.params).forEach(key => {
+                if (param.params[key] instanceof Array) {
+                    param.params[key].map(p => {
+                        paramsArray.push(key + '=' + p)
+                    })
+                } else {
+                    paramsArray.push(key + '=' + param.params[key])
+                }
+            });
             if (param.url.search(/\?/) === -1) {
                 param.url += '?' + paramsArray.join('&');
             } else {

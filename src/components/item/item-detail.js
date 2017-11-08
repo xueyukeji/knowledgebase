@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
-import {Button, Dialog,  Tag, Message} from 'element-react-codish';
+import React, {Component} from 'react';
+import {inject, observer} from 'mobx-react';
+import {Button, Dialog, Tag, Message} from 'element-react-codish';
 import * as constants from '../../utils/constants';
 import LightBox from 'react-images';
 import Cookies from 'js-cookie';
 import AES from 'crypto-js/aes'
-import { Icon } from 'antd'
+import {Icon} from 'antd'
 import FileIcon from '../../utils/FileIcon'
 
 @inject(stores => {
-    let { viewFile } = stores.user
+    let {viewFile} = stores.user
     let {
         itemDetails,
         getItemDetail,
@@ -83,7 +83,7 @@ export default class ItemDetail extends Component {
     }
 
     downloadFile = (item) => {
-        const { itemDetails, updateItemNum, downFile } = this.props
+        const {itemDetails, updateItemNum, downFile} = this.props
         downFile(item.fileId).then((res) => {
             if (res.status === 'ok') {
                 var params = {
@@ -91,7 +91,29 @@ export default class ItemDetail extends Component {
                     field: 'downNum'
                 }
                 updateItemNum(params)
-                window.location = res.data.fileUri+'&fn=' + encodeURIComponent(item.fileName);
+                window.location = res.data.fileUri + '&fn=' + encodeURIComponent(item.fileName);
+            } else {
+                Message('文件已删除，无法下载！')
+            }
+        })
+    }
+
+
+    bdl = () => {
+        const {itemDetails, updateItemNum, downFile} = this.props
+
+        let fis = itemDetails.fileInfos.map(item => {
+            return item.fileId
+        });
+
+        downFile(fis).then((res) => {
+            if (res.status === 'ok') {
+                var params = {
+                    id: itemDetails.id,
+                    field: 'downNum'
+                }
+                updateItemNum(params)
+                window.location = res.data.fileUri;
             } else {
                 Message('文件已删除，无法下载！')
             }
@@ -113,7 +135,8 @@ export default class ItemDetail extends Component {
         if (!itemDetails) {
             return (
                 <div className="mod-itemdetail">
-                    <p className="empty-tips">获取知识条目详情失败，请<span className="refresh" onClick={this.handleRefresh}>重试</span></p>
+                    <p className="empty-tips">获取知识条目详情失败，请<span className="refresh"
+                                                                onClick={this.handleRefresh}>重试</span></p>
                 </div>
             );
         }
@@ -132,19 +155,24 @@ export default class ItemDetail extends Component {
                                 作者 : {itemDetails.creatorName}
                             </span>
                             <span className="item-info">
-                                创建时间 :  {constants.getDateStr(itemDetails.createTime, 1)}
+                                创建时间 : {constants.getDateStr(itemDetails.createTime, 1)}
                             </span>
                             <span className="item-info">
-                                <Icon type="eye" /> 查看 : {itemDetails.viewNum}
+                                <Icon type="eye"/> 查看 : {itemDetails.viewNum}
                             </span>
                             <span className="item-info">
-                                <Icon type="download" /> 下载 : {itemDetails.downNum}
+                                <Icon type="download"/> 下载 : {itemDetails.downNum}
                             </span>
-                            <span className="item-info item-right">
+                            {itemDetails.rate > 0 ? <span className="item-info item-right">
                                 评分 : <span className="score-text">{itemDetails.rate || 0}</span>
-                            </span>
+                            </span> : ''
+                            }
+
                         </div>
                         <div className="item">
+
+                            <Button className='batch-dl' type="text" onClick={this.bdl}>批量下载</Button>
+
                             <div className="title">
                                 标签:
                             </div>
@@ -157,6 +185,8 @@ export default class ItemDetail extends Component {
                                     })
                                 }
                             </div>
+
+
                         </div>
                         <div className="item">
                             <div className="title">
@@ -167,15 +197,20 @@ export default class ItemDetail extends Component {
                                     itemDetails.fileInfos.length ? itemDetails.fileInfos.map(item => {
                                         return (
                                             <div className="file-item" key={item.fileId}>
-                                                <FileIcon file={item}/> <span className="f-name" title={item.fileName}>{item.fileName} </span>
+                                                <FileIcon file={item}/> <span className="f-name"
+                                                                              title={item.fileName}>{item.fileName} </span>
                                                 <Button
                                                     className="preview"
                                                     type="text"
-                                                    onClick={() => {this.handlePreviewClick(item)}}>预览</Button>
+                                                    onClick={() => {
+                                                        this.handlePreviewClick(item)
+                                                    }}>预览</Button>
                                                 <Button
                                                     className="preview"
                                                     type="text"
-                                                    onClick={() => {this.downloadFile(item)}}>下载</Button>
+                                                    onClick={() => {
+                                                        this.downloadFile(item)
+                                                    }}>下载</Button>
                                             </div>
                                         )
                                     }) : <div>暂无附件</div>
@@ -185,7 +220,7 @@ export default class ItemDetail extends Component {
                         <LightBox
                             images={[{src: this.state.image}]}
                             isOpen={this.state.lightboxIsOpen}
-                            onClose={this.closeLightbox} />
+                            onClose={this.closeLightbox}/>
                     </div>
                     <div className="item-desc">
                         {itemDetails.desc}
