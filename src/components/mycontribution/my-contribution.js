@@ -26,8 +26,10 @@ export default class Knowledge extends Component {
             ]
         }
     }
-    switchState = (s) => {
-        const {status, currentPage} = this.state
+    switchState(s){
+
+        const {status} = this.state
+
         if (s.id === status.find(item => item.isActive).id) {
             return
         }
@@ -40,12 +42,17 @@ export default class Knowledge extends Component {
         this.setState({
             status
         })
-        this.onPageChange(currentPage)
+
+
+        this.onPageChange(1)
     }
     getMyItemData = (params) => {
         this.props.getUserItems(params);
     }
     onPageChange = (currentPage, pageChanged) => {
+        this.setState({
+            currentPage : currentPage
+        })
         if (pageChanged) {
             this.setState({
                 currentPage
@@ -57,7 +64,7 @@ export default class Knowledge extends Component {
         }
         const params = {
             start: currentPage,
-            limit: 10,
+            limit: 12,
             userId: this.props.userInfo.data.userId,
             status: status.find(item => item.isActive).id
         };

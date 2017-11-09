@@ -163,6 +163,10 @@ export default class ItemDetail extends Component {
                             <span className="item-info">
                                 <Icon type="download"/> 下载 : {itemDetails.downNum}
                             </span>
+                            <span className="item-info">
+                                 知识库: {itemDetails.libraryName}
+                            </span>
+
                             {itemDetails.rate > 0 ? <span className="item-info item-right">
                                 评分 : <span className="score-text">{itemDetails.rate || 0}</span>
                             </span> : ''

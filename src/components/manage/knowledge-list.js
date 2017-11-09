@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom';
-import { Button, MessageBox, Message } from 'element-react-codish'
-import { inject, observer } from 'mobx-react'
+import React, {Component} from 'react'
+import {NavLink} from 'react-router-dom';
+import {Button, MessageBox, Message} from 'element-react-codish'
+import {inject, observer} from 'mobx-react'
 import AddTag from './add-tag.js';
 import SetExpert from './set-expert.js';
 
@@ -78,11 +78,12 @@ export default class Manage extends Component {
                 });
                 this.getDatas()
             })
-        }).catch(() => { });
+        }).catch(() => {
+        });
     }
 
     getDatas = () => {
-        const { userInfo, getKnowledgeList } = this.props;
+        const {userInfo, getKnowledgeList} = this.props;
         let type = 'user'
         if (userInfo.data.userType === 0 || userInfo.data.userType === 1) {
             type = 'admin'
@@ -112,7 +113,7 @@ export default class Manage extends Component {
     addTagPopup = () => {
         if (!this.props.isAddTagPopVisible) return;
         return (
-            <AddTag getDatas={this.getDatas} visible={true} handleCancel={this.hideAddTagPop} />
+            <AddTag getDatas={this.getDatas} visible={true} handleCancel={this.hideAddTagPop}/>
         );
     }
 
@@ -126,12 +127,12 @@ export default class Manage extends Component {
                 curLibrary={this.state.curLibrary}
                 selectedUsers={this.state.selectUsers}
                 handleCancel={this.hideSetExpertDialog}
-                actionType={this.state.actionType} />
+                actionType={this.state.actionType}/>
         );
     }
 
     render() {
-        let { knowledgeObj, showLibraryDialog } = this.props;
+        let {knowledgeObj, showLibraryDialog} = this.props;
         if (!knowledgeObj) {
             return <div>正在加载页面...</div>
         }
@@ -144,6 +145,11 @@ export default class Manage extends Component {
                                 <li key={item.id}>
                                     <span className="title">
                                         {
+                                            item.userType ?
+                                                <span className="audit-status status"> 指定可见 </span>
+                                                : <span className="noaudit-status status"> 公开 </span>
+                                        }
+                                        {
                                             item.auditType ?
                                                 <span className="audit-status status"> 审核 </span>
                                                 : <span className="noaudit-status status"> 免审 </span>
@@ -155,16 +161,22 @@ export default class Manage extends Component {
                                         {
                                             item.auditType ?
                                                 <NavLink to={`/set-permission/${item.id}`} key={item.id}>
-                                                    <Button type="text" >设置权限</Button>
+                                                    <Button type="text">设置权限</Button>
                                                 </NavLink> : ''
                                         }
                                         {
-                                            item.userType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, true)}}>设置用户</Button> : ''
+                                            item.userType ? <Button type="text" onClick={() => {
+                                                this.showSetExpertDialog(item, true)
+                                            }}>设置用户</Button> : ''
                                         }
                                         {
-                                            item.auditType ? <Button type="text" onClick={() => {this.showSetExpertDialog(item, false)}}>设置专家</Button> : ''
+                                            item.auditType ? <Button type="text" onClick={() => {
+                                                this.showSetExpertDialog(item, false)
+                                            }}>设置专家</Button> : ''
                                         }
-                                        <Button type="text" onClick={() => { this.showAddTagPop(item.id) }}>管理标签</Button>
+                                        <Button type="text" onClick={() => {
+                                            this.showAddTagPop(item.id)
+                                        }}>管理标签</Button>
                                         <Button type="text" onClick={() => {
                                             showLibraryDialog(item)
                                         }}>编辑</Button>

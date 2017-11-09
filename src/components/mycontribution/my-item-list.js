@@ -155,8 +155,9 @@ class ListItem extends Component {
                                                 </div>)
                                         })}
                                     </div>
-                                    <div className="content">{item.desc}
+                                    <div className="content">
                                         <div className='more' onClick={() => this.showDetailDialog(item)}>查看详情>></div>
+                                        {item.desc}
                                     </div>
 
                                 </div>

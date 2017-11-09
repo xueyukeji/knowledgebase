@@ -34,6 +34,7 @@ export default class Knowledge extends Component {
             {
                 label: '名称',
                 prop: 'fileName',
+                sortable: true,
                 render: data => {
                     return (
                         <div onClick={() => {
@@ -57,6 +58,7 @@ export default class Knowledge extends Component {
                 label: '日期',
                 prop: 'createTime',
                 width: 180,
+                sortable: true
 
             },
 
