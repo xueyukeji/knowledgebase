@@ -85,7 +85,7 @@ class ListItem extends Component {
                             <div className='kn-item'  key={item.id}>
                                 <div className="list-item" >
                                     <div className="title">
-                                        <h3> {this.renderStatus(item)} {item.name}</h3>
+                                        <h3> {this.renderStatus(item)} {item.name}  </h3>
                                         <div className="info">
                                             <Layout.Row gutter="10">
                                                 <Layout.Col span="7"> <Icon type="user"/> {item.creatorName}
@@ -121,7 +121,7 @@ class ListItem extends Component {
                                         <div className="op-btns fr">
                                             {
                                                 // 我的贡献中：待审核和未通过才可以编辑
-                                                inMyContri && (item.status === 0 || item.status === 3) ?
+                                                inMyContri && (item.status === 0 || item.status === 3 ||item.auditType === 0) ?
                                                     <NavLink to={`/edit-item/${item.libraryId}/${item.id}`}>
                                                         <Button type="primary">编辑</Button>
                                                     </NavLink> : ''

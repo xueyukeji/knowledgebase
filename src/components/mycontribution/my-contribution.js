@@ -1,11 +1,15 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import React, {Component} from 'react'
+import {inject, observer} from 'mobx-react'
 import MyItemList from './my-item-list'
 
 @inject(stores => {
-    let { getUserItems, myConItemObj } = stores.item;
-    let { userInfo } = stores.user;
+    let {
+        knowledgeObj
+    } = stores.manage;
+    let {getUserItems, myConItemObj} = stores.item;
+    let {userInfo} = stores.user;
     return {
+        knowledgeObj,
         getUserItems,
         myConItemObj,
         userInfo
@@ -26,7 +30,8 @@ export default class Knowledge extends Component {
             ]
         }
     }
-    switchState(s){
+
+    switchState(s) {
 
         const {status} = this.state
 
@@ -43,15 +48,15 @@ export default class Knowledge extends Component {
             status
         })
 
+        this.onPageChange(1, undefined, this.props.knowledgeObj)
+    }
 
-        this.onPageChange(1)
+    getMyItemData = (params, libs) => {
+        this.props.getUserItems(params, libs);
     }
-    getMyItemData = (params) => {
-        this.props.getUserItems(params);
-    }
-    onPageChange = (currentPage, pageChanged) => {
+    onPageChange = (currentPage, pageChanged, libs) => {
         this.setState({
-            currentPage : currentPage
+            currentPage: currentPage
         })
         if (pageChanged) {
             this.setState({
@@ -60,7 +65,7 @@ export default class Knowledge extends Component {
         }
         let {status} = this.state
         if (currentPage > 0) {
-            currentPage  = currentPage - 1
+            currentPage = currentPage - 1
         }
         const params = {
             start: currentPage,
@@ -68,13 +73,30 @@ export default class Knowledge extends Component {
             userId: this.props.userInfo.data.userId,
             status: status.find(item => item.isActive).id
         };
-        this.getMyItemData(params)
+
+        this.getMyItemData(params, libs || this.props.knowledgeObj)
     }
+
     componentWillMount() {
-        this.onPageChange(1)
+
+        if (this.props.knowledgeObj) {
+
+            this.onPageChange(1, undefined, this.props.knowledgeObj)
+        }
     }
+
+    componentWillReceiveProps(nextProps) {
+
+        if (this.props.knowledgeObj != nextProps.knowledgeObj) {
+
+            this.onPageChange(1, undefined, nextProps.knowledgeObj)
+
+        }
+
+    }
+
     render() {
-        const { myConItemObj } = this.props
+        const {myConItemObj} = this.props
         return (
             <div className="mod-homepage">
                 <h4>知识条目{myConItemObj.count ? `(${myConItemObj.count})` : ''}
@@ -84,14 +106,17 @@ export default class Knowledge extends Component {
                                 this.state.status.map((s) => {
                                     return (
                                         <span key={s.id} className={s.isActive ? 'active' : ''}
-                                            onClick={() => {this.switchState(s)}}>{s.name}</span>
+                                              onClick={() => {
+                                                  this.switchState(s)
+                                              }}>{s.name}</span>
                                     )
                                 })
                             }
                         </div>
                     </div>
                 </h4>
-                <MyItemList items={myConItemObj} inMyContri={true} onPageChange={this.onPageChange} currentPage={this.state.currentPage}/>
+                <MyItemList items={myConItemObj} inMyContri={true} onPageChange={this.onPageChange}
+                            currentPage={this.state.currentPage}/>
             </div>
         )
     }
