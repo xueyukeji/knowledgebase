@@ -52,7 +52,7 @@ class Store {
                 let nodes = data.data.users.map(item => {
                     return {
                         key: `${item.userId}`,
-                        title: `${item.userName}`,
+                        title: `${item.realName}`,
                         isLeaf: true
                     };
                 });
@@ -107,8 +107,21 @@ class Store {
             }
         });
     };
-    @action getDeptAndUser = id => {
+    @action getDeptAndUser = node => {
+
+
+        if(node != -1 && node.props.children){
+            return  Promise.resolve();
+        }
+
+        let id = -1;
+
+        if(node != -1){
+            id = node.props.eventKey;
+        }
+
         if (!id) return;
+
         return when.all([
             this.getDeptList({id}),
             this.getUserList({di: id})
@@ -119,6 +132,7 @@ class Store {
                 let d = [], u = [], nodes = [];
                 d = depts.map(item => {
                     return {
+                        pid: id,
                         key: `${item.deptId}`,
                         title: `${item.deptName}`,
                         children: [],
@@ -127,8 +141,9 @@ class Store {
                 });
                 u = users.map(item => {
                     return {
+                        pid: id,
                         key: `${item.userId}`,
-                        title: `${item.userName}`,
+                        title: `${item.realName}`,
                         isLeaf: true
                     }
                 });
@@ -136,14 +151,19 @@ class Store {
                 if (id === -1) {
                     this.treeNodes = nodes;
                 } else {
-                    this.treeNodes = this.treeNodes.map(item => {
-                        if (item.key === id) {
-                            return _.assign({}, item, {
-                                children: nodes
-                            });
-                        }
-                        return item;
-                    })
+
+                    node.props.dataRef.children = nodes;
+
+                    this.treeNodes = [...this.treeNodes]
+
+                    // this.treeNodes = this.treeNodes.map(item => {
+                    //     if (item.key === id) {
+                    //         return _.assign({}, item, {
+                    //             children: nodes
+                    //         });
+                    //     }
+                    //     return item;
+                    // })
                 }
             } catch (e) {e}
         });

@@ -76,7 +76,11 @@ export default class SetExpert extends Component {
     }
 
     onLoadData = node => {
-        return this.props.getDeptAndUser(node.props.eventKey);
+
+       // console.log('-------onLoadData------',node);
+
+        // return this.props.getDeptAndUser(node.props.eventKey);
+        return this.props.getDeptAndUser(node);
     }
 
     handleCheck = (keys) => {
@@ -124,12 +128,12 @@ export default class SetExpert extends Component {
             ) : <span>{item.title || item.key}</span>;
             if (item.children) {
                 return (
-                    <TreeNode key={item.key} title={title} isLeaf={item.isLeaf}>
+                    <TreeNode key={item.key} title={title}  dataRef={item}  isLeaf={item.isLeaf}>
                         {this.getTreeNodes(item.children)}
                     </TreeNode>
                 );
             }
-            return <TreeNode key={item.key} title={title} isLeaf={item.isLeaf} />;
+            return <TreeNode key={item.key}  dataRef={item} title={title} isLeaf={item.isLeaf} />;
         });
     }
 

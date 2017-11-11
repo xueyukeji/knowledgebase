@@ -117,7 +117,7 @@ class SetPerDialog extends Component {
                         {
                             professors.map((user) => {
                                 return (
-                                    <Option key={user.userId} value={user.userId.toString()}>{user.userName}</Option>
+                                    <Option key={user.userId} value={user.userId.toString()}>{user.realName || user.userName}</Option>
                                 )
                             })
                         }

@@ -43,6 +43,9 @@ export default class ItemDetail extends Component {
     }
 
     handlePreviewClick = (item) => {
+
+        const {itemDetails, updateItemNum} = this.props
+
         if (!item) return;
         //"jpg", "jpeg", "png", "gif", "ico", "bpm", "psd", "pic", "svg", "eps", "cdr", "ai", "ps", "wmf"
         if (/(\.jpg|\.jpeg|\.png|\.gif|\.ico|\.bpm|\.psd|\.pic|\.svg|\.eps|\.cdr|\.ai|\.ps|\.wmf)$/.test(item.fileName)) {
@@ -56,30 +59,51 @@ export default class ItemDetail extends Component {
                     Message('文件已删除，无法预览！')
                 }
             });
-        } else {
-            this.props.viewFile(item).then(res => {
-                if (res.status !== 'ok') {
-                    console.error('文件预览出错');
-                    return
-                }
-                res = res.data
-                var view = null;
-                if (res.file) {
-                    view = res.file;
-                } else {
-                    view = res.view ? res.view : res.fileUri;
-                }
-                var encrypt = function (str) {
-                    return AES.encrypt(str, 'yliyun123').toString();
-                };
-                var en = encrypt(view);
-                Cookies.set('url', en);
-                Cookies.set('doc-viewer-Title', item.fileName);
-            });
 
-            let newWindow = window.open('about:blank');
-            newWindow.location = `/views.html?fc=personal&fi=${item.fileId}`;
+            var params = {
+                id: itemDetails.id,
+                field: 'viewNum'
+            }
+            updateItemNum(params)
+
+        } else {
+
+            if(/(\.doc|\.docx|\.xls|\.xlsx|\.ppt|\.pptx|\.wps|\.pdf|\.mp4|\.mp3|\.dwg|\.mov)$/.test(item.fileName)){
+
+                this.props.viewFile(item).then(res => {
+                    if (res.status !== 'ok') {
+                        console.error('文件预览出错');
+                        return
+                    }
+                    res = res.data
+                    var view = null;
+                    if (res.file) {
+                        view = res.file;
+                    } else {
+                        view = res.view ? res.view : res.fileUri;
+                    }
+                    var encrypt = function (str) {
+                        return AES.encrypt(str, 'yliyun123').toString();
+                    };
+                    var en = encrypt(view);
+                    Cookies.set('url', en);
+                    Cookies.set('doc-viewer-Title', item.fileName);
+                });
+
+                let newWindow = window.open('about:blank');
+                newWindow.location = `/views.html?fc=personal&fi=${item.fileId}`;
+
+                var paramr = {
+                    id: itemDetails.id,
+                    field: 'viewNum'
+                }
+                updateItemNum(paramr)
+            }else{
+                Message.error('不支持该文件预览')
+            }
+
         }
+
     }
 
     downloadFile = (item) => {

@@ -69,7 +69,7 @@ export default class Nav extends Component {
         }
         return (
             <div className="nav">
-                <div className="logo"/>
+                <div className="logo-txt">龙湾教育</div>
                 <div className="nav-item nav-my">
                     <NavLink to="/my-contribution" activeClassName="active">我的贡献</NavLink>
                 </div>

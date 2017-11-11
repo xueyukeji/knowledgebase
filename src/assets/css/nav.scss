@@ -9,6 +9,11 @@
     font-size: 14px;
     color: #fff;
     overflow: hidden;
+    .logo-txt{
+        text-align: center;
+        line-height: 55px;
+        font-size: 18px;
+    }
     .logo {
         background: url(../images/logo.png) center no-repeat;
         width: 100%;

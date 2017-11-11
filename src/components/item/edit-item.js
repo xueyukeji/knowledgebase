@@ -235,7 +235,7 @@ export default class EditItem extends Component {
                     desc: state.desc,
                     libraryId: state.libraryId,
                     creatorId: this.props.userInfo.data.userId,
-                    creatorName: this.props.userInfo.data.userName,
+                    creatorName: this.props.userInfo.data.realName || this.props.userInfo.data.userName,
                     fileInfos: state.fileInfos,
                     tagIds: state.tagIds,
                     tag: state.tag,
@@ -376,7 +376,7 @@ export default class EditItem extends Component {
                             onChange={this.handleDescChange} />
                     </Form.Item>
                     <Form.Item label="作者：" required>
-                        {userInfo && userInfo.data && userInfo.data.userName}
+                        {userInfo && userInfo.data && userInfo.data.realName || userInfo.data.userName}
                     </Form.Item>
                     <Form.Item className="select-tags" label="标签：" prop="tagIds" required>
                         <Cascader

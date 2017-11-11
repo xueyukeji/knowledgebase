@@ -78,7 +78,7 @@ class AddItem extends Component {
                         trigger: 'blur'
                     }
                 ],
-                
+
                 tagIds: [
                     {
                         validator: (rule, value, callback) => {
@@ -204,7 +204,7 @@ class AddItem extends Component {
         this.refs.form.validate((valid) => {
             if (valid) {
                 const params = Object.assign(this.state.form, {
-                    creatorName: userInfo.data.userName,
+                    creatorName: userInfo.data.realName || userInfo.data.userName,
                     creatorId: userInfo.data.userId
                 });
                 createItem(params).then((res) => {
@@ -322,7 +322,7 @@ class AddItem extends Component {
                 <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
 
                     <Form.Item className="autor" label="作者：" required>
-                        {userInfo && userInfo.data && userInfo.data.userName}
+                        {userInfo && userInfo.data && userInfo.data.realName || userInfo.data.userName}
                     </Form.Item>
 
                     <Form.Item label="知识库：" required>
