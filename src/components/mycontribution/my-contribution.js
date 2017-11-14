@@ -54,6 +54,7 @@ export default class Knowledge extends Component {
     getMyItemData = (params, libs) => {
         this.props.getUserItems(params, libs);
     }
+
     onPageChange = (currentPage, pageChanged, libs) => {
         this.setState({
             currentPage: currentPage

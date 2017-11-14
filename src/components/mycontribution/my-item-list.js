@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {inject, observer} from 'mobx-react';
 import {withRouter, NavLink} from 'react-router-dom';
 import {Tag, Layout, Pagination} from 'element-react-codish';
-import {Popover, Button} from 'antd';
+import {Popover, Button,Popconfirm} from 'antd';
 import * as constants from '../../utils/constants';
 import {Icon} from 'antd'
 import FileIcon from '../../utils/FileIcon'
@@ -11,11 +11,13 @@ import ItemDetail from '../item/item-detail'
 @inject(stores => {
     let {
         getItemDetail,
-        updateItemNum
+        updateItemNum,
+        removeItem
     } = stores.item;
     return {
         getItemDetail,
-        updateItemNum
+        updateItemNum,
+        removeItem
     };
 })
 @observer
@@ -61,6 +63,10 @@ class ListItem extends Component {
         }, () => {
             this.viewNum(item);
         });
+    }
+
+    delItem (id){
+        this.props.removeItem(id);
     }
 
     hideDetailDialog = () => {
@@ -132,6 +138,15 @@ class ListItem extends Component {
                                                     <Popover placement="bottom" content={item.auditDesc}trigger="click">
                                                         <Button>查看原因</Button>
                                                     </Popover> : ''
+                                            }
+                                            {
+                                                // 未通过的，与免审的，可以删除
+                                                inMyContri && (item.status === 3 ||item.auditType === 0 || item.status === 0)?
+                                                    <Popconfirm title="你确认要删除这个知识？" onConfirm={() =>{
+                                                        this.delItem(item.id);
+                                                    }}   okText="是的" cancelText="不删">
+                                                        <a >删除 </a>
+                                                    </Popconfirm> : ''
                                             }
                                             {
                                                 // // 我的审批中：待审核可以审核

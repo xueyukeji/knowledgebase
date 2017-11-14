@@ -146,13 +146,14 @@ export default class Manage extends Component {
                                     <span className="title">
                                         {
                                             item.userType ?
-                                                <span className="noaudit-status status"> 公开 </span>
-                                                :  <span className="audit-status status"> 指定可见 </span>
+                                                <span className="audit-status status"> 指定可见 </span>
+                                                :  <span className="noaudit-status status"> 公开可见 </span>
+
                                         }
                                         {
                                             item.auditType ?
-                                                <span className="noaudit-status status"> 免审 </span>
-                                                :<span className="audit-status status"> 审核 </span>
+                                                <span className="audit-status status"> 审核 </span>
+                                                : <span className="noaudit-status status"> 免审 </span>
 
                                         }
                                         {item.name}

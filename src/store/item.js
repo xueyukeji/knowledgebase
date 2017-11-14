@@ -91,8 +91,16 @@ class Store {
     @action
     removeItem = params => {
         return createFetch({
-            url: `pub/item/${params}/del`,
+            url: `pub/items/${params}/del`,
             method: 'post'
+        }).then(res =>{
+            let aindex = -1;
+            this.myConItemObj.items.map((item, index) => {
+               if(item.id == params){
+                   aindex = index
+               }
+            })
+            this.myConItemObj.items.splice(aindex, 1);
         });
     };
 
